@@ -225,8 +225,8 @@ window.doLogin=function(){
   if(!LT){toast('Select your role');return;}
   if(LT==='admin'){if(pin!==ADMIN_PIN){bad();return;}S.user={type:'admin',name:'Admin',id:'admin'};}
   else if(LT==='coach'){if(!LSID){toast('Select a coach');return;}const c=COACHES.find(x=>x.id===LSID);if(!c||pin!==c.pin){bad();return;}S.user={type:'coach',name:c.name,id:c.id};}
-  else if(LT==='player'){if(!LSID){toast('Select your name');return;}const p=S.players.find(x=>x.id===LSID);if(!p||pin!==p.playerPin){bad();return;}S.user={type:'player',name:p.name,id:'pl_'+p.id,playerId:p.id};}
-  else if(LT==='parent'){if(!LSID){toast('Select your child');return;}const p=S.players.find(x=>x.id===LSID);if(!p||pin!==p.parentPin){bad();return;}S.user={type:'parent',name:'Parent of '+p.name,id:'pa_'+p.id,playerId:p.id};}
+  else if(LT==='player'){const sel=$('lsel');if(sel&&sel.value)LSID=sel.value;if(!LSID){toast('Select your name');return;}const p=S.players.find(x=>x.id===LSID);if(!p||pin!==p.playerPin){bad();return;}S.user={type:'player',name:p.name,id:'pl_'+p.id,playerId:p.id};}
+  else if(LT==='parent'){const sel=$('lsel');if(sel&&sel.value)LSID=sel.value;if(!LSID){toast('Select your child');return;}const p=S.players.find(x=>x.id===LSID);if(!p||pin!==p.parentPin){bad();return;}S.user={type:'parent',name:'Parent of '+p.name,id:'pa_'+p.id,playerId:p.id};}
   try{localStorage.setItem('td_u',JSON.stringify(S.user));}catch(e){}
   $('login').style.display='none';$('app').style.display='flex';$('hdr-u').textContent=S.user.name;buildNav();S.tab='overview';render();
 };
