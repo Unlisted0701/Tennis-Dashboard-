@@ -10,7 +10,11 @@
 <title>Younirise</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://firestore.googleapis.com">
+<link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap&font-display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:#F5F5F0}
@@ -1408,7 +1412,7 @@ function vPlayerMatches(){
         h+='<button class="btn btn-p btn-sm" style="margin-bottom:10px" onclick="openAddMatch(\''+t.id+'\')">＋ Add Match</button>';
         if(!tM.length) h+='<div style="font-size:13px;color:var(--mu);padding-bottom:4px">No matches logged yet</div>';
         else tM.forEach(m=>{
-          h+='<div class="match-row"><div style="flex:1"><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div>+(m.playerNote?'<div style="font-size:11px;color:var(--gr);margin-top:2px">✏️ '+esc(m.playerNote)+'</div>':'')+(m.coachNote&&isCA()?'<div style="font-size:11px;color:var(--bl);margin-top:2px">📋 Coach: '+esc(m.coachNote)+'</div>':'')+(m.diaryUrl?'<a href="'+m.diaryUrl+'" target="_blank" style="font-size:11px;color:var(--pu);margin-top:2px;display:block">📓 Diary</a>':'')+'</div>';
+          h+='<div class="match-row"><div style="flex:1"><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div>'+(m.playerNote?'<div style="font-size:11px;color:var(--gr);margin-top:2px">✏️ '+esc(m.playerNote)+'</div>':'')+(m.coachNote?'<div style="font-size:11px;color:var(--bl);margin-top:2px">📋 Coach: '+esc(m.coachNote)+'</div>':'')+(m.diaryUrl?'<a href="'+m.diaryUrl+'" target="_blank" style="font-size:11px;color:var(--pu);margin-top:2px;display:block">📓 Diary</a>':'')+'</div>';
           h+='<div style="display:flex;align-items:center;gap:6px"><span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div></div>';
         });
         h+='</div>';
