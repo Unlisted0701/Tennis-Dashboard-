@@ -1055,9 +1055,11 @@ function vMatches(){
         else tM.forEach(m=>{
           const p=S.players.find(x=>x.id===m.playerId);
           h+='<div class="match-row">';
-          h+='<div><div style="font-weight:600;font-size:14px">'+(p?.name||'?')+'</div>';
+          h+='<div style="flex:1"><div style="font-weight:600;font-size:14px">'+(p?.name||'?')+'</div>';
           h+='<div style="font-size:12px;color:var(--mu);margin-top:2px">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div>';
-          h+='<div style="font-size:12px;color:var(--mu2)">'+esc(m.scoreDisplay||'')+'</div></div>';
+          h+='<div style="font-size:12px;color:var(--mu2)">'+esc(m.scoreDisplay||'')+'</div>';
+          if(m.notes) h+='<div style="font-size:11px;color:var(--mu);margin-top:3px;font-style:italic">'+esc(m.notes)+'</div>';
+          h+='</div>';
           h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span>';
           h+='</div>';
         });
@@ -1102,10 +1104,10 @@ window.openAddMatch=function(tid){
 
 window.saveMatch=async function(tid){
   const plId=$('am-pl')?.value;if(!plId){toast('Select a player');return;}
-  const data={tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||''};
+  const data={tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||'',notes:$('am-nt')?.value||'',loggedBy:S.user.name};
   const ref=await dbAdd('matches',data);
   S.matches.push({id:ref.id,...data});
-  toast('Match added ✓');closeM();render();
+  toast('Match saved ✓');closeM();render();
 };
 
 // ── FEES ─────────────────────────────────
@@ -1279,6 +1281,8 @@ window.openPlayerDay=function(y,mo,d){
   });
   const tours=S.tournaments.filter(t=>{
     if(!t.startDate||!t.endDate)return false;
+    // Only show THIS player's tournaments
+    if(t.playerId!==id&&!S.matches.some(m=>m.tournamentId===t.id&&m.playerId===id))return false;
     const ts=toDate(t.startDate);const te=toDate(t.endDate);
     ts.setHours(0,0,0,0);te.setHours(23,59,59,999);
     const day=new Date(y,mo,d);return day>=ts&&day<=te;
@@ -1294,7 +1298,7 @@ window.openPlayerDay=function(y,mo,d){
 
 function vPlayerMatches(){
   const id=pid();
-  const myTours=S.tournaments.filter(t=>S.matches.some(m=>m.tournamentId===t.id&&m.playerId===id));
+  const myTours=S.tournaments.filter(t=>t.playerId===id||S.matches.some(m=>m.tournamentId===t.id&&m.playerId===id));
   let h='<div class="pg"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">';
   h+='<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800">My Matches</div>';
   h+='<button class="btn btn-p btn-sm" onclick="openAddTour()">＋ Tournament</button>';
@@ -1320,7 +1324,7 @@ function vPlayerMatches(){
         h+='<button class="btn btn-p btn-sm" style="margin-bottom:10px" onclick="openAddMatch(\''+t.id+'\')">＋ Add Match</button>';
         if(!tM.length) h+='<div style="font-size:13px;color:var(--mu);padding-bottom:4px">No matches logged yet</div>';
         else tM.forEach(m=>{
-          h+='<div class="match-row"><div><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div></div>';
+          h+='<div class="match-row"><div style="flex:1"><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div>'+(m.notes?'<div style="font-size:11px;color:var(--mu);margin-top:2px;font-style:italic">'+esc(m.notes)+'</div>':'')+'</div>';
           h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div>';
         });
         h+='</div>';
