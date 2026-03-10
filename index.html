@@ -32,9 +32,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 
 /* ── SHELL ─────────────────────────────── */
 #screen-load{position:fixed;inset:0;background:#F5F5F0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:100}
-.load-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.load-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#1A1A18}
 .load-logo span{color:var(--gr)}
-.spinner{width:28px;height:28px;border:2px solid var(--bdr2);border-top-color:var(--gr);border-radius:50%;animation:spin .7s linear infinite}
+.spinner{width:28px;height:28px;border:2px solid #E0DED8;border-top-color:#16A34A;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 #screen-login{position:fixed;inset:0;background:var(--bg);display:none;overflow-y:auto;padding:32px 20px 60px}
@@ -398,10 +398,14 @@ const dbDel=(c,id)=>deleteDoc(doc(db,c,id));
 // ── LISTENERS ────────────────────────────
 function listen(){
   const cols=['players','sessions','tournaments','matches','fees','notes','skillLogs','attendance','potm','requests','announcements'];
-  S.unsubs=cols.map(c=>onSnapshot(collection(db,c),snap=>{
-    S[c]=snap.docs.map(d=>({id:d.id,...d.data()}));
-    if(S.user)schedRender();
-  }));
+  S.unsubs=cols.map(c=>{
+    try{
+      return onSnapshot(collection(db,c),snap=>{
+        S[c]=snap.docs.map(d=>({id:d.id,...d.data()}));
+        if(S.user)schedRender();
+      },err=>console.warn('Listener error',c,err));
+    }catch(e){console.warn('Failed to listen',c,e);return()=>{};}
+  });
 }
 function unlisten(){S.unsubs.forEach(u=>u());S.unsubs=[];}
 let _rt=null;
@@ -1591,15 +1595,21 @@ const ib=$('install-btn');if(ib)ib.onclick=()=>{if(dPmt)dPmt.prompt();$('install
 
 // ── INIT ─────────────────────────────────
 async function init(){
+  // Timeout fallback — if stuck for 10s, show error
+  const timeout=setTimeout(()=>{
+    $('screen-load').innerHTML='<div style="text-align:center;padding:24px;max-width:300px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px;color:#1A1A18">Connection timeout</div><div style="font-size:13px;color:#7A7A72;line-height:1.5;margin-bottom:16px">Check your internet and try again.</div><button onclick="location.reload()" style="background:#16A34A;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer">Retry</button></div>';
+  },10000);
+
   try{
     await signInAnonymously(auth);
 
-    // Load players FIRST before showing login
+    // Load players FIRST
     const snap=await getDocs(collection(db,'players'));
     S.players=snap.docs.map(d=>({id:d.id,...d.data()}));
 
-    // Then start listeners
+    // Start listeners
     listen();
+    clearTimeout(timeout);
 
     // Check saved session
     try{
@@ -1627,7 +1637,8 @@ async function init(){
     $('screen-login').style.display='block';
 
   }catch(e){
-    $('screen-load').innerHTML='<div style="color:var(--re);text-align:center;padding:24px;max-width:300px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px">Connection Failed</div><div style="font-size:13px;color:var(--mu2);line-height:1.5">'+e.message+'</div></div>';
+    clearTimeout(timeout);
+    $('screen-load').innerHTML='<div style="text-align:center;padding:24px;max-width:300px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px;color:#1A1A18">Connection Failed</div><div style="font-size:13px;color:#7A7A72;line-height:1.5;margin-bottom:16px">'+e.message+'</div><button onclick="location.reload()" style="background:#16A34A;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer">Retry</button></div>';
   }
 }
 
