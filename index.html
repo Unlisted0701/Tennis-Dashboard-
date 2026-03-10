@@ -17,28 +17,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap&font-display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:#F5F5F0}
+html,body{height:100%;overflow:hidden;background:#0D0D0D}
 body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavior:none}
 ::-webkit-scrollbar{display:none}*{scrollbar-width:none}
 
 :root{
-  --bg:#F5F5F0;--sf:#FFFFFF;--card:#FFFFFF;--card2:#F0F0EB;
-  --bdr:#E0DED8;--bdr2:#C8C6C0;
-  --tx:#1A1A18;--mu:#7A7A72;--mu2:#5A5A54;
-  --gr:#16A34A;--grd:#DCFCE7;--grm:#DCFCE7;
-  --go:#D97706;--god:#FEF3C7;
-  --bl:#2563EB;--bld:#DBEAFE;
-  --re:#DC2626;--red:#FEE2E2;
-  --or:#EA580C;--ord:#FFEDD5;
-  --pu:#9333EA;--pud:#F3E8FF;
+  --bg:#0D0D0D;--sf:#161616;--card:#1E1E1E;--card2:#242424;
+  --bdr:#2A2A2A;--bdr2:#363636;
+  --tx:#F2F0EB;--mu:#5C5C56;--mu2:#8C8C84;
+  --gr:#3DDD7A;--grd:#0C1F14;--grm:#122A1A;
+  --go:#F5A524;--god:#241800;
+  --bl:#4DA8FF;--bld:#0A1828;
+  --re:#FF5757;--red:#1F0A0A;
+  --or:#FB923C;--ord:#1F1008;
+  --pu:#A855F7;--pud:#180A2A;
   --nav:60px;--hdr:52px;--safe:env(safe-area-inset-bottom,0px)
 }
 
 /* ── SHELL ─────────────────────────────── */
-#screen-load{position:fixed;inset:0;background:#F5F5F0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:100}
-.load-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#1A1A18}
+#screen-load{position:fixed;inset:0;background:#0D0D0D;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:100}
+.load-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em}
 .load-logo span{color:var(--gr)}
-.spinner{width:28px;height:28px;border:2px solid #E0DED8;border-top-color:#16A34A;border-radius:50%;animation:spin .7s linear infinite}
+.spinner{width:28px;height:28px;border:2px solid var(--bdr2);border-top-color:var(--gr);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 #screen-login{position:fixed;inset:0;background:var(--bg);display:none;overflow-y:auto;padding:32px 20px 60px}
@@ -104,7 +104,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
   .ni.on{background:var(--grm);color:var(--gr)}
   #app-content{flex:1;padding-bottom:24px}
   .pg{max-width:800px!important;padding:28px 32px!important}
-  .mb{border-radius:18px;max-width:540px;margin:auto;max-height:88vh;background:#FFFFFF}
+  .mb{border-radius:18px;max-width:540px;margin:auto;max-height:88vh}
   .mo{align-items:center;padding:24px}
   .sg{grid-template-columns:repeat(4,1fr)!important}
   .ni-badge{right:calc(50% - 20px)}
@@ -123,18 +123,18 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .sl{font-size:10px;color:var(--mu);letter-spacing:.05em;text-transform:uppercase}
 
 /* ── CARDS ─────────────────────────────── */
-.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:10px}
 .card-sm{background:var(--card2);border-radius:10px;padding:10px 12px;margin-bottom:8px}
 
 /* ── ALERTS ────────────────────────────── */
 .al{border-radius:12px;padding:10px 13px;margin-bottom:10px;font-size:13px;line-height:1.5}
-.al-r{background:var(--red);color:var(--re);border:1px solid #FECACA}
-.al-g{background:var(--grd);color:var(--gr);border:1px solid #86EFAC}
-.al-o{background:var(--god);color:var(--go);border:1px solid #FDE68A}
-.al-b{background:var(--bld);color:var(--bl);border:1px solid #BFDBFE}
+.al-r{background:var(--red);color:var(--re);border:1px solid #3A1010}
+.al-g{background:var(--grd);color:var(--gr);border:1px solid #133020}
+.al-o{background:var(--god);color:var(--go);border:1px solid #3A2400}
+.al-b{background:var(--bld);color:var(--bl);border:1px solid #0C2040}
 
 /* ── LIVE BANNER ───────────────────────── */
-.live-banner{background:var(--grd);border:1px solid var(--gr);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.live-banner{background:var(--grm);border:1px solid var(--gr);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden}
 .live-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gr),transparent);animation:sweep 2s linear infinite}
 @keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--gr);display:inline-block;margin-right:6px;box-shadow:0 0 8px var(--gr);animation:pulse 1.5s ease-in-out infinite}
@@ -145,7 +145,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .live-cta{font-size:12px;color:var(--gr);font-weight:600;margin-top:8px}
 
 /* ── SESSION CARD ──────────────────────── */
-.sess-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.sess-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px}
 .sess-card.live{border-color:var(--gr)}
 .sess-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .sess-info{flex:1;min-width:0}
@@ -157,13 +157,13 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 
 /* ── BADGES ────────────────────────────── */
 .b{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.bg{background:var(--grd);color:var(--gr);border:1px solid #86EFAC}
-.bb{background:var(--bld);color:var(--bl);border:1px solid #93C5FD}
-.bo{background:var(--ord);color:var(--or);border:1px solid #FED7AA}
-.bp{background:var(--pud);color:var(--pu);border:1px solid #E9D5FF}
-.br{background:var(--red);color:var(--re);border:1px solid #FECACA}
-.bm{background:var(--card2);color:var(--mu2);border:1px solid var(--bdr)}
-.bgo{background:var(--god);color:var(--go);border:1px solid #FDE68A}
+.bg{background:var(--grd);color:var(--gr);border:1px solid #1A4028}
+.bb{background:var(--bld);color:var(--bl);border:1px solid #0C2848}
+.bo{background:var(--ord);color:var(--or);border:1px solid #3A2010}
+.bp{background:var(--pud);color:var(--pu);border:1px solid #2A1048}
+.br{background:var(--red);color:var(--re);border:1px solid #3A1010}
+.bm{background:#1A1A1A;color:var(--mu2);border:1px solid var(--bdr)}
+.bgo{background:var(--god);color:var(--go);border:1px solid #3A2400}
 
 /* ── BUTTONS ───────────────────────────── */
 .btn{border:none;border-radius:10px;font-family:inherit;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
@@ -186,7 +186,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .player-meta{font-size:11px;color:var(--mu2);margin-top:2px}
 
 /* ── POTM ──────────────────────────────── */
-.potm{background:linear-gradient(135deg,var(--god),var(--card));border:1px solid #FDE68A;border-radius:14px;padding:16px;margin-bottom:12px}
+.potm{background:linear-gradient(135deg,var(--god),var(--card));border:1px solid #3A2800;border-radius:14px;padding:16px;margin-bottom:12px}
 
 /* ── SKILLS ────────────────────────────── */
 .sk-row{margin-bottom:10px}
@@ -223,9 +223,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .chk-item input{accent-color:var(--gr);width:16px;height:16px}
 
 /* ── MODAL ─────────────────────────────── */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:flex-end;z-index:200;animation:moIn .2s ease}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:flex-end;z-index:200;animation:moIn .2s ease}
 @keyframes moIn{from{opacity:0}to{opacity:1}}
-.mb{background:#FFFFFF;border-radius:20px 20px 0 0;padding:20px 18px;overflow-y:auto;max-height:92vh;padding-bottom:calc(20px + var(--safe))}
+.mb{background:var(--sf);border-radius:20px 20px 0 0;padding:20px 18px;overflow-y:auto;max-height:92vh;padding-bottom:calc(20px + var(--safe))}
 .mh{width:36px;height:4px;background:var(--bdr2);border-radius:2px;margin:0 auto 18px}
 .mt{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:4px}
 .ms{font-size:13px;color:var(--mu2);margin-bottom:16px}
@@ -237,7 +237,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .match-row:last-child{border-bottom:none}
 
 /* ── NOTES ─────────────────────────────── */
-.note-card{background:var(--grd);border-left:3px solid var(--gr);border-radius:0 10px 10px 0;padding:11px;margin-bottom:8px}
+.note-card{background:var(--card2);border-left:3px solid var(--gr);border-radius:0 10px 10px 0;padding:11px;margin-bottom:8px}
 .note-meta{font-size:11px;color:var(--mu);margin-bottom:5px}
 .note-text{font-size:13px;line-height:1.6}
 
@@ -476,7 +476,7 @@ window.doLogin=function(){
   if(!LT){toast('Select a role');return;}
 
   if(LT==='admin'){
-    if(pin!==ADMIN_PIN){bad();return;}
+    if(pin!==(window._adminPin||ADMIN_PIN)){bad();return;}
     S.user={type:'admin',name:'Admin',id:'admin'};
   } else if(LT==='coach'){
     if(!LSID){toast('Select a coach');return;}
@@ -525,7 +525,8 @@ window.signOut=function(){
 // ── NAV ──────────────────────────────────
 function buildNav(){
   let tabs=[];
-  if(isCA())       tabs=[{id:'home',ic:'🏠',lb:'Home'},{id:'players',ic:'👥',lb:'Players'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'fees',ic:'💰',lb:'Fees'}];
+  if(isA())        tabs=[{id:'home',ic:'🏠',lb:'Home'},{id:'players',ic:'👥',lb:'Players'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'fees',ic:'💰',lb:'Fees'},{id:'settings',ic:'⚙️',lb:'Settings'}];
+  else if(isC())   tabs=[{id:'home',ic:'🏠',lb:'Home'},{id:'players',ic:'👥',lb:'Players'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'fees',ic:'💰',lb:'Fees'}];
   else if(isPl())  tabs=[{id:'home',ic:'📊',lb:'Stats'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'notes',ic:'📝',lb:'Notes'}];
   else if(isPa())  tabs=[{id:'home',ic:'🏠',lb:'Home'},{id:'fees',ic:'💰',lb:'Fees'},{id:'calendar',ic:'📅',lb:'Schedule'}];
 
@@ -553,6 +554,7 @@ function render(){
     else if(S.tab==='calendar')vCalendar();
     else if(S.tab==='matches')vMatches();
     else if(S.tab==='fees')vFees();
+    else if(S.tab==='settings')vSettings();
   } else if(isPl()){
     if(S.tab==='home')vPlayerHome();
     else if(S.tab==='calendar')vPlayerCal();
@@ -1579,6 +1581,55 @@ function calcPOTM(){
 // ═══════════════════════════════════════
 // MODAL
 // ═══════════════════════════════════════
+
+function vSettings(){
+  let h='<div class="pg"><div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800;margin-bottom:16px">⚙️ Settings</div>';
+
+  h+='<div class="st">Coaches</div>';
+  h+='<div class="card" style="padding:0;overflow:hidden">';
+  COACHES.forEach(co=>{
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--bdr)">';
+    h+='<div><div style="font-weight:600;font-size:14px">'+esc(co.name)+'</div>';
+    h+='<div style="font-size:12px;color:var(--mu2);margin-top:2px">PIN: ****</div></div>';
+    h+='<button class="btn btn-s btn-sm" onclick="openEditCoach(\''+co.id+'\')" >Edit PIN</button>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  h+='<div class="st">Admin PIN</div>';
+  h+='<div class="card"><div style="font-size:13px;color:var(--mu2);margin-bottom:12px">Change admin PIN (currently 0000)</div>';
+  h+='<div class="fg"><label class="fl">New Admin PIN</label><input class="fi" id="st-ap" type="password" maxlength="4" inputmode="numeric" placeholder="4 digits"></div>';
+  h+='<div class="fg"><label class="fl">Confirm PIN</label><input class="fi" id="st-ap2" type="password" maxlength="4" inputmode="numeric" placeholder="4 digits"></div>';
+  h+='<button class="btn btn-p btn-w" onclick="saveAdminPin()">Update Admin PIN</button></div>';
+
+  h+='</div>';
+  $('app-content').innerHTML=h;
+}
+
+window.openEditCoach=function(cid){
+  const co=COACHES.find(x=>x.id===cid);if(!co)return;
+  openM('<div class="mh"></div><div class="mt">'+esc(co.name)+'</div><div class="ms">Change coach PIN</div>'+
+    '<div class="fg"><label class="fl">New PIN</label><input class="fi" id="ec-pin" type="password" maxlength="4" inputmode="numeric" placeholder="4 digits"></div>'+
+    '<div class="fg"><label class="fl">Confirm PIN</label><input class="fi" id="ec-pin2" type="password" maxlength="4" inputmode="numeric" placeholder="4 digits"></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveCoachPin(\''+cid+'\')" >Save</button></div>');
+};
+
+window.saveCoachPin=function(cid){
+  const p=$('ec-pin')?.value?.trim();const p2=$('ec-pin2')?.value?.trim();
+  if(!p||p.length!==4){toast('PIN must be 4 digits');return;}
+  if(p!==p2){toast('PINs do not match');return;}
+  const co=COACHES.find(x=>x.id===cid);
+  if(co){co.pin=p;toast('Coach PIN updated ✓');closeM();}
+};
+
+window.saveAdminPin=function(){
+  const p=$('st-ap')?.value?.trim();const p2=$('st-ap2')?.value?.trim();
+  if(!p||p.length!==4){toast('PIN must be 4 digits');return;}
+  if(p!==p2){toast('PINs do not match');return;}
+  // Update in-memory (persists for session - full persistence needs backend)
+  window._adminPin=p;
+  toast('Admin PIN updated ✓');
+};
 
 function openM(html){
   closeM();
