@@ -2,277 +2,341 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0D0D0D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Tennis Dashboard">
-<title>Tennis Dashboard</title>
+<meta name="apple-mobile-web-app-title" content="Younirise">
+<title>Younirise</title>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:#0A0A0A}
-body{font-family:'DM Sans',system-ui,sans-serif;color:#F0EDE8;overscroll-behavior:none}
-*{scrollbar-width:none}*::-webkit-scrollbar{display:none}
+html,body{height:100%;overflow:hidden;background:#0D0D0D}
+body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavior:none}
+::-webkit-scrollbar{display:none}*{scrollbar-width:none}
+
 :root{
-  --bg:#0A0A0A;--sf:#141414;--card:#1C1C1C;--card2:#222;
-  --bdr:#282828;--bdr2:#383838;
-  --tx:#F0EDE8;--mu:#5A5A54;--mu2:#8A8A82;
-  --gr:#4ADE80;--grd:#0C2418;--grm:#163824;
-  --go:#FBBF24;--god:#261C04;
-  --bl:#60A5FA;--bld:#0C1C38;
-  --re:#F87171;--red:#281010;
-  --or:#FB923C;--ord:#281608;
-  --pu:#C084FC;--pud:#1C0C2C;
-  --nav:64px;--hdr:56px;--safe:env(safe-area-inset-bottom,0px)
+  --bg:#0D0D0D;--sf:#161616;--card:#1E1E1E;--card2:#242424;
+  --bdr:#2A2A2A;--bdr2:#363636;
+  --tx:#F2F0EB;--mu:#5C5C56;--mu2:#8C8C84;
+  --gr:#3DDD7A;--grd:#0C1F14;--grm:#122A1A;
+  --go:#F5A524;--god:#241800;
+  --bl:#4DA8FF;--bld:#0A1828;
+  --re:#FF5757;--red:#1F0A0A;
+  --or:#FF8A3D;--ord:#1F1008;
+  --pu:#A855F7;--pud:#180A2A;
+  --nav:60px;--hdr:52px;--safe:env(safe-area-inset-bottom,0px)
 }
 
-/* ── Shell ── */
-#app{display:flex;flex-direction:column;height:100dvh;height:100vh}
-#hdr{height:var(--hdr);background:var(--sf);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:50}
-.logo{font-family:'DM Serif Display',serif;font-size:20px}
-.logo em{color:var(--gr);font-style:normal}
-#content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav) + var(--safe) + 20px)}
-#nav{height:calc(var(--nav) + var(--safe));padding-bottom:var(--safe);background:var(--sf);border-top:1px solid var(--bdr);display:flex;flex-shrink:0;z-index:50}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:var(--mu);font-family:inherit;cursor:pointer;padding:8px 4px;transition:color .15s}
-.ni.on{color:var(--gr)}
-.ni-ic{font-size:22px;line-height:1}
-.ni-lb{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+/* ── SHELL ─────────────────────────────── */
+#screen-load{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:100}
+.load-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.load-logo span{color:var(--gr)}
+.spinner{width:28px;height:28px;border:2px solid var(--bdr2);border-top-color:var(--gr);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── Desktop ── */
+#screen-login{position:fixed;inset:0;background:var(--bg);display:none;overflow-y:auto;padding:32px 20px 60px}
+#screen-app{position:fixed;inset:0;display:none;flex-direction:column}
+
+/* ── LOGIN ─────────────────────────────── */
+.login-wrap{max-width:420px;margin:0 auto}
+.login-logo{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px}
+.login-logo span{color:var(--gr)}
+.login-sub{color:var(--mu2);font-size:14px;margin-bottom:36px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.role-btn{background:var(--card);border:2px solid var(--bdr);border-radius:16px;padding:18px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;cursor:pointer;transition:all .15s;text-align:left}
+.role-btn:hover{border-color:var(--bdr2);background:var(--card2)}
+.role-btn.sel{border-color:var(--gr);background:var(--grm)}
+.role-ic{font-size:24px;margin-bottom:2px}
+.role-lbl{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.role-hint{font-size:11px;color:var(--mu2)}
+.login-step2{display:none;animation:fadeUp .18s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ls-label{font-size:12px;font-weight:600;color:var(--mu2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.ls-sel{width:100%;background:var(--card);border:1.5px solid var(--bdr);border-radius:12px;padding:13px 14px;color:var(--tx);font-family:inherit;font-size:14px;margin-bottom:16px;appearance:none;cursor:pointer}
+.ls-sel:focus{outline:none;border-color:var(--gr)}
+.coach-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.coach-btn{background:var(--card);border:1.5px solid var(--bdr);border-radius:12px;padding:12px 10px;text-align:center;cursor:pointer;transition:all .15s;font-size:13px;font-weight:600}
+.coach-btn:hover{border-color:var(--bdr2)}
+.coach-btn.sel{border-color:var(--gr);background:var(--grm);color:var(--gr)}
+.pin-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.pin-input{flex:1;background:var(--card);border:1.5px solid var(--bdr);border-radius:12px;padding:13px 14px;color:var(--tx);font-family:inherit;font-size:18px;letter-spacing:4px;text-align:center}
+.pin-input:focus{outline:none;border-color:var(--gr)}
+.pin-input.err{border-color:var(--re);animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.err-msg{color:var(--re);font-size:13px;margin-bottom:12px;display:none}
+.btn-login{width:100%;background:var(--gr);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;border:none;border-radius:12px;padding:15px;cursor:pointer;transition:opacity .15s}
+.btn-login:hover{opacity:.88}
+.back-btn{background:none;border:none;color:var(--mu2);font-size:13px;cursor:pointer;padding:8px 0;display:flex;align-items:center;gap:4px;margin-bottom:16px}
+
+/* ── APP SHELL ─────────────────────────── */
+#app-hdr{height:var(--hdr);background:var(--sf);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:50}
+.hdr-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.hdr-logo span{color:var(--gr)}
+.hdr-user{font-size:12px;color:var(--mu2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hdr-out{background:none;border:1px solid var(--bdr);border-radius:8px;color:var(--mu2);font-size:12px;padding:5px 10px;cursor:pointer}
+#app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav) + var(--safe) + 16px)}
+#app-nav{height:calc(var(--nav) + var(--safe));padding-bottom:var(--safe);background:var(--sf);border-top:1px solid var(--bdr);display:flex;flex-shrink:0;z-index:50}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:var(--mu);cursor:pointer;padding:6px 4px;font-family:inherit;position:relative;transition:color .15s}
+.ni.on{color:var(--gr)}
+.ni-ic{font-size:20px;line-height:1}
+.ni-lb{font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.ni-badge{position:absolute;top:6px;right:calc(50% - 14px);background:var(--re);color:#fff;font-size:9px;font-weight:700;border-radius:8px;padding:1px 5px;min-width:16px;text-align:center}
+
+/* ── DESKTOP ───────────────────────────── */
 @media(min-width:768px){
-  #app{flex-direction:row}
-  #hdr{display:none}
-  #nav{width:220px;height:100vh;flex-direction:column;border-top:none;border-right:1px solid var(--bdr);padding:0;align-items:stretch;justify-content:flex-start}
-  #nav-logo{padding:24px 20px 16px;font-family:'DM Serif Display',serif;font-size:22px;border-bottom:1px solid var(--bdr);margin-bottom:8px;display:block!important}
-  #nav-logo em{color:var(--gr);font-style:normal}
-  #nav-bot{margin-top:auto;padding:16px 12px;border-top:1px solid var(--bdr)}
-  .ni{flex-direction:row;justify-content:flex-start;gap:12px;padding:12px 18px;border-radius:10px;margin:2px 10px;min-height:unset;flex:none;width:auto}
-  .ni-ic{font-size:18px}
+  #screen-app{flex-direction:row}
+  #app-hdr{display:none}
+  #app-nav{width:200px;height:100vh;flex-direction:column;border-top:none;border-right:1px solid var(--bdr);padding:0;justify-content:flex-start;align-items:stretch}
+  #nav-logo{padding:20px 16px 14px;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.02em;border-bottom:1px solid var(--bdr);margin-bottom:6px}
+  #nav-logo span{color:var(--gr)}
+  #nav-bot{margin-top:auto;padding:14px;border-top:1px solid var(--bdr)}
+  #nav-bot-user{font-size:12px;color:var(--mu2);margin-bottom:8px;padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ni{flex-direction:row;justify-content:flex-start;gap:10px;padding:11px 14px;border-radius:10px;margin:1px 8px;min-height:unset;flex:none;width:auto}
+  .ni-ic{font-size:16px}
   .ni-lb{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none}
-  .ni.on{background:var(--grd);color:var(--gr)}
-  #content{flex:1;padding-bottom:24px}
-  .pg{max-width:820px;padding:28px 32px}
-  .mb{border-radius:18px;max-width:560px;margin:auto;max-height:85vh}
+  .ni.on{background:var(--grm);color:var(--gr)}
+  #app-content{flex:1;padding-bottom:24px}
+  .pg{max-width:800px!important;padding:28px 32px!important}
+  .mb{border-radius:18px;max-width:540px;margin:auto;max-height:88vh}
   .mo{align-items:center;padding:24px}
   .sg{grid-template-columns:repeat(4,1fr)!important}
+  .ni-badge{right:calc(50% - 20px)}
 }
 
-/* ── Components ── */
-.pg{padding:16px;animation:pgIn .18s ease}
-@keyframes pgIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:16px;margin-bottom:10px}
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.sc{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px}
-.sv{font-family:'DM Serif Display',serif;font-size:28px;line-height:1;margin-bottom:3px}
-.sl{font-size:10px;color:var(--mu);letter-spacing:.06em;text-transform:uppercase}
-.st{font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 10px}
+/* ── PAGE ──────────────────────────────── */
+.pg{padding:14px;max-width:100%;animation:pgIn .16s ease}
+@keyframes pgIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.st{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--mu2);letter-spacing:.06em;text-transform:uppercase;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--bdr)}
 .st:first-child{margin-top:0}
 
-/* badges */
-.b{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.03em}
-.bg{color:var(--gr);background:var(--grd)}
-.bb{color:var(--bl);background:var(--bld)}
-.br{color:var(--re);background:var(--red)}
-.bo{color:var(--go);background:var(--god)}
-.bp{color:var(--pu);background:var(--pud)}
-.bm{color:var(--mu2);background:var(--card2)}
+/* ── STAT GRID ─────────────────────────── */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.sc{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px 12px}
+.sv{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1;margin-bottom:3px}
+.sl{font-size:10px;color:var(--mu);letter-spacing:.05em;text-transform:uppercase}
 
-/* alerts */
-.al{border-radius:12px;padding:11px 13px;margin-bottom:8px;font-size:13px;line-height:1.5;display:flex;gap:9px;align-items:flex-start}
-.al-r{background:var(--red);color:var(--re);border:1px solid #3D1818}
+/* ── CARDS ─────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:10px}
+.card-sm{background:var(--card2);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+
+/* ── ALERTS ────────────────────────────── */
+.al{border-radius:12px;padding:10px 13px;margin-bottom:10px;font-size:13px;line-height:1.5}
+.al-r{background:var(--red);color:var(--re);border:1px solid #3A1010}
 .al-g{background:var(--grd);color:var(--gr);border:1px solid #133020}
-.al-o{background:var(--god);color:var(--go);border:1px solid #3D2C08}
+.al-o{background:var(--god);color:var(--go);border:1px solid #3A2400}
 .al-b{background:var(--bld);color:var(--bl);border:1px solid #0C2040}
 
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .12s}
-.btn:active{opacity:.72}
-.btn-p{background:var(--gr);color:#000}
-.btn-s{background:var(--card2);color:var(--mu2);border:1px solid var(--bdr2)}
-.btn-d{background:var(--red);color:var(--re);border:1px solid #3D1818}
-.btn-w{width:100%}
+/* ── LIVE BANNER ───────────────────────── */
+.live-banner{background:var(--grm);border:1px solid var(--gr);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden}
+.live-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gr),transparent);animation:sweep 2s linear infinite}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--gr);display:inline-block;margin-right:6px;box-shadow:0 0 8px var(--gr);animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.live-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gr);display:flex;align-items:center;margin-bottom:4px}
+.live-sub{font-size:12px;color:var(--mu2)}
+.live-sub strong{color:var(--tx)}
+.live-cta{font-size:12px;color:var(--gr);font-weight:600;margin-top:8px}
+
+/* ── SESSION CARD ──────────────────────── */
+.sess-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px}
+.sess-card.live{border-color:var(--gr)}
+.sess-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.sess-info{flex:1;min-width:0}
+.sess-players{font-weight:600;font-size:14px;margin:5px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess-time{font-size:12px;color:var(--mu2)}
+.sess-time strong{color:var(--gr)}
+.sess-note{font-size:12px;color:var(--mu2);margin-top:6px;padding:7px 9px;background:var(--card2);border-radius:8px;border-left:3px solid var(--bdr2)}
+.sess-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+
+/* ── BADGES ────────────────────────────── */
+.b{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.bg{background:var(--grd);color:var(--gr);border:1px solid #1A4028}
+.bb{background:var(--bld);color:var(--bl);border:1px solid #0C2848}
+.bo{background:var(--ord);color:var(--or);border:1px solid #3A2010}
+.bp{background:var(--pud);color:var(--pu);border:1px solid #2A1048}
+.br{background:var(--red);color:var(--re);border:1px solid #3A1010}
+.bm{background:#1A1A1A;color:var(--mu2);border:1px solid var(--bdr)}
+.bgo{background:var(--god);color:var(--go);border:1px solid #3A2400}
+
+/* ── BUTTONS ───────────────────────────── */
+.btn{border:none;border-radius:10px;font-family:inherit;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--gr);color:#000;padding:10px 16px;font-size:13px}
+.btn-p:hover{opacity:.88}
+.btn-s{background:var(--card2);color:var(--tx);padding:10px 16px;font-size:13px;border:1px solid var(--bdr)}
+.btn-s:hover{border-color:var(--bdr2)}
+.btn-d{background:var(--red);color:var(--re);padding:8px 12px;font-size:12px;border:1px solid var(--re)}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
+.btn-w{width:100%}
+.btn-del{background:var(--red);color:var(--re);border:1px solid var(--re);border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer;transition:all .15s;font-family:inherit;font-weight:600}
+.btn-del:hover{background:#3A1010}
 
-/* forms */
+/* ── PLAYER ROW ────────────────────────── */
+.player-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bdr);cursor:pointer}
+.player-row:last-child{border-bottom:none}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:13px}
+.player-name{font-weight:600;font-size:14px}
+.player-meta{font-size:11px;color:var(--mu2);margin-top:2px}
+
+/* ── POTM ──────────────────────────────── */
+.potm{background:linear-gradient(135deg,var(--god),var(--card));border:1px solid #3A2800;border-radius:14px;padding:16px;margin-bottom:12px}
+
+/* ── SKILLS ────────────────────────────── */
+.sk-row{margin-bottom:10px}
+.sk-hd{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.sk-tr{background:var(--bdr);border-radius:4px;height:4px;overflow:hidden}
+.sk-fl{height:100%;border-radius:4px;transition:width .4s ease}
+
+/* ── CALENDAR ──────────────────────────── */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-month{font-family:'Syne',sans-serif;font-weight:700;font-size:15px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:8px}
+.cal-dl{font-size:10px;color:var(--mu);text-align:center;padding:4px 0;font-weight:700}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:5px;font-size:12px;color:var(--mu2);cursor:pointer;position:relative;transition:background .12s;overflow:hidden}
+.cal-day:not(.off):hover{background:var(--card2)}
+.cal-day:not(.off):active{background:var(--bdr)}
+.cal-day.today{background:var(--grd);color:var(--gr);font-weight:700}
+.cal-day.off{color:var(--bdr2);pointer-events:none}
+.cal-stripes{display:flex;gap:1px;width:calc(100% - 6px);position:absolute;bottom:3px;height:3px;justify-content:center}
+.cal-stripe{flex:1;border-radius:2px;max-width:10px}
+.cal-legend{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.cal-leg-item{display:flex;align-items:center;gap:3px;font-size:10px;color:var(--mu)}
+.cal-leg-dot{width:8px;height:8px;border-radius:2px}
+
+/* ── FORMS ─────────────────────────────── */
 .fg{margin-bottom:14px}
-.fl{display:block;font-size:10px;color:var(--mu);letter-spacing:.07em;font-weight:700;margin-bottom:7px;text-transform:uppercase}
-.fi,.fs,.fta{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--bdr);background:var(--card);color:var(--tx);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s;-webkit-appearance:none;appearance:none}
-.fi:focus,.fs:focus,.fta:focus{border-color:var(--gr)}
-.fta{resize:vertical;min-height:76px}
-.fs{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235A5A54' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.fl{display:block;font-size:12px;font-weight:600;color:var(--mu2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.fi{width:100%;background:var(--card2);border:1.5px solid var(--bdr);border-radius:10px;padding:11px 13px;color:var(--tx);font-family:inherit;font-size:14px;transition:border-color .15s}
+.fi:focus{outline:none;border-color:var(--gr)}
+.fs{appearance:none;cursor:pointer}
+.fta{resize:none;min-height:72px;line-height:1.5}
 .fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chk-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.chk-item{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.chk-item input{accent-color:var(--gr);width:16px;height:16px}
 
-/* modal */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;display:flex;align-items:flex-end;animation:moIn .18s ease}
+/* ── MODAL ─────────────────────────────── */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:flex-end;z-index:200;animation:moIn .2s ease}
 @keyframes moIn{from{opacity:0}to{opacity:1}}
-.mb{background:var(--sf);border-radius:22px 22px 0 0;width:100%;max-height:92dvh;max-height:92vh;overflow-y:auto;padding:18px 16px calc(22px + var(--safe));animation:mbIn .22s ease}
-@keyframes mbIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mh{width:34px;height:4px;background:var(--bdr2);border-radius:2px;margin:0 auto 18px}
-.mt{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:3px}
-.ms{font-size:13px;color:var(--mu);margin-bottom:18px}
-.ma{display:flex;gap:10px;margin-top:18px}
+.mb{background:var(--sf);border-radius:20px 20px 0 0;padding:20px 18px;overflow-y:auto;max-height:92vh;padding-bottom:calc(20px + var(--safe))}
+.mh{width:36px;height:4px;background:var(--bdr2);border-radius:2px;margin:0 auto 18px}
+.mt{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:4px}
+.ms{font-size:13px;color:var(--mu2);margin-bottom:16px}
+.ma{display:flex;gap:8px;margin-top:18px}
 .ma .btn{flex:1}
 
-/* player card */
-.pc{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .12s}
-.pc:active{border-color:var(--bdr2)}
-.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:15px;flex-shrink:0}
+/* ── MATCH ─────────────────────────────── */
+.match-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--bdr)}
+.match-row:last-child{border-bottom:none}
 
-/* skills */
-.sk-row{margin-bottom:12px}
-.sk-hd{display:flex;justify-content:space-between;margin-bottom:5px}
-.sk-tr{height:3px;background:var(--bdr2);border-radius:2px}
-.sk-fl{height:3px;border-radius:2px;transition:width .4s ease}
-input[type=range]{width:100%;margin-top:8px;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--bdr2);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px rgba(74,222,128,.35);cursor:pointer}
+/* ── NOTES ─────────────────────────────── */
+.note-card{background:var(--card2);border-left:3px solid var(--gr);border-radius:0 10px 10px 0;padding:11px;margin-bottom:8px}
+.note-meta{font-size:11px;color:var(--mu);margin-bottom:5px}
+.note-text{font-size:13px;line-height:1.6}
 
-/* attendance dots */
-.att-w{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
-.ad{width:11px;height:11px;border-radius:50%;transition:transform .12s}
-.ad:active{transform:scale(1.4)}
-.ad.P{background:var(--gr);box-shadow:0 0 4px rgba(74,222,128,.5)}
-.ad.A{background:var(--re)}
-.ad.N{background:var(--bdr2)}
+/* ── FEE ROW ───────────────────────────── */
+.fee-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid var(--bdr)}
+.fee-row:last-child{border-bottom:none}
 
-/* win/loss bar */
-.wl{height:5px;border-radius:3px;background:var(--bdr2);overflow:hidden;margin:6px 0}
-.wl-f{height:100%;border-radius:3px;background:var(--gr);transition:width .5s ease}
+/* ── REQUEST CARD ──────────────────────── */
+.req-card{background:var(--card2);border-radius:12px;padding:12px;margin-bottom:8px}
+.req-actions{display:flex;gap:6px;margin-top:10px}
+.req-actions .btn{flex:1;font-size:12px;padding:8px 10px}
 
-/* session banner */
-.sb{background:var(--grm);border:1px solid var(--gr);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer}
-.sb-t{font-size:14px;font-weight:700;color:var(--gr);margin-bottom:3px}
-.sb-s{font-size:12px;color:var(--mu2)}
-.sb-a{font-size:12px;color:var(--gr);font-weight:600;margin-top:7px}
+/* ── EMPTY ─────────────────────────────── */
+.empty{text-align:center;padding:40px 20px;color:var(--mu)}
+.empty-ic{font-size:36px;margin-bottom:12px}
+.empty-txt{font-size:14px;line-height:1.5}
 
-/* match entry */
-.me{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:13px;margin-bottom:8px}
-.me-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+/* ── TOAST ─────────────────────────────── */
+#toast{position:fixed;bottom:calc(var(--nav) + var(--safe) + 12px);left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);font-size:13px;font-weight:600;padding:10px 18px;border-radius:24px;display:none;z-index:999;white-space:nowrap;pointer-events:none}
 
-/* calendar */
-.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:10px}
-.cal-dl{font-size:10px;color:var(--mu);text-align:center;padding:4px 0;font-weight:700}
-.cal-d{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--mu2);cursor:pointer;position:relative;transition:background .12s;-webkit-tap-highlight-color:transparent}
-.cal-d:not(.om):hover{background:var(--card2)}
-.cal-d:not(.om):active{background:var(--bdr)}
-.cal-d.today{background:var(--grd);color:var(--gr);font-weight:700}
-.cal-d.hs::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--gr)}
-.cal-d.om{color:var(--bdr2);pointer-events:none}
+/* ── TOUR TOGGLE ───────────────────────── */
+.tour-hd{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:13px 14px}
+.tour-bd{padding:0 14px 13px;display:none}
+.tour-bd.open{display:block}
 
-/* notes */
-.ne{background:var(--card2);border-left:3px solid var(--gr);border-radius:0 10px 10px 0;padding:11px;margin-bottom:8px}
-.ne-m{font-size:11px;color:var(--mu);margin-bottom:5px}
-.ne-t{font-size:13px;line-height:1.5}
-
-/* tournament */
-.tc{background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden}
-.th{padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:8px}
-.tb{border-top:1px solid var(--bdr);padding:12px}
-.chv{font-size:11px;color:var(--mu);transition:transform .2s;flex-shrink:0}
-.chv.op{transform:rotate(180deg)}
-
-/* fees */
-.fr-row{display:flex;justify-content:space-between;align-items:center;padding:13px;border-bottom:1px solid var(--bdr)}
-.fr-row:last-child{border-bottom:none}
-
-/* potm */
-.potm{background:linear-gradient(135deg,var(--god) 0%,var(--card) 100%);border:1px solid #3D2C08;border-radius:14px;padding:14px;margin-bottom:10px}
-
-/* misc */
-.div{height:1px;background:var(--bdr);margin:14px 0}
-.empty{text-align:center;padding:40px 20px;color:var(--mu);font-size:14px}
-.empty-ic{font-size:38px;margin-bottom:12px}
-
-/* login */
-#login{position:fixed;inset:0;background:var(--bg);display:none;align-items:flex-start;justify-content:center;padding:20px;z-index:100;overflow-y:auto}
-.lbox{width:100%;max-width:380px;background:var(--sf);border:1px solid var(--bdr);border-radius:22px;padding:28px 22px;margin-top:20px}
-.l-logo{font-family:'DM Serif Display',serif;font-size:30px;text-align:center;margin-bottom:3px}
-.l-logo em{color:var(--gr);font-style:normal}
-.l-sub{font-size:13px;color:var(--mu);text-align:center;margin-bottom:24px}
-.lo{padding:11px 14px;border-radius:11px;border:1px solid var(--bdr);background:transparent;color:var(--mu2);font-size:14px;font-weight:500;cursor:pointer;text-align:left;font-family:inherit;width:100%;transition:all .15s;margin-bottom:7px;display:block}
-.lo.on{border-color:var(--gr);background:var(--grd);color:var(--gr)}
-.lpin{width:100%;padding:13px 14px;border-radius:11px;border:1px solid var(--bdr);background:var(--card);color:var(--tx);font-size:22px;letter-spacing:.5em;font-family:monospace;outline:none;transition:border-color .15s;text-align:center}
-.lpin:focus{border-color:var(--gr)}
-.lpin.err{border-color:var(--re)}
-.lerr{font-size:12px;color:var(--re);margin-top:5px;display:none}
-.lbtn{width:100%;padding:14px;border-radius:11px;border:none;background:var(--gr);color:#000;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:14px;transition:opacity .12s}
-.lbtn:active{opacity:.8}
-.ldemo{font-size:11px;color:var(--mu);text-align:center;margin-top:14px;line-height:1.7}
-
-/* toast & loading */
-#toast{position:fixed;top:68px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--bdr2);border-radius:20px;padding:9px 18px;font-size:13px;color:var(--tx);z-index:400;white-space:nowrap;pointer-events:none;display:none}
-#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:18px}
-.spin{width:34px;height:34px;border:3px solid var(--bdr);border-top-color:var(--gr);border-radius:50%;animation:sp .75s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-/* install banner */
-#ibanner{position:fixed;bottom:calc(var(--nav) + var(--safe) + 10px);left:14px;right:14px;z-index:90;background:var(--grm);border:1px solid var(--gr);border-radius:14px;padding:12px 14px;display:none;align-items:center;gap:10px}
-.ib-t{flex:1;font-size:13px}
-.ib-btn{font-size:12px;font-weight:700;color:var(--gr);background:var(--grd);border:1px solid var(--gr);border-radius:8px;padding:6px 12px;cursor:pointer;white-space:nowrap;font-family:inherit}
-.ib-x{font-size:20px;color:var(--mu);cursor:pointer;line-height:1;flex-shrink:0}
-
-/* session note box */
-.snote{font-size:13px;font-weight:700;color:var(--tx);margin-top:7px;padding:8px 10px;background:var(--card2);border-radius:8px}
+/* ── ATT DOTS ──────────────────────────── */
+.att-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--bdr);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.att-btn.present{background:var(--grd);border-color:var(--gr)}
+.att-btn.absent{background:var(--red);border-color:var(--re)}
 </style>
 </head>
 <body>
 
-<div id="loading">
-  <div class="logo" style="font-size:28px">Tennis Dashboard<em>.</em></div>
-  <div class="spin"></div>
-  <div style="font-size:12px;color:var(--mu)">Connecting…</div>
+<!-- Loading -->
+<div id="screen-load">
+  <div class="load-logo">Younirise<span>.</span></div>
+  <div class="spinner"></div>
+</div>
+
+<!-- Login -->
+<div id="screen-login">
+  <div class="login-wrap">
+    <div class="login-logo">Younirise<span>.</span></div>
+    <div class="login-sub">Tennis Academy</div>
+
+    <div id="step1">
+      <div style="font-size:12px;font-weight:600;color:var(--mu2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">Select your role</div>
+      <div class="role-grid">
+        <button class="role-btn" data-t="admin" onclick="selectRole(this)">
+          <div class="role-ic">🔐</div>
+          <div class="role-lbl">Admin</div>
+          <div class="role-hint">Full access</div>
+        </button>
+        <button class="role-btn" data-t="coach" onclick="selectRole(this)">
+          <div class="role-ic">🎾</div>
+          <div class="role-lbl">Coach</div>
+          <div class="role-hint">Sessions & players</div>
+        </button>
+        <button class="role-btn" data-t="player" onclick="selectRole(this)">
+          <div class="role-ic">👤</div>
+          <div class="role-lbl">Player</div>
+          <div class="role-hint">Your dashboard</div>
+        </button>
+        <button class="role-btn" data-t="parent" onclick="selectRole(this)">
+          <div class="role-ic">👨‍👩‍👦</div>
+          <div class="role-lbl">Parent</div>
+          <div class="role-hint">Fees & schedule</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="login-step2" id="step2">
+      <button class="back-btn" onclick="backToStep1()">← Back</button>
+      <div id="step2-content"></div>
+      <div class="ls-label" id="pin-label">Enter PIN</div>
+      <div class="pin-wrap"><input class="pin-input" id="pin-inp" type="password" maxlength="4" inputmode="numeric" placeholder="••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="err-msg" id="err-msg">Wrong PIN. Try again.</div>
+      <button class="btn-login" onclick="doLogin()">Sign In →</button>
+    </div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="screen-app">
+  <header id="app-hdr">
+    <div class="hdr-logo">Y<span>.</span></div>
+    <div class="hdr-user" id="hdr-user"></div>
+    <button class="hdr-out" onclick="signOut()">Out</button>
+  </header>
+  <div id="app-content"></div>
+  <nav id="app-nav"></nav>
 </div>
 
 <div id="toast"></div>
-
-<div id="login">
-  <div class="lbox">
-    <div class="l-logo">Tennis Dashboard<em>.</em></div>
-    <div class="l-sub">Younirise Tennis Academy · Pune</div>
-    <div style="font-size:10px;color:var(--mu);letter-spacing:.08em;font-weight:700;margin-bottom:10px">I AM A…</div>
-    <button class="lo" data-t="admin"  onclick="selT(this)">🔐  Admin</button>
-    <button class="lo" data-t="coach"  onclick="selT(this)">🎾  Coach</button>
-    <button class="lo" data-t="player" onclick="selT(this)">👤  Player</button>
-    <button class="lo" data-t="parent" onclick="selT(this)">👨‍👩‍👦  Parent</button>
-    <div id="lsub" style="display:none;margin-top:14px">
-      <div id="lsub-lb" style="font-size:10px;color:var(--mu);letter-spacing:.08em;font-weight:700;margin-bottom:10px"></div>
-      <div id="lsub-ls"></div>
-    </div>
-    <div style="font-size:10px;color:var(--mu);letter-spacing:.08em;font-weight:700;margin:14px 0 8px">PIN</div>
-    <input type="password" class="lpin" id="lpin" maxlength="4" placeholder="····" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')">
-    <div class="lerr" id="lerr">Wrong PIN — try again.</div>
-    <button class="lbtn" onclick="doLogin()">Sign In →</button>
-    <div class="ldemo">Admin 0000 · Yash 1111 · Anup 2222 · Milind 3333</div>
-  </div>
+<div id="install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bdr);padding:12px 16px;display:none;align-items:center;gap:10px;z-index:150">
+  <div style="flex:1;font-size:13px">Add Younirise to your home screen</div>
+  <button class="btn btn-p btn-sm" id="install-btn">Add</button>
+  <button style="background:none;border:none;color:var(--mu);cursor:pointer;font-size:18px" onclick="document.getElementById('install-banner').style.display='none'">×</button>
 </div>
-
-<div id="app" style="display:none">
-  <div id="hdr">
-    <div class="logo">Tennis Dashboard<em>.</em></div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div id="hdr-u" style="font-size:11px;color:var(--mu2);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
-      <button class="btn btn-s btn-sm" onclick="doOut()">Sign out</button>
-    </div>
-  </div>
-  <nav id="nav"></nav>
-  <div id="content"></div>
-</div>
-
-<div id="ibanner">
-  <div class="ib-t">📲 Add Tennis Dashboard to your home screen</div>
-  <button class="ib-btn" id="ibtn">Install</button>
-  <span class="ib-x" onclick="this.parentElement.style.display='none'">×</span>
-</div>
-
-<script>
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
-</script>
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import{getFirestore,collection,doc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,onSnapshot,serverTimestamp,Timestamp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import{getFirestore,collection,doc,addDoc,updateDoc,deleteDoc,setDoc,getDocs,onSnapshot,serverTimestamp,Timestamp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import{getAuth,signInAnonymously}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 const FC={
@@ -283,115 +347,133 @@ const FC={
   messagingSenderId:"603005850959",
   appId:"1:603005850959:web:30e844d4cb9b80f611213a"
 };
-
 const app=initializeApp(FC);
 const db=getFirestore(app);
 const auth=getAuth(app);
 
-// ── Constants ──────────────────────────────────────────────────────
+// ── CONSTANTS ────────────────────────────
 const ADMIN_PIN='0000';
 const COACHES=[{id:'yash',name:'Yash Deshmukh',pin:'1111'},{id:'anup',name:'Anup Shinde',pin:'2222'},{id:'milind',name:'Milind Nagarkar',pin:'3333'}];
-const CIRCUITS=['AITA','MSLTA','PMDTA','Other'];
-const ROUNDS=['R1','R2','R3','QF','SF','F','RR'];
-const SESS_T=['Tennis Practice','1-on-1','Fitness','Mental Health','Tournament','Rest Day'];
-const CATS=['U10','U12','U14','U16','U18','Open'];
+const SESS_TYPES=['Tennis Practice','1-on-1','Fitness','Mental Health','Tournament','Rest Day'];
+const SESS_COL={'Tennis Practice':'bg','1-on-1':'bb','Fitness':'bo','Mental Health':'bp','Tournament':'bgo','Rest Day':'bm'};
+const SESS_HEX={'Tennis Practice':'#3DDD7A','1-on-1':'#4DA8FF','Fitness':'#FF8A3D','Mental Health':'#A855F7','Tournament':'#F5A524','Rest Day':'#5C5C56'};
 const SKILLS=['Forehand','Backhand','Serve','Footwork','Volleys'];
-const AVC=['#4ADE80','#60A5FA','#FBBF24','#F87171','#C084FC','#FB923C','#34D399','#F472B6','#A78BFA','#38BDF8'];
-const SC_COL={'Tennis Practice':'bg','1-on-1':'bb','Fitness':'bo','Mental Health':'bp','Tournament':'bo','Rest Day':'bm'};
+const AV_COLS=['#3DDD7A','#4DA8FF','#F5A524','#FF5757','#A855F7','#FF8A3D','#34D399','#F472B6','#A78BFA','#38BDF8'];
 
-// ── State ──────────────────────────────────────────────────────────
-const S={user:null,tab:'overview',players:[],sessions:[],tournaments:[],matches:[],fees:[],notes:[],skillLogs:[],attendance:[],potm:[],calMonth:new Date(),openTour:null,unsubs:[]};
+// ── STATE ────────────────────────────────
+const S={
+  user:null,tab:'home',
+  players:[],sessions:[],tournaments:[],matches:[],
+  fees:[],notes:[],skillLogs:[],attendance:[],potm:[],requests:[],
+  calMonth:new Date(),openTour:null,unsubs:[]
+};
 
-// ── Utils ──────────────────────────────────────────────────────────
+// ── UTILS ────────────────────────────────
 const $=id=>document.getElementById(id);
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function toast(m,ms=2400){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',ms);}
 function fmtD(ts){if(!ts)return'—';const d=ts?.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
 function fmtDs(ts){if(!ts)return'—';const d=ts?.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});}
-function toTs(v){return v?Timestamp.fromDate(new Date(v)):null;}
 function ini(n){return(n||'').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);}
-function avc(n){let h=0;for(const c of(n||''))h=(h*31+c.charCodeAt(0))%AVC.length;return AVC[h];}
+function avc(n){let h=0;for(const c of(n||''))h=(h*31+c.charCodeAt(0))%AV_COLS.length;return AV_COLS[h];}
 function skc(v){return v>=75?'var(--gr)':v>=50?'var(--go)':'var(--mu2)';}
 function pct(n,d){return d===0?0:Math.round(n/d*100);}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function isA(){return S.user?.type==='admin';}
 function isC(){return S.user?.type==='coach';}
 function isCA(){return isA()||isC();}
 function isPl(){return S.user?.type==='player';}
 function isPa(){return S.user?.type==='parent';}
 function pid(){return S.user?.playerId;}
+function toDate(ts){return ts?.toDate?ts.toDate():new Date(ts||0);}
+function sameDay(a,b){return a.getDate()===b.getDate()&&a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear();}
+function todayRange(){const s=new Date();s.setHours(0,0,0,0);const e=new Date();e.setHours(23,59,59,999);return{s,e};}
+function moRange(){const n=new Date();return{s:new Date(n.getFullYear(),n.getMonth(),1),e:new Date(n.getFullYear(),n.getMonth()+1,0,23,59,59)};}
 
-// ── DB helpers ─────────────────────────────────────────────────────
+// ── DB ───────────────────────────────────
 const dbAdd=(c,d)=>addDoc(collection(db,c),{...d,createdAt:serverTimestamp()});
 const dbSet=(c,id,d)=>setDoc(doc(db,c,id),d,{merge:true});
 const dbUpd=(c,id,d)=>updateDoc(doc(db,c,id),d);
 const dbDel=(c,id)=>deleteDoc(doc(db,c,id));
 
-// ── Listeners ──────────────────────────────────────────────────────
+// ── LISTENERS ────────────────────────────
 function listen(){
-  const cols=['players','sessions','tournaments','matches','fees','notes','skillLogs','attendance','potm'];
-  S.unsubs=cols.map(c=>onSnapshot(collection(db,c),snap=>{S[c]=snap.docs.map(d=>({id:d.id,...d.data()}));if(S.user)render();}));
+  const cols=['players','sessions','tournaments','matches','fees','notes','skillLogs','attendance','potm','requests'];
+  S.unsubs=cols.map(c=>onSnapshot(collection(db,c),snap=>{
+    S[c]=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(S.user)schedRender();
+  }));
 }
 function unlisten(){S.unsubs.forEach(u=>u());S.unsubs=[];}
+let _rt=null;
+function schedRender(){clearTimeout(_rt);_rt=setTimeout(render,100);}
 
-// ── Data helpers ───────────────────────────────────────────────────
+// ── DATA HELPERS ─────────────────────────
 function pAtt(id){const a=S.attendance.filter(x=>x.playerId===id);return a.length?pct(a.filter(x=>x.present).length,a.length):0;}
-function pWL(id){const m=S.matches.filter(x=>x.playerId===id&&(x.result==='W'||x.result==='L'));return{w:m.filter(x=>x.result==='W').length,l:m.filter(x=>x.result==='L').length};}
-function pSkills(id){const l=[...S.skillLogs.filter(x=>x.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));return l[0]?.skills||{Forehand:50,Backhand:50,Serve:50,Footwork:50,Volleys:50};}
-function moRange(){const n=new Date();return{s:new Date(n.getFullYear(),n.getMonth(),1),e:new Date(n.getFullYear(),n.getMonth()+1,0,23,59,59)};}
 function pFee(id){return[...S.fees.filter(x=>x.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0))[0]||null;}
-function isLateUpload(m,t){if(!t?.endDate||!m?.createdAt)return false;const ed=t.endDate?.toDate?t.endDate.toDate():new Date(t.endDate||0);const up=m.createdAt?.toDate?m.createdAt.toDate():new Date(m.createdAt||0);return up>ed||!!m.lateUpload;}
+function pSkills(id){const l=[...S.skillLogs.filter(x=>x.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));return l[0]?.skills||{Forehand:50,Backhand:50,Serve:50,Footwork:50,Volleys:50};}
+function pWL(id){const m=S.matches.filter(x=>x.playerId===id&&(x.result==='W'||x.result==='L'));return{w:m.filter(x=>x.result==='W').length,l:m.filter(x=>x.result==='L').length};}
 
-// ── LOGIN ──────────────────────────────────────────────────────────
+// ── LOGIN STATE ──────────────────────────
 let LT=null,LSID=null;
 
-window.selT=function(b){
-  document.querySelectorAll('.lo').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  LT=b.dataset.t;
+window.selectRole=function(btn){
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  LT=btn.dataset.t;
   LSID=null;
-  $('lpin').value='';
-  $('lerr').style.display='none';
-  $('lpin').classList.remove('err');
-  const sub=$('lsub'),ls=$('lsub-ls');
+  $('step1').style.display='none';
+  $('step2').style.display='block';
+  const c=$('step2-content');
+  $('err-msg').style.display='none';
+  $('pin-inp').value='';
+  $('pin-inp').classList.remove('err');
+
   if(LT==='coach'){
-    $('lsub-lb').textContent='SELECT COACH';
-    ls.innerHTML=COACHES.map(c=>'<button class="lo" data-id="'+c.id+'" onclick="selS(this)">'+c.name+'</button>').join('');
-    sub.style.display='block';
+    c.innerHTML='<div class="ls-label">Select coach</div><div class="coach-list">'+
+      COACHES.map(co=>'<button class="coach-btn" data-id="'+co.id+'" onclick="selCoach(this)">'+co.name.split(' ')[0]+'</button>').join('')+'</div>';
+    $('pin-label').textContent='Coach PIN';
   } else if(LT==='player'||LT==='parent'){
-    $('lsub-lb').textContent=LT==='player'?'SELECT PLAYER':'SELECT YOUR CHILD';
-    // FIX 3: dropdown for large player lists
+    const lbl=LT==='player'?'Select player':'Select child';
     if(S.players.length){
-      ls.innerHTML='<select class="fs" id="lsub-sel" style="width:100%" onchange="LSID=this.value"><option value="">— Choose —</option>'+
-        S.players.map(p=>'<option value="'+p.id+'">'+esc(p.name)+' ('+( p.category||'—')+', Age '+(p.age||'—')+')</option>').join('')+'</select>';
+      c.innerHTML='<div class="ls-label">'+lbl+'</div><select class="fi fs" id="player-sel" onchange="LSID=this.value" style="margin-bottom:14px"><option value="">— Choose —</option>'+
+        S.players.map(p=>'<option value="'+p.id+'">'+esc(p.name)+(p.category?' · '+p.category:'')+'</option>').join('')+'</select>';
     } else {
-      ls.innerHTML='<div style="font-size:13px;color:var(--mu);padding:6px 0">No players yet — ask admin.</div>';
+      c.innerHTML='<div style="font-size:13px;color:var(--mu);margin-bottom:14px">No players added yet.</div>';
     }
-    sub.style.display='block';
+    $('pin-label').textContent=LT==='player'?'Player PIN':'Parent PIN';
   } else {
-    sub.style.display='none';
+    c.innerHTML='';
+    $('pin-label').textContent='Admin PIN';
   }
+  setTimeout(()=>$('pin-inp').focus(),100);
 };
 
-window.selS=function(b){
-  document.querySelectorAll('#lsub-ls .lo').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  LSID=b.dataset.id;
+window.selCoach=function(btn){
+  document.querySelectorAll('.coach-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  LSID=btn.dataset.id;
+};
+
+window.backToStep1=function(){
+  $('step1').style.display='block';
+  $('step2').style.display='none';
+  LT=null;LSID=null;
 };
 
 window.doLogin=function(){
-  const pin=$('lpin').value.trim();
-  const bad=()=>{$('lerr').style.display='block';$('lpin').classList.add('err');$('lpin').value='';};
-  $('lerr').style.display='none';
-  $('lpin').classList.remove('err');
-  if(!LT){toast('Select your role');return;}
+  const pin=$('pin-inp').value.trim();
+  const bad=()=>{$('err-msg').style.display='block';$('pin-inp').classList.add('err');$('pin-inp').value='';};
+  $('err-msg').style.display='none';$('pin-inp').classList.remove('err');
+  if(!LT){toast('Select a role');return;}
+
   if(LT==='admin'){
     if(pin!==ADMIN_PIN){bad();return;}
     S.user={type:'admin',name:'Admin',id:'admin'};
   } else if(LT==='coach'){
     if(!LSID){toast('Select a coach');return;}
-    const c=COACHES.find(x=>x.id===LSID);
-    if(!c||pin!==c.pin){bad();return;}
-    S.user={type:'coach',name:c.name,id:c.id};
+    const co=COACHES.find(x=>x.id===LSID);
+    if(!co||pin!==co.pin){bad();return;}
+    S.user={type:'coach',name:co.name,id:co.id};
   } else if(LT==='player'){
     if(!LSID){toast('Select your name');return;}
     const p=S.players.find(x=>x.id===LSID);
@@ -403,872 +485,1014 @@ window.doLogin=function(){
     if(!p||pin!==p.parentPin){bad();return;}
     S.user={type:'parent',name:'Parent · '+p.name,id:'pa_'+p.id,playerId:p.id};
   }
-  // FIX 6: remember login
-  try{localStorage.setItem('td_user',JSON.stringify(S.user));}catch(e){}
-  $('login').style.display='none';
-  $('app').style.display='flex';
-  $('hdr-u').textContent=S.user.name;
+
+  try{localStorage.setItem('yu_user',JSON.stringify(S.user));}catch(e){}
+  enterApp();
+};
+
+function enterApp(){
+  $('screen-login').style.display='none';
+  $('screen-app').style.display='flex';
+  $('hdr-user').textContent=S.user.name;
+  S.tab='home';
   buildNav();
-  S.tab='overview';
   render();
-};
-
-window.doOut=function(){
-  unlisten();
-  S.user=null;
-  S.tab='overview';
-  try{localStorage.removeItem('td_user');}catch(e){}
-  LT=null;LSID=null;
-  $('lpin').value='';
-  $('lerr').style.display='none';
-  document.querySelectorAll('.lo').forEach(b=>b.classList.remove('on'));
-  $('lsub').style.display='none';
-  $('app').style.display='none';
-  $('login').style.display='flex';
-  listen();
-};
-
-// ── NAV ────────────────────────────────────────────────────────────
-function buildNav(){
-  let tabs=[];
-  if(isCA())       tabs=[{id:'overview',ic:'🏠',lb:'Home'},{id:'players',ic:'👥',lb:'Players'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'fees',ic:'💰',lb:'Fees'}];
-  else if(isPl())  tabs=[{id:'overview',ic:'📊',lb:'Stats'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'notes',ic:'📝',lb:'Notes'}];
-  else if(isPa())  tabs=[{id:'overview',ic:'🏠',lb:'Overview'},{id:'fees',ic:'💰',lb:'Fees'},{id:'calendar',ic:'📅',lb:'Schedule'}];
-
-  const isDesk=window.innerWidth>=768;
-  let html='';
-  if(isDesk) html+='<div id="nav-logo" style="display:block">Tennis Dashboard<em>.</em></div>';
-  html+=tabs.map(t=>'<button class="ni'+(S.tab===t.id?' on':'')+'" onclick="sw(\''+t.id+'\')"><span class="ni-ic">'+t.ic+'</span><span class="ni-lb">'+t.lb+'</span></button>').join('');
-  if(isDesk) html+='<div id="nav-bot"><div style="font-size:12px;color:var(--mu2);margin-bottom:8px;padding:0 6px">'+esc(S.user?.name||'')+'</div><button class="btn btn-s btn-w btn-sm" onclick="doOut()">Sign out</button></div>';
-  $('nav').innerHTML=html;
 }
 
-window.sw=function(t){S.tab=t;buildNav();render();};
+window.signOut=function(){
+  unlisten();
+  S.user=null;
+  try{localStorage.removeItem('yu_user');}catch(e){}
+  LT=null;LSID=null;
+  $('screen-app').style.display='none';
+  $('screen-login').style.display='block';
+  $('step1').style.display='block';
+  $('step2').style.display='none';
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('sel'));
+  // Refresh player list
+  getDocs(collection(db,'players')).then(snap=>{S.players=snap.docs.map(d=>({id:d.id,...d.data()}));listen();});
+};
+
+// ── NAV ──────────────────────────────────
+function buildNav(){
+  let tabs=[];
+  if(isCA())       tabs=[{id:'home',ic:'🏠',lb:'Home'},{id:'players',ic:'👥',lb:'Players'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'fees',ic:'💰',lb:'Fees'}];
+  else if(isPl())  tabs=[{id:'home',ic:'📊',lb:'Stats'},{id:'calendar',ic:'📅',lb:'Schedule'},{id:'matches',ic:'🏆',lb:'Matches'},{id:'notes',ic:'📝',lb:'Notes'}];
+  else if(isPa())  tabs=[{id:'home',ic:'🏠',lb:'Home'},{id:'fees',ic:'💰',lb:'Fees'},{id:'calendar',ic:'📅',lb:'Schedule'}];
+
+  const pending=(S.requests||[]).filter(r=>r.status==='pending').length;
+  const isDesk=window.innerWidth>=768;
+  let h='';
+  if(isDesk) h='<div id="nav-logo">Younirise<span>.</span></div>';
+  h+=tabs.map(t=>{
+    const badge=(t.id==='home'&&isCA()&&pending)?'<span class="ni-badge">'+pending+'</span>':'';
+    return'<button class="ni'+(S.tab===t.id?' on':'')+'" onclick="sw(\''+t.id+'\')"><span class="ni-ic">'+t.ic+'</span><span class="ni-lb">'+t.lb+'</span>'+badge+'</button>';
+  }).join('');
+  if(isDesk) h+='<div id="nav-bot"><div id="nav-bot-user">'+esc(S.user?.name||'')+'</div><button class="btn btn-s btn-w btn-sm" onclick="signOut()">Sign out</button></div>';
+  $('app-nav').innerHTML=h;
+}
+
+window.sw=t=>{S.tab=t;buildNav();render();};
 window.addEventListener('resize',()=>{if(S.user)buildNav();});
 
-// ── ROUTER ─────────────────────────────────────────────────────────
+// ── RENDER ───────────────────────────────
 function render(){
-  const c=$('content');if(!c||!S.user)return;
+  const c=$('app-content');if(!c||!S.user)return;
   if(isCA()){
-    if(S.tab==='overview') vHome();
-    else if(S.tab==='players') vPlayers();
-    else if(S.tab==='matches') vMatches();
-    else if(S.tab==='calendar') vCal();
-    else if(S.tab==='fees') vFees();
+    if(S.tab==='home')vCoachHome();
+    else if(S.tab==='players')vPlayers();
+    else if(S.tab==='calendar')vCalendar();
+    else if(S.tab==='matches')vMatches();
+    else if(S.tab==='fees')vFees();
   } else if(isPl()){
-    if(S.tab==='overview') vStats();
-    else if(S.tab==='matches') vMyMatches();
-    else if(S.tab==='calendar') vMyCal();
-    else if(S.tab==='notes') vMyNotes();
+    if(S.tab==='home')vPlayerHome();
+    else if(S.tab==='calendar')vPlayerCal();
+    else if(S.tab==='matches')vPlayerMatches();
+    else if(S.tab==='notes')vPlayerNotes();
   } else if(isPa()){
-    if(S.tab==='overview') vStats();
-    else if(S.tab==='fees') vParFees();
-    else if(S.tab==='calendar') vMyCal();
+    if(S.tab==='home')vParentHome();
+    else if(S.tab==='fees')vParentFees();
+    else if(S.tab==='calendar')vPlayerCal();
   }
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 // COACH / ADMIN VIEWS
-// ══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 
-function vHome(){
+function vCoachHome(){
   const now=new Date();
-  const active=S.sessions.filter(s=>{
+  const{s:ts,e:te}=todayRange();
+  const{s:ms,e:me}=moRange();
+
+  const todaySess=S.sessions.filter(s=>{
     if(!s.sessionDate)return false;
-    const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
+    const sd=toDate(s.sessionDate);
+    return sd>=ts&&sd<=te;
+  }).sort((a,b)=>(a.reportingTime||'').localeCompare(b.reportingTime||''));
+
+  const active=todaySess.filter(s=>{
+    const sd=toDate(s.sessionDate);
     const rep=new Date(sd);const[rh,rm]=(s.reportingTime||'00:00').split(':');rep.setHours(+rh,+rm);
     const end=new Date(sd);const[eh,em]=(s.endTime||'23:59').split(':');end.setHours(+eh,+em);
     return now>=rep&&now<=end;
   });
-  const{s:ms,e:me}=moRange();
-  const mAtt=S.attendance.filter(a=>{const d=a.date?.toDate?a.date.toDate():new Date(a.date||0);return d>=ms&&d<=me;});
+
+  const mAtt=S.attendance.filter(a=>{const d=toDate(a.date);return d>=ms&&d<=me;});
   const attR=mAtt.length?pct(mAtt.filter(x=>x.present).length,mAtt.length):0;
   const paidCt=S.players.filter(p=>pFee(p.id)?.status==='paid').length;
   const ovCt=S.players.filter(p=>pFee(p.id)?.status==='overdue').length;
-  const potm=calcPOTM();
-  const recent=[...S.matches].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,5);
   const lowAtt=S.players.filter(p=>{const pa=mAtt.filter(a=>a.playerId===p.id);return pa.length>0&&pct(pa.filter(a=>a.present).length,pa.length)<60;});
+  const pending=(S.requests||[]).filter(r=>r.status==='pending');
+  const potm=calcPOTM();
 
   let h='<div class="pg">';
 
-  // FIX 5: Active sessions with bold name + reporting time
+  // Pending requests
+  if(pending.length){
+    h+='<div class="card" style="border-color:var(--go);margin-bottom:14px">';
+    h+='<div style="font-size:11px;font-weight:700;color:var(--go);letter-spacing:.06em;margin-bottom:12px">📨 PENDING REQUESTS ('+pending.length+')</div>';
+    pending.forEach(r=>{
+      const p=S.players.find(x=>x.id===r.playerId);
+      const rd=toDate(r.date);
+      h+='<div class="req-card">';
+      h+='<div style="font-weight:600;font-size:14px">'+(p?.name||'?')+'</div>';
+      h+='<div style="font-size:12px;color:var(--mu2);margin-top:3px">'+(r.type==='rest-day'?'🛌 Rest Day':'🎾 1-on-1')+' · '+fmtDs(rd)+(r.preferredTime?' · '+r.preferredTime:'')+'</div>';
+      if(r.notes) h+='<div style="font-size:12px;color:var(--mu);margin-top:4px;font-style:italic">"'+esc(r.notes)+'"</div>';
+      h+='<div class="req-actions">';
+      h+='<button class="btn btn-p btn-sm" onclick="approveReq(\''+r.id+'\',\''+r.type+'\',\''+r.playerId+'\')">✓ Approve</button>';
+      h+='<button class="btn btn-sm" style="background:var(--red);color:var(--re);border:1px solid var(--re)" onclick="declineReq(\''+r.id+'\')">✕ Decline</button>';
+      h+='</div></div>';
+    });
+    h+='</div>';
+  }
+
+  // Active sessions
   active.forEach(s=>{
     const nm=(s.playerIds||[]).map(id=>S.players.find(x=>x.id===id)?.name?.split(' ')[0]||'').filter(Boolean).join(', ');
-    h+='<div class="sb" onclick="openAtt(\''+s.id+'\')"><div class="sb-t">🟢 Active: '+esc(s.type)+'</div><div class="sb-s"><strong>'+esc(nm)+'</strong> · Report: <strong>'+s.reportingTime+'</strong> – End: '+s.endTime+'</div><div class="sb-a">Tap to mark attendance →</div></div>';
+    h+='<div class="live-banner" onclick="openAtt(\''+s.id+'\')">';
+    h+='<div class="live-title"><span class="live-dot"></span>LIVE: '+esc(s.type)+'</div>';
+    h+='<div class="live-sub"><strong>'+esc(nm||'All players')+'</strong> · Report <strong>'+s.reportingTime+'</strong> → '+s.endTime+'</div>';
+    h+='<div class="live-cta">Tap to mark attendance →</div>';
+    h+='</div>';
   });
 
-  h+='<div class="sg">'
-    +'<div class="sc"><div class="sv">'+S.players.length+'</div><div class="sl">Players</div></div>'
-    +'<div class="sc"><div class="sv" style="color:'+(attR>=80?'var(--gr)':'var(--go)')+'">'+attR+'%</div><div class="sl">Avg Attend.</div></div>'
-    +'<div class="sc"><div class="sv" style="color:var(--gr)">'+paidCt+'/'+S.players.length+'</div><div class="sl">Fees Paid</div></div>'
-    +'<div class="sc"><div class="sv">'+S.matches.length+'</div><div class="sl">Matches</div></div>'
-    +'</div>';
+  // Stats
+  h+='<div class="sg">';
+  h+='<div class="sc"><div class="sv">'+S.players.length+'</div><div class="sl">Players</div></div>';
+  h+='<div class="sc"><div class="sv" style="color:'+(attR>=80?'var(--gr)':'var(--go)')+'">'+attR+'%</div><div class="sl">Attendance</div></div>';
+  h+='<div class="sc"><div class="sv" style="color:var(--gr)">'+paidCt+'/'+S.players.length+'</div><div class="sl">Fees Paid</div></div>';
+  h+='<div class="sc"><div class="sv">'+S.matches.length+'</div><div class="sl">Matches</div></div>';
+  h+='</div>';
 
   if(ovCt) h+='<div class="al al-r">⚠️ '+ovCt+' player'+(ovCt>1?'s':'')+' have overdue fees</div>';
   if(lowAtt.length) h+='<div class="al al-o">📉 Low attendance: '+lowAtt.map(p=>p.name.split(' ')[0]).join(', ')+'</div>';
 
-  if(potm) h+='<div class="potm"><div style="font-size:10px;color:var(--go);font-weight:700;letter-spacing:.08em;margin-bottom:8px">🏅 PLAYER OF THE MONTH</div><div style="font-family:\'DM Serif Display\',serif;font-size:22px">'+esc(potm.name)+'</div><div style="font-size:12px;color:var(--mu);margin-top:4px">Score '+potm.score+'/100</div></div>';
+  // POTM
+  if(potm) h+='<div class="potm"><div style="font-size:10px;color:var(--go);font-weight:700;letter-spacing:.08em;margin-bottom:8px">🏅 PLAYER OF THE MONTH</div><div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800">'+esc(potm.name)+'</div><div style="font-size:12px;color:var(--mu);margin-top:4px">Score: '+potm.score+'/100</div></div>';
 
-  if(recent.length){
-    h+='<div class="st">Recent Matches</div>';
-    recent.forEach(m=>{
-      const p=S.players.find(x=>x.id===m.playerId),t=S.tournaments.find(x=>x.id===m.tournamentId);
-      h+='<div class="me"><div class="me-top"><div><div style="font-weight:600;font-size:14px">'+(p?.name||'?')+'</div><div style="font-size:12px;color:var(--mu);margin-top:3px">'+(t?.name||'—')+' · '+(m.round||'')+'</div><div style="font-size:12px;color:var(--mu);margin-top:2px">'+esc(m.scoreDisplay||'')+'</div></div><span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div></div>';
-    });
-  }
-
-  h+='<div class="st">Quick Actions</div>'
-    +'<button class="btn btn-p btn-w" onclick="openAddSess()">＋ Add Practice Session</button>'
-    +'<div style="height:8px"></div>'
-    +'<button class="btn btn-s btn-w" onclick="sw(\'players\')">View All Players →</button>';
-  if(isA()) h+='<div style="height:8px"></div><button class="btn btn-s btn-w" onclick="sw(\'fees\')">Manage Fees →</button>';
-  h+='</div>';
-  $('content').innerHTML=h;
-}
-
-// ── PLAYERS ────────────────────────────────────────────────────────
-function vPlayers(){
-  const sorted=[...S.players].sort((a,b)=>a.name.localeCompare(b.name));
-  let h='<div class="pg"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-family:\'DM Serif Display\',serif;font-size:20px">'+S.players.length+' Players</div>'+(isA()?'<button class="btn btn-p btn-sm" onclick="openAddPl()">＋ Add</button>':'')+'</div>';
-  if(!sorted.length){
-    h+='<div class="empty"><div class="empty-ic">📋</div>No players yet'+(isA()?'<br><br><button class="btn btn-p" onclick="openAddPl()">Add First Player</button>':'')+'</div>';
+  // Today's schedule
+  h+='<div class="st">Today\'s Schedule</div>';
+  if(todaySess.length){
+    todaySess.forEach(s=>h+=sessCard(s,true,true));
   } else {
-    sorted.forEach(p=>{
-      const col=avc(p.name),att=pAtt(p.id),wl=pWL(p.id),fee=pFee(p.id);
-      h+='<div class="pc" onclick="openProf(\''+p.id+'\')">'
-        +'<div class="av" style="background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>'
-        +'<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--mu);margin-top:2px">'+(p.category||'—')+' · Age '+(p.age||'—')+' · '+wl.w+'W '+wl.l+'L</div></div>'
-        +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0"><span class="b bm">'+att+'%</span><span class="b '+(fee?.status==='paid'?'bg':fee?.status==='overdue'?'br':'bo')+'">'+(fee?.status||'—')+'</span></div>'
-        +'</div>';
-    });
+    h+='<div class="al al-b">📅 No sessions today</div>';
   }
+
+  h+='<div class="st">Quick Actions</div>';
+  h+='<button class="btn btn-p btn-w" onclick="openAddSess()">＋ Add Session</button>';
+  h+='<div style="height:8px"></div>';
+  h+='<button class="btn btn-s btn-w" onclick="sw(\'players\')">View All Players →</button>';
+  if(isA()){h+='<div style="height:8px"></div>';h+='<button class="btn btn-s btn-w" onclick="sw(\'fees\')">Manage Fees →</button>';}
   h+='</div>';
-  $('content').innerHTML=h;
+  $('app-content').innerHTML=h;
 }
 
-// ── PLAYER PROFILE MODAL ───────────────────────────────────────────
-window.openProf=function(id){
-  const p=S.players.find(x=>x.id===id);if(!p)return;
-  const col=avc(p.name),att=pAtt(id),wl=pWL(id);
-  const tot=wl.w+wl.l,wp=tot?pct(wl.w,tot):0;
-  const sk=pSkills(id),avgSk=Math.round(Object.values(sk).reduce((a,b)=>a+b,0)/5);
-  const notes=[...S.notes.filter(n=>n.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-  const slogs=[...S.skillLogs.filter(x=>x.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-  const fee=pFee(id);
-  const now=new Date(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-  const{s:ms,e:me}=moRange();
-  const moA=S.attendance.filter(a=>{const d=a.date?.toDate?a.date.toDate():new Date(a.date||0);return a.playerId===id&&d>=ms&&d<=me;});
-
-  // FIX 10: back button at top
-  let h='<div class="mh"></div>'
-    +'<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">'
-    +'<button onclick="closeM()" style="background:var(--card2);border:1px solid var(--bdr2);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;color:var(--mu2);flex-shrink:0;line-height:1">‹</button>'
-    +'<div class="av" style="width:52px;height:52px;font-size:18px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>'
-    +'<div><div style="font-family:\'DM Serif Display\',serif;font-size:20px">'+esc(p.name)+'</div>'
-    +'<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">'
-    +'<span class="b bb">'+(p.category||'—')+'</span>'
-    +'<span class="b bm">Age '+(p.age||'—')+'</span>'
-    +(p.parentName?'<span class="b bm">👪 '+esc(p.parentName)+'</span>':'')
-    +'<span class="b '+(fee?.status==='paid'?'bg':fee?.status==='overdue'?'br':'bo')+'">'+(fee?.status||'no fee set')+'</span>'
-    +'</div></div>'
-    +'</div>';
-
-  h+='<div class="sg" style="grid-template-columns:repeat(3,1fr)">'
-    +'<div class="sc" style="padding:11px;text-align:center"><div class="sv" style="font-size:22px;color:'+(att>=80?'var(--gr)':'var(--go)')+'">'+att+'%</div><div class="sl">Attend.</div></div>'
-    +'<div class="sc" style="padding:11px;text-align:center"><div class="sv" style="font-size:20px">'+wl.w+'W '+wl.l+'L</div><div class="sl">Record</div></div>'
-    +'<div class="sc" style="padding:11px;text-align:center"><div class="sv" style="font-size:22px;color:var(--gr)">'+wp+'%</div><div class="sl">Win %</div></div>'
-    +'</div>';
-  h+='<div class="wl"><div class="wl-f" style="width:'+wp+'%"></div></div>';
-
-  h+='<div class="st">Skills <span style="float:right;font-weight:400;color:var(--mu2);font-size:11px">avg '+avgSk+'</span></div>';
-  SKILLS.forEach(s=>{
-    const v=sk[s]||50;
-    h+='<div class="sk-row"><div class="sk-hd"><span style="font-size:13px;color:var(--mu2)">'+s+'</span><span style="font-size:13px;font-weight:700;color:'+skc(v)+'">'+v+'</span></div><div class="sk-tr"><div class="sk-fl" style="width:'+v+'%;background:'+skc(v)+'"></div></div></div>';
-  });
-  if(slogs.length) h+='<div style="font-size:11px;color:var(--mu);margin-bottom:4px">Last updated by '+esc(slogs[0].updatedBy||'—')+' · '+fmtD(slogs[0].createdAt)+'</div>';
-  h+='<button class="btn btn-s btn-w" style="margin:8px 0 0" onclick="openSkEd(\''+id+'\')">✏️ Update Skills</button>';
-
-  // FIX 4: attendance dots not clickable for players/parents — coaches only
-  h+='<div class="st">This Month\'s Attendance <span style="float:right;font-weight:400;color:var(--mu2);font-size:11px">'+moA.filter(x=>x.present).length+'/'+moA.length+'</span></div>';
-  h+='<div class="att-w">';
-  for(let d=1;d<=dim;d++){
-    const rec=moA.find(a=>{const ad=a.date?.toDate?a.date.toDate():new Date(a.date||0);return ad.getDate()===d;});
-    const cls=rec?(rec.present?'P':'A'):'N';
-    const ds=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    // Only coaches/admins can toggle
-    h+='<div class="ad '+cls+'" title="Day '+d+'"'+(isCA()?' onclick="togA(\''+id+'\',\''+ds+'\',this)"':'')+' style="'+(isCA()?'cursor:pointer':'cursor:default')+'"></div>';
-  }
+// ── SESSION CARD ─────────────────────────
+function sessCard(s,showMark,showDelete){
+  const nm=(s.playerIds||[]).map(id=>S.players.find(x=>x.id===id)?.name?.split(' ')[0]||'').filter(Boolean);
+  const isLate=s.lateEntry;
+  let h='<div class="sess-card'+(isLate?' late':'')+(showMark?' live':'')+'"">';
+  h+='<div class="sess-top">';
+  h+='<div class="sess-info">';
+  h+='<span class="b '+(SESS_COL[s.type]||'bm')+'">'+esc(s.type)+'</span>';
+  if(isLate) h+='<span class="b bo" style="margin-left:6px">⚠️ LATE</span>';
+  h+='<div class="sess-players">'+esc(nm.join(', ')||'All players')+'</div>';
+  h+='<div class="sess-time">📍 Report <strong>'+s.reportingTime+'</strong> · '+s.startTime+'–'+s.endTime+'</div>';
+  if(s.notes) h+='<div class="sess-note">'+esc(s.notes)+'</div>';
+  if(s.sessionNote) h+='<div class="sess-note" style="border-left-color:var(--bl);margin-top:6px">📝 '+esc(s.sessionNote)+'</div>';
   h+='</div>';
-
-  h+='<div class="st">Coach Notes</div>';
   if(isCA()){
-    h+='<div style="margin-bottom:12px">'
-      +'<textarea class="fta" id="nn-'+id+'" placeholder="Add note about '+esc(p.name.split(' ')[0])+'…" style="margin-bottom:8px"></textarea>'
-      +'<div style="display:flex;align-items:center;gap:8px">'
-      +'<div id="stars-'+id+'">'+[1,2,3,4,5].map(i=>'<span style="font-size:20px;cursor:pointer;color:var(--bdr2)" data-v="'+i+'" onclick="setStar(\''+id+'\','+i+')">★</span>').join('')+'</div>'
-      +'<button class="btn btn-p btn-sm" style="margin-left:auto" onclick="addNote(\''+id+'\')">Add Note</button>'
-      +'</div></div>';
+    h+='<div class="sess-actions">';
+    if(showMark) h+='<button class="btn btn-p btn-sm" onclick="openAtt(\''+s.id+'\')">Mark</button>';
+    if(showDelete) h+='<button class="btn-del" onclick="delSess(\''+s.id+'\')">🗑</button>';
+    h+='</div>';
   }
-  if(!notes.length){
-    h+='<div class="empty" style="padding:20px"><div class="empty-ic">📋</div>No notes yet</div>';
-  } else {
-    notes.slice(0,8).forEach(n=>{
-      const st=n.rating?'★'.repeat(n.rating)+'<span style="color:var(--bdr2)">★</span>'.repeat(5-n.rating):'';
-      h+='<div class="ne"><div class="ne-m">'+esc(n.coach||'Coach')+' · '+fmtD(n.createdAt)+'</div><div class="ne-t">'+esc(n.text)+'</div>'+(st?'<div style="color:var(--go);font-size:13px;margin-top:4px">'+st+'</div>':'')+'</div>';
-    });
-    if(notes.length>8) h+='<div style="font-size:12px;color:var(--mu);text-align:center;margin-top:6px">+'+( notes.length-8)+' more</div>';
-  }
+  h+='</div></div>';
+  return h;
+}
 
-  if(isA()) h+='<div class="div"></div><div style="display:flex;gap:8px"><button class="btn btn-s" style="flex:1" onclick="openEditPl(\''+id+'\')">Edit Player</button><button class="btn btn-d" style="flex:1" onclick="delPl(\''+id+'\',\''+esc(p.name)+'\')">Delete</button></div>';
-
-  openM(h);
-};
-
-const STARS={};
-window.setStar=function(id,v){STARS[id]=v;const c=$('stars-'+id);if(!c)return;c.querySelectorAll('span').forEach((s,i)=>s.style.color=i<v?'var(--go)':'var(--bdr2)');};
-window.addNote=async function(id){const ta=$('nn-'+id);const t=ta?.value?.trim();if(!t){toast('Write something first');return;}await dbAdd('notes',{playerId:id,text:t,coach:S.user.name,rating:STARS[id]||0});ta.value='';STARS[id]=0;if($('stars-'+id))$('stars-'+id).querySelectorAll('span').forEach(s=>s.style.color='var(--bdr2)');toast('Note added ✓');};
-
-window.togA=async function(id,ds,el){
+window.delSess=async function(sid){
   if(!isCA())return;
-  const ex=S.attendance.find(a=>{const d=a.date?.toDate?a.date.toDate():new Date(a.date||0);const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return a.playerId===id&&k===ds;});
-  if(ex){const np=!ex.present;await dbUpd('attendance',ex.id,{present:np,markedBy:S.user.name});el.className='ad '+(np?'P':'A');}
-  else{await dbAdd('attendance',{playerId:id,date:Timestamp.fromDate(new Date(ds)),present:true,markedBy:S.user.name});el.className='ad P';}
+  if(!confirm('Delete this session?'))return;
+  await dbDel('sessions',sid);
+  S.sessions=S.sessions.filter(x=>x.id!==sid);
+  toast('Session deleted');closeM();render();
 };
 
-window.openSkEd=function(id){
-  const sk=pSkills(id);
-  let h='<div class="mh"></div><div class="mt">Update Skills</div><div class="ms">Logged with your name · '+esc(S.user.name)+'</div>';
-  SKILLS.forEach(s=>{const v=sk[s]||50;h+='<div class="sk-row"><div class="sk-hd"><span style="font-size:13px;color:var(--mu2)">'+s+'</span><span style="font-size:13px;font-weight:700" id="sv-'+s+'">'+v+'</span></div><input type="range" min="0" max="100" value="'+v+'" data-sk="'+s+'" oninput="document.getElementById(\'sv-'+s+'\').textContent=this.value"></div>';});
-  h+='<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveSk(\''+id+'\')">Save Skills</button></div>';
+// ── PLAYERS ──────────────────────────────
+function vPlayers(){
+  let h='<div class="pg">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800">Players</div>';
+  if(isA()) h+='<button class="btn btn-p btn-sm" onclick="openAddPlayer()">＋ Add</button>';
+  h+='</div>';
+
+  if(!S.players.length){
+    h+='<div class="empty"><div class="empty-ic">👥</div><div class="empty-txt">No players yet.'+(isA()?'<br><br><button class="btn btn-p" onclick="openAddPlayer()">Add First Player</button>':'')+'</div></div>';
+  } else {
+    h+='<div class="card" style="padding:0;overflow:hidden">';
+    S.players.forEach(p=>{
+      const att=pAtt(p.id);const fee=pFee(p.id);const col=avc(p.name);
+      h+='<div class="player-row" style="padding:12px 14px" onclick="openPlayer(\''+p.id+'\')">';
+      h+='<div class="av" style="width:40px;height:40px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>';
+      h+='<div style="flex:1;min-width:0">';
+      h+='<div class="player-name">'+esc(p.name)+'</div>';
+      h+='<div class="player-meta">'+(p.category||'—')+' · Age '+(p.age||'—')+'&nbsp;&nbsp;Att: <span style="color:'+(att>=80?'var(--gr)':att>=60?'var(--go)':'var(--re)')+'">'+att+'%</span></div>';
+      h+='</div>';
+      h+='<span class="b '+(fee?.status==='paid'?'bg':fee?.status==='overdue'?'br':fee?.status==='pending-verification'?'bb':'bm')+'">'+(fee?.status||'—')+'</span>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+  $('app-content').innerHTML=h;
+}
+
+window.openPlayer=function(id){
+  const p=S.players.find(x=>x.id===id);if(!p)return;
+  const col=avc(p.name);
+  const att=pAtt(id);const{w,l}=pWL(id);const sk=pSkills(id);
+  const notes=[...S.notes.filter(n=>n.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,5);
+  const fee=pFee(id);
+  const mAtt=S.attendance.filter(a=>a.playerId===id);
+  const moAtt=mAtt.filter(a=>{const d=toDate(a.date);const{s,e}=moRange();return d>=s&&d<=e;});
+
+  let h='<div class="mh"></div>';
+  h+='<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">';
+  h+='<div class="av" style="width:54px;height:54px;font-size:18px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>';
+  h+='<div><div style="font-family:\'Syne\',sans-serif;font-size:18px;font-weight:800">'+esc(p.name)+'</div>';
+  h+='<div style="font-size:12px;color:var(--mu2);margin-top:2px">'+(p.category||'—')+' · Age '+(p.age||'—')+(p.coachId?' · '+COACHES.find(c=>c.id===p.coachId)?.name?.split(' ')[0]:'')+'</div></div>';
+  h+='</div>';
+
+  h+='<div class="sg" style="margin-bottom:14px">';
+  h+='<div class="sc"><div class="sv" style="color:'+(att>=80?'var(--gr)':att>=60?'var(--go)':'var(--re)')+'">'+att+'%</div><div class="sl">Attendance</div></div>';
+  h+='<div class="sc"><div class="sv">'+w+'/'+l+'</div><div class="sl">W/L</div></div>';
+  h+='<div class="sc"><div class="sv">'+moAtt.length+'</div><div class="sl">This Month</div></div>';
+  h+='<div class="sc"><div class="sv" style="color:'+(fee?.status==='paid'?'var(--gr)':fee?.status==='overdue'?'var(--re)':'var(--mu)')+'">₹'+(fee?.amount||'—')+'</div><div class="sl">Fees</div></div>';
+  h+='</div>';
+
+  h+='<div class="mt" style="font-size:15px;margin-bottom:10px">Skills</div>';
+  SKILLS.forEach(s=>{const v=sk[s]||0;h+='<div class="sk-row"><div class="sk-hd"><span>'+s+'</span><span style="font-weight:700;color:'+skc(v)+'">'+v+'</span></div><div class="sk-tr"><div class="sk-fl" style="width:'+v+'%;background:'+skc(v)+'"></div></div></div>';});
+
+  if(isA()||isC()){
+    h+='<div style="display:flex;gap:8px;margin-top:14px;margin-bottom:4px">';
+    h+='<button class="btn btn-s btn-sm" style="flex:1" onclick="openUpdateSkills(\''+id+'\')">Update Skills</button>';
+    h+='<button class="btn btn-s btn-sm" style="flex:1" onclick="openAddNote(\''+id+'\')">Add Note</button>';
+    if(isA()) h+='<button class="btn btn-s btn-sm" style="flex:1" onclick="openEditPlayer(\''+id+'\')">Edit</button>';
+    h+='</div>';
+  }
+
+  if(notes.length){
+    h+='<div class="mt" style="font-size:14px;margin-top:14px;margin-bottom:8px">Latest Notes</div>';
+    notes.forEach(n=>{
+      const stars=n.rating?'★'.repeat(n.rating)+'<span style="color:var(--bdr2)">★</span>'.repeat(5-n.rating):'';
+      h+='<div class="note-card"><div class="note-meta">'+esc(n.coach||'Coach')+' · '+fmtD(n.createdAt)+'</div><div class="note-text">'+esc(n.text)+'</div>'+(stars?'<div style="color:var(--go);font-size:13px;margin-top:4px">'+stars+'</div>':'')+'</div>';
+    });
+  }
   openM(h);
 };
-window.saveSk=async function(id){const sk={};document.querySelectorAll('input[type=range][data-sk]').forEach(e=>{sk[e.dataset.sk]=+e.value;});await dbAdd('skillLogs',{playerId:id,skills:sk,updatedBy:S.user.name});toast('Skills updated ✓');closeM();};
 
-window.openAddPl=function(){
-  openM('<div class="mh"></div><div class="mt">Add Player</div>'
-    +'<div class="fg"><label class="fl">Full Name</label><input class="fi" id="np-nm" placeholder="Player\'s full name"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">Age</label><input class="fi" id="np-ag" type="number" min="4" max="25" placeholder="14"></div><div class="fg"><label class="fl">Category</label><select class="fs" id="np-ct">'+CATS.map(c=>'<option>'+c+'</option>').join('')+'</select></div></div>'
-    +'<div class="fg"><label class="fl">Parent Name</label><input class="fi" id="np-pn" placeholder="Parent full name"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">Player PIN</label><input class="fi" id="np-pp" type="password" maxlength="4" placeholder="4 digits" inputmode="numeric"></div><div class="fg"><label class="fl">Parent PIN</label><input class="fi" id="np-prp" type="password" maxlength="4" placeholder="4 digits" inputmode="numeric"></div></div>'
-    +'<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveNewPl()">Add Player</button></div>');
+window.openAddPlayer=function(){
+  openM('<div class="mh"></div><div class="mt">Add Player</div>'+
+    '<div class="fg"><label class="fl">Full Name</label><input class="fi" id="ap-nm" placeholder="e.g. Aryan Sharma"></div>'+
+    '<div class="fr2"><div class="fg"><label class="fl">Age</label><input class="fi" id="ap-age" type="number" placeholder="14"></div><div class="fg"><label class="fl">Category</label><select class="fi fs" id="ap-cat"><option>U10</option><option>U12</option><option>U14</option><option>U16</option><option>U18</option><option>Open</option></select></div></div>'+
+    '<div class="fr2"><div class="fg"><label class="fl">Player PIN</label><input class="fi" id="ap-pp" type="password" maxlength="4" placeholder="4 digits" inputmode="numeric"></div><div class="fg"><label class="fl">Parent PIN</label><input class="fi" id="ap-pa" type="password" maxlength="4" placeholder="4 digits" inputmode="numeric"></div></div>'+
+    '<div class="fg"><label class="fl">Parent Name (optional)</label><input class="fi" id="ap-pn" placeholder="e.g. Suresh Sharma"></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveNewPlayer()">Add Player</button></div>');
 };
-window.saveNewPl=async function(){
-  const nm=$('np-nm')?.value?.trim();if(!nm){toast('Name required');return;}
-  const pp=$('np-pp')?.value?.trim(),prp=$('np-prp')?.value?.trim();
-  if(!pp||pp.length!==4||!prp||prp.length!==4){toast('Both PINs must be 4 digits');return;}
-  await dbAdd('players',{name:nm,age:+$('np-ag').value||0,category:$('np-ct').value,parentName:$('np-pn')?.value?.trim()||'',playerPin:pp,parentPin:prp});
+
+window.saveNewPlayer=async function(){
+  const nm=$('ap-nm')?.value?.trim();
+  const pp=$('ap-pp')?.value?.trim();const pa=$('ap-pa')?.value?.trim();
+  if(!nm){toast('Enter a name');return;}
+  if(!pp||pp.length!==4||!pa||pa.length!==4){toast('PINs must be 4 digits');return;}
+  await dbAdd('players',{name:nm,age:parseInt($('ap-age')?.value)||null,category:$('ap-cat')?.value||'U18',parentName:$('ap-pn')?.value||'',playerPin:pp,parentPin:pa});
   toast('Player added ✓');closeM();
 };
-window.openEditPl=function(id){
+
+window.openEditPlayer=function(id){
   const p=S.players.find(x=>x.id===id);if(!p)return;
-  openM('<div class="mh"></div><div class="mt">Edit Player</div>'
-    +'<div class="fg"><label class="fl">Full Name</label><input class="fi" id="ep-nm" value="'+esc(p.name||'')+'"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">Age</label><input class="fi" id="ep-ag" type="number" value="'+(p.age||'')+'"></div><div class="fg"><label class="fl">Category</label><select class="fs" id="ep-ct">'+CATS.map(c=>'<option '+(c===p.category?'selected':'')+'>'+c+'</option>').join('')+'</select></div></div>'
-    +'<div class="fg"><label class="fl">Parent Name</label><input class="fi" id="ep-pn" value="'+esc(p.parentName||'')+'"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">New Player PIN</label><input class="fi" id="ep-pp" type="password" maxlength="4" placeholder="Leave blank to keep" inputmode="numeric"></div><div class="fg"><label class="fl">New Parent PIN</label><input class="fi" id="ep-prp" type="password" maxlength="4" placeholder="Leave blank to keep" inputmode="numeric"></div></div>'
-    +'<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveEditPl(\''+id+'\')">Save</button></div>');
+  openM('<div class="mh"></div><div class="mt">Edit Player</div>'+
+    '<div class="fg"><label class="fl">Full Name</label><input class="fi" id="ep-nm" value="'+esc(p.name)+'"></div>'+
+    '<div class="fr2"><div class="fg"><label class="fl">Age</label><input class="fi" id="ep-age" type="number" value="'+(p.age||'')+'"></div><div class="fg"><label class="fl">Category</label><select class="fi fs" id="ep-cat">'+['U10','U12','U14','U16','U18','Open'].map(c=>'<option'+(c===p.category?' selected':'')+'>'+c+'</option>').join('')+'</select></div></div>'+
+    '<div class="fg"><label class="fl">Parent Name</label><input class="fi" id="ep-pn" value="'+esc(p.parentName||'')+'"></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveEditPlayer(\''+id+'\')">Save</button></div>'+
+    '<div style="margin-top:12px"><button class="btn btn-d btn-w" onclick="confirmDeletePlayer(\''+id+'\',\''+esc(p.name)+'\')">Delete Player</button></div>');
 };
-window.saveEditPl=async function(id){
-  const d={name:$('ep-nm').value.trim(),age:+$('ep-ag').value||0,category:$('ep-ct').value,parentName:$('ep-pn').value.trim()};
-  const pp=$('ep-pp').value.trim(),prp=$('ep-prp').value.trim();
-  if(pp){if(pp.length!==4){toast('Player PIN 4 digits');return;}d.playerPin=pp;}
-  if(prp){if(prp.length!==4){toast('Parent PIN 4 digits');return;}d.parentPin=prp;}
-  await dbSet('players',id,d);toast('Player updated ✓');closeM();
-};
-window.delPl=function(id,nm){if(!confirm('Delete '+nm+'?'))return;dbDel('players',id).then(()=>{toast('Deleted');closeM();});};
 
-// ── MATCHES ────────────────────────────────────────────────────────
-function vMatches(){
-  const sorted=[...S.tournaments].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-  let h='<div class="pg"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-family:\'DM Serif Display\',serif;font-size:20px">Tournaments</div><button class="btn btn-p btn-sm" onclick="openAddTour()">＋ New</button></div>';
-  if(!sorted.length) h+='<div class="empty"><div class="empty-ic">📋</div>No tournaments yet.</div>';
-  else sorted.forEach(t=>h+=tourCard(t,false));
-  h+='</div>';
-  $('content').innerHTML=h;
+window.saveEditPlayer=async function(id){
+  await dbSet('players',id,{name:$('ep-nm').value.trim(),age:parseInt($('ep-age').value)||null,category:$('ep-cat').value,parentName:$('ep-pn').value.trim()});
+  toast('Saved ✓');closeM();
+};
+
+window.confirmDeletePlayer=function(id,nm){
+  if(!confirm('Delete '+nm+'? This cannot be undone.'))return;
+  dbDel('players',id).then(()=>{toast('Deleted');closeM();});
+};
+
+window.openUpdateSkills=function(id){
+  const p=S.players.find(x=>x.id===id);if(!p)return;
+  const sk=pSkills(id);
+  let h='<div class="mh"></div><div class="mt">Update Skills</div><div class="ms">'+esc(p.name.split(' ')[0])+'</div>';
+  SKILLS.forEach(s=>{
+    h+='<div class="fg"><label class="fl">'+s+' <span id="sv-'+s+'" style="color:var(--gr)">'+sk[s]+'</span></label>';
+    h+='<input type="range" class="fi" min="0" max="100" value="'+sk[s]+'" oninput="$(\'sv-'+s+'\').textContent=this.value" style="padding:4px 0;background:none;border:none;accent-color:var(--gr)" id="sk-'+s+'"></div>';
+  });
+  h+='<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveSkills(\''+id+'\')">Save</button></div>';
+  openM(h);
+};
+
+window.saveSkills=async function(id){
+  const sk={};SKILLS.forEach(s=>{sk[s]=parseInt($('sk-'+s).value)||50;});
+  await dbAdd('skillLogs',{playerId:id,skills:sk,updatedBy:S.user.name});
+  toast('Skills updated ✓');closeM();
+};
+
+window.openAddNote=function(id){
+  const p=S.players.find(x=>x.id===id);if(!p)return;
+  openM('<div class="mh"></div><div class="mt">Add Note</div><div class="ms">'+esc(p.name.split(' ')[0])+'</div>'+
+    '<div class="fg"><label class="fl">Note</label><textarea class="fi fta" id="nt-txt" placeholder="Session observations, technique notes…"></textarea></div>'+
+    '<div class="fg"><label class="fl">Rating</label><select class="fi fs" id="nt-rat"><option value="">No rating</option><option value="1">⭐ 1</option><option value="2">⭐⭐ 2</option><option value="3">⭐⭐⭐ 3</option><option value="4">⭐⭐⭐⭐ 4</option><option value="5">⭐⭐⭐⭐⭐ 5</option></select></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveNote(\''+id+'\')">Save Note</button></div>');
+};
+
+window.saveNote=async function(id){
+  const txt=$('nt-txt')?.value?.trim();if(!txt){toast('Write a note first');return;}
+  await dbAdd('notes',{playerId:id,text:txt,rating:parseInt($('nt-rat')?.value)||0,coach:S.user.name});
+  toast('Note saved ✓');closeM();
+};
+
+// ── CALENDAR ─────────────────────────────
+function calStripes(y,mo,d,playerOnly){
+  const colors=[];
+  const src=playerOnly?S.sessions.filter(s=>(s.playerIds||[]).includes(pid())):S.sessions;
+  src.forEach(s=>{
+    if(!s.sessionDate)return;
+    const sd=toDate(s.sessionDate);
+    if(sd.getDate()===d&&sd.getMonth()===mo&&sd.getFullYear()===y){
+      const c=SESS_HEX[s.type]||'#5C5C56';
+      if(!colors.includes(c))colors.push(c);
+    }
+  });
+  S.tournaments.forEach(t=>{
+    if(!t.startDate||!t.endDate)return;
+    const ts=toDate(t.startDate);const te=toDate(t.endDate);
+    ts.setHours(0,0,0,0);te.setHours(23,59,59,999);
+    const day=new Date(y,mo,d);
+    if(day>=ts&&day<=te&&!colors.includes('#F5A524'))colors.push('#F5A524');
+  });
+  if(!colors.length)return'';
+  return'<div class="cal-stripes">'+colors.slice(0,4).map(c=>'<div class="cal-stripe" style="background:'+c+'"></div>').join('')+'</div>';
 }
 
-function tourCard(t,forPl){
-  const tM=S.matches.filter(m=>m.tournamentId===t.id&&(!forPl||m.playerId===pid()));
-  const w=tM.filter(m=>m.result==='W').length;
-  const op=S.openTour===t.id;
-  const sd=t.startDate?.toDate?t.startDate.toDate():new Date(t.startDate||0);
-  const ed=t.endDate?.toDate?t.endDate.toDate():new Date(t.endDate||0);
-  let h='<div class="tc">'
-    +'<div class="th" onclick="togTour(\''+t.id+'\')">'
-    +'<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:15px;margin-bottom:4px">'+esc(t.name)+'</div>'
-    +'<div style="font-size:12px;color:var(--mu)"><span class="b bb" style="font-size:10px;margin-right:6px">'+(t.circuit||'—')+'</span>'+(t.category||'')+' · '+esc(t.location||'')+'</div>'
-    +'<div style="font-size:11px;color:var(--mu);margin-top:3px">'+fmtDs(sd)+' – '+fmtDs(ed)+'</div></div>'
-    +'<div style="text-align:right;flex-shrink:0"><div style="font-size:13px;font-weight:700">'+tM.length+'M</div><div style="font-size:11px;color:var(--gr)">'+w+'W</div></div>'
-    +'<span class="chv'+(op?' op':'')+'">▼</span>'
-    +'</div>';
-  if(op) h+=tourBody(t,tM,forPl);
-  h+='</div>';
-  return h;
-}
-
-function tourBody(t,tM,forPl){
-  let h='<div class="tb">';
-  if(!tM.length) h+='<div style="font-size:13px;color:var(--mu);text-align:center;padding:10px">No matches yet</div>';
-  else {
-    const sorted=[...tM].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-    sorted.forEach(m=>{
-      const p=S.players.find(x=>x.id===m.playerId);
-      const late=isLateUpload(m,t);
-      h+='<div class="me" style="margin-bottom:8px"><div class="me-top">'
-        +'<div><div style="font-weight:600;font-size:14px">'+(forPl?'':esc(p?.name||'?')+' · ')+(m.matchType==='singles'?'S':'D')+'</div>'
-        +'<div style="font-size:12px;color:var(--mu);margin-top:2px">'+(m.round||'')+' '+(m.matchKind==='regular'?'vs '+esc(m.opponentName||'?'):m.matchKind?.toUpperCase()||'')+'</div>'
-        +'<div style="font-size:12px;color:var(--mu);margin-top:1px">'+esc(m.scoreDisplay||'')+'</div>'
-        +(late?'<div style="font-size:11px;color:var(--go);margin-top:3px">⚠️ Late upload — 20% penalty</div>':'')
-        +'</div>'
-        +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">'
-        +'<span class="b '+(m.result==='W'?'bg':m.result==='L'?'br':'bm')+'">'+(m.result||'—')+'</span>'
-        +(m.flagged?'<span class="b bo">⚠️ Flagged</span>':'')
-        +(isCA()&&!m.flagged?'<button class="btn btn-sm" style="background:var(--god);color:var(--go);border:none;font-size:11px;padding:4px 8px" onclick="flagM(\''+m.id+'\')">Flag</button>':'')
-        +'</div></div>'
-        +(m.coachNote?'<div style="font-size:12px;color:var(--mu2);margin-top:6px;padding-top:6px;border-top:1px solid var(--bdr)">📝 '+esc(m.coachNote)+'</div>':'')
-        +'</div>';
-    });
-  }
-  h+='<button class="btn btn-p btn-w" style="margin-top:8px" onclick="openAddMatch(\''+t.id+'\''+(forPl?',\''+pid()+'\'':'')+')">＋ Add Match</button>';
-  if(isA()) h+='<div style="height:6px"></div><button class="btn btn-d btn-w" onclick="delTour(\''+t.id+'\')">Delete Tournament</button>';
-  h+='</div>';
-  return h;
-}
-
-window.togTour=function(id){S.openTour=S.openTour===id?null:id;render();};
-window.flagM=async function(id){await dbUpd('matches',id,{flagged:true,flaggedBy:S.user.name});toast('Match flagged ✓');};
-
-window.openAddTour=function(){
-  openM('<div class="mh"></div><div class="mt">New Tournament</div>'
-    +'<div class="fg"><label class="fl">Tournament Name</label><input class="fi" id="nt-nm" placeholder="e.g. PMDTA Bronze 2026"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">Circuit</label><select class="fs" id="nt-ci">'+CIRCUITS.map(c=>'<option>'+c+'</option>').join('')+'</select></div><div class="fg"><label class="fl">Category</label><select class="fs" id="nt-ca">'+CATS.map(c=>'<option>'+c+'</option>').join('')+'</select></div></div>'
-    +'<div class="fg"><label class="fl">Location</label><input class="fi" id="nt-lo" placeholder="e.g. Pune, Maharashtra"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">Start Date</label><input class="fi" id="nt-sd" type="date"></div><div class="fg"><label class="fl">End Date</label><input class="fi" id="nt-ed" type="date"></div></div>'
-    +'<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveTour()">Create</button></div>');
-};
-window.saveTour=async function(){
-  const nm=$('nt-nm')?.value?.trim();if(!nm){toast('Name required');return;}
-  await dbAdd('tournaments',{name:nm,circuit:$('nt-ci').value,category:$('nt-ca').value,location:$('nt-lo').value,startDate:toTs($('nt-sd').value)||null,endDate:toTs($('nt-ed').value)||null,createdBy:S.user.name});
-  toast('Tournament created ✓');closeM();
-};
-window.delTour=function(id){if(!confirm('Delete tournament and all matches?'))return;dbDel('tournaments',id).then(()=>{S.openTour=null;toast('Deleted');});};
-
-window.openAddMatch=function(tid,forcePid){
-  const t=S.tournaments.find(x=>x.id===tid);
-  const playerOpts=forcePid
-    ?''
-    :'<div class="fg"><label class="fl">Player</label><select class="fs" id="am-pl"><option value="">— Select —</option>'+S.players.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join('')+'</select></div>';
-  openM('<div class="mh"></div><div class="mt">Add Match</div><div class="ms">'+esc(t?.name||'')+'</div>'
-    +playerOpts
-    +'<div class="fr2"><div class="fg"><label class="fl">Round</label><select class="fs" id="am-rd">'+ROUNDS.map(r=>'<option>'+r+'</option>').join('')+'</select></div><div class="fg"><label class="fl">Type</label><select class="fs" id="am-ty"><option value="singles">Singles</option><option value="doubles">Doubles</option></select></div></div>'
-    +'<div class="fg"><label class="fl">Match Kind</label><select class="fs" id="am-ki" onchange="updMF()"><option value="regular">Regular</option><option value="bye">Bye</option><option value="retired">Player Retired</option><option value="opp-retired">Opponent Retired</option></select></div>'
-    +'<div id="am-rf"><div class="fg"><label class="fl">Opponent Name</label><input class="fi" id="am-op" placeholder="Opponent full name"></div><div class="fg"><label class="fl">Score</label><input class="fi" id="am-sc" placeholder="e.g. 6-3, 4-6, 7-6(5)"></div><div class="fg"><label class="fl">Result</label><select class="fs" id="am-re"><option value="W">Win</option><option value="L">Loss</option></select></div></div>'
-    +'<div id="am-retf" style="display:none"><div class="fg"><label class="fl">Score at Retirement</label><input class="fi" id="am-rsc" placeholder="e.g. 3-2 in 2nd set"></div></div>'
-    +'<div class="fg"><label class="fl">Coach Note (optional)</label><textarea class="fta" id="am-cn" placeholder="Post-match observations…"></textarea></div>'
-    +'<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveMatch(\''+tid+'\','+(forcePid?'\''+forcePid+'\'':'null')+')">Add Match</button></div>');
-};
-window.updMF=function(){
-  const k=$('am-ki')?.value;
-  if($('am-rf'))$('am-rf').style.display=(k==='regular'||k==='opp-retired')?'block':'none';
-  if($('am-retf'))$('am-retf').style.display=k==='retired'?'block':'none';
-};
-window.saveMatch=async function(tid,fpid){
-  const plId=fpid||$('am-pl')?.value;if(!plId){toast('Select a player');return;}
-  const k=$('am-ki').value;
-  let res='W',sd='';
-  if(k==='bye'){res='W';sd='BYE';}
-  else if(k==='retired'){res='L';sd='RET '+($('am-rsc')?.value||'');}
-  else if(k==='opp-retired'){res='W';sd='W/O '+($('am-sc')?.value||'');}
-  else{res=$('am-re').value;sd=$('am-sc')?.value||'';}
-  const t=S.tournaments.find(x=>x.id===tid);
-  const late=t?.endDate?new Date()>(t.endDate?.toDate?t.endDate.toDate():new Date(t.endDate)):false;
-  await dbAdd('matches',{tournamentId:tid,playerId:plId,round:$('am-rd').value,matchType:$('am-ty').value,matchKind:k,opponentName:$('am-op')?.value||'',scoreDisplay:sd,result:res,coachNote:$('am-cn')?.value||'',addedBy:S.user.name,flagged:false,lateUpload:late});
-  toast(late?'Match added (late penalty applied)':'Match added ✓');closeM();
-};
-
-// ── CALENDAR ───────────────────────────────────────────────────────
-function vCal(){
+function buildCal(playerOnly){
   const now=new Date(),m=S.calMonth;
   const first=new Date(m.getFullYear(),m.getMonth(),1);
   const last=new Date(m.getFullYear(),m.getMonth()+1,0);
   const lbl=m.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
 
-  const todaySess=S.sessions.filter(s=>{
-    if(!s.sessionDate)return false;
-    const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
-    return sd.getDate()===now.getDate()&&sd.getMonth()===now.getMonth()&&sd.getFullYear()===now.getFullYear();
-  });
-  const upcoming=[...S.sessions].filter(s=>{
-    if(!s.sessionDate)return false;
-    const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
-    return sd>now;
-  }).sort((a,b)=>{
-    const da=a.sessionDate?.toDate?a.sessionDate.toDate():new Date(a.sessionDate||0);
-    const db=b.sessionDate?.toDate?b.sessionDate.toDate():new Date(b.sessionDate||0);
-    return da-db;
-  }).slice(0,5);
-
-  let h='<div class="pg">'
-    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">'
-    +'<button class="btn btn-s btn-sm" onclick="chMo(-1)">‹</button>'
-    +'<div style="font-weight:600;font-size:15px">'+lbl+'</div>'
-    +'<button class="btn btn-s btn-sm" onclick="chMo(1)">›</button>'
-    +'</div>'
-    +'<div class="cal-g">'+['S','M','T','W','T','F','S'].map(d=>'<div class="cal-dl">'+d+'</div>').join('');
-
-  for(let i=0;i<first.getDay();i++) h+='<div class="cal-d om"></div>';
+  let h='<div class="cal-nav">';
+  h+='<button class="btn btn-s btn-sm" onclick="chMo(-1)">‹</button>';
+  h+='<div class="cal-month">'+lbl+'</div>';
+  h+='<button class="btn btn-s btn-sm" onclick="chMo(1)">›</button>';
+  h+='</div>';
+  h+='<div class="cal-grid">';
+  h+=['S','M','T','W','T','F','S'].map(d=>'<div class="cal-dl">'+d+'</div>').join('');
+  for(let i=0;i<first.getDay();i++) h+='<div class="cal-day off"></div>';
   for(let d=1;d<=last.getDate();d++){
     const isT=d===now.getDate()&&m.getMonth()===now.getMonth()&&m.getFullYear()===now.getFullYear();
-    const haS=S.sessions.some(s=>{
-      if(!s.sessionDate)return false;
-      const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
-      return sd.getDate()===d&&sd.getMonth()===m.getMonth()&&sd.getFullYear()===m.getFullYear();
-    });
-    // FIX 8: clickable
-    h+='<div class="cal-d'+(isT?' today':'')+(haS?' hs':'')+'" onclick="openDay('+m.getFullYear()+','+m.getMonth()+','+d+')">'+d+'</div>';
+    const fn=playerOnly?'openPlayerDay':'openDay';
+    h+='<div class="cal-day'+(isT?' today':'')+'\" onclick="'+fn+'('+m.getFullYear()+','+m.getMonth()+','+d+')">';
+    h+=d;
+    h+=calStripes(m.getFullYear(),m.getMonth(),d,playerOnly);
+    h+='</div>';
   }
   h+='</div>';
+  // Legend
+  h+='<div class="cal-legend">';
+  Object.entries(SESS_HEX).forEach(([k,v])=>{h+='<div class="cal-leg-item"><div class="cal-leg-dot" style="background:'+v+'"></div>'+k+'</div>';});
+  h+='</div>';
+  return h;
+}
 
+function vCalendar(){
+  const now=new Date();
+  const{s:ts,e:te}=todayRange();
+  const todaySess=S.sessions.filter(s=>{
+    if(!s.sessionDate)return false;
+    const sd=toDate(s.sessionDate);
+    return sd>=ts&&sd<=te;
+  }).sort((a,b)=>(a.reportingTime||'').localeCompare(b.reportingTime||''));
+  const upcoming=[...S.sessions].filter(s=>{
+    if(!s.sessionDate)return false;
+    const sd=toDate(s.sessionDate);return sd>te;
+  }).sort((a,b)=>toDate(a.sessionDate)-toDate(b.sessionDate)).slice(0,5);
+
+  let h='<div class="pg">';
+  h+=buildCal(false);
   if(todaySess.length){
-    h+='<div class="st">Today\'s Sessions</div>';
-    todaySess.forEach(s=>h+=scCard(s,true));
+    h+='<div class="st">Today</div>';
+    todaySess.forEach(s=>h+=sessCard(s,true,true));
   }
   if(upcoming.length){
     h+='<div class="st">Upcoming</div>';
-    upcoming.forEach(s=>h+=scCard(s,false));
+    upcoming.forEach(s=>h+=sessCard(s,false,false));
   }
-  // FIX 1: only coaches/admin can add sessions
-  h+='<button class="btn btn-p btn-w" style="margin-top:12px" onclick="openAddSess()">＋ Add Session</button>';
+  h+='<button class="btn btn-p btn-w" style="margin-top:14px" onclick="openAddSess()">＋ Add Session</button>';
   h+='</div>';
-  $('content').innerHTML=h;
+  $('app-content').innerHTML=h;
 }
-
-// FIX 9: session card with bold notes + reporting time
-function scCard(s,mark){
-  const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate||0);
-  const nm=(s.playerIds||[]).map(id=>S.players.find(x=>x.id===id)?.name?.split(' ')[0]||'').filter(Boolean);
-  const late=s.lateEntry;
-  return '<div class="card" style="margin-bottom:8px'+(late?';border-color:var(--go)':'')+'">'
-    +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
-    +'<div style="flex:1;min-width:0">'
-    +'<span class="b '+(SC_COL[s.type]||'bm')+'">'+esc(s.type)+'</span>'
-    +'<div style="font-weight:700;font-size:14px;margin-top:6px">'+esc(nm.join(', ')||'All players')+'</div>'
-    +'<div style="font-size:12px;color:var(--mu2);margin-top:3px">📍 Report <strong style="color:var(--tx)">'+s.reportingTime+'</strong> &nbsp;·&nbsp; '+s.startTime+'–'+s.endTime+'</div>'
-    +(s.notes?'<div class="snote" style="border-left:3px solid var(--gr)">📋 '+esc(s.notes)+'</div>':'')
-    +(s.sessionNote?'<div class="snote" style="border-left:3px solid var(--bl);margin-top:6px">📝 '+esc(s.sessionNote)+'</div>':'')
-    +(late?'<span class="b bo" style="margin-top:6px;font-weight:800;display:inline-flex">⚠️ LATE ENTRY</span>':'')
-    +'</div>'
-    +(isCA()?'<div style="display:flex;flex-direction:column;gap:6px;margin-left:8px;flex-shrink:0">'
-      +(mark?'<button class="btn btn-p btn-sm" onclick="openAtt(\''+s.id+'\')">Mark</button>':'')
-      +'<button class="btn btn-sm" style="background:var(--red);color:var(--re);border:1px solid var(--re);font-size:12px;padding:5px 10px" onclick="delSess(\''+s.id+'\')">🗑</button>'
-      +'</div>':'')
-    +'</div></div>';
-}
-
-window.delSess=async function(sid){
-  if(!isCA())return;
-  if(!confirm('Delete this session? This cannot be undone.'))return;
-  await dbDel('sessions',sid);
-  S.sessions=S.sessions.filter(x=>x.id!==sid);
-  toast('Session deleted');
-  closeM();
-  render();
-};
 
 window.chMo=function(d){S.calMonth=new Date(S.calMonth.getFullYear(),S.calMonth.getMonth()+d,1);render();};
 
 window.openDay=function(y,mo,d){
   const sess=S.sessions.filter(s=>{
     if(!s.sessionDate)return false;
-    const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
+    const sd=toDate(s.sessionDate);
     return sd.getDate()===d&&sd.getMonth()===mo&&sd.getFullYear()===y;
+  });
+  const tours=S.tournaments.filter(t=>{
+    if(!t.startDate||!t.endDate)return false;
+    const ts=toDate(t.startDate);const te=toDate(t.endDate);
+    ts.setHours(0,0,0,0);te.setHours(23,59,59,999);
+    const day=new Date(y,mo,d);return day>=ts&&day<=te;
   });
   const ds=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
   const lbl=new Date(y,mo,d).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
   let h='<div class="mh"></div><div class="mt">'+lbl+'</div><div style="margin-top:14px">';
-  if(!sess.length) h+='<div class="empty"><div class="empty-ic">📋</div>No sessions this day</div>';
-  else sess.forEach(s=>h+=scCard(s,true));
-  // FIX 1: only coaches can add from calendar day
-  if(isCA()) h+='<button class="btn btn-p btn-w" style="margin-top:10px" onclick="closeM();openAddSessD(\''+ds+'\')">＋ Add Session This Day</button>';
+  tours.forEach(t=>{
+    h+='<div class="card" style="border-color:var(--go);margin-bottom:8px"><div style="font-size:11px;color:var(--go);font-weight:700;margin-bottom:4px">🏆 TOURNAMENT</div><div style="font-weight:600">'+esc(t.name)+'</div></div>';
+  });
+  if(!sess.length&&!tours.length) h+='<div class="empty"><div class="empty-ic">📅</div><div class="empty-txt">Nothing scheduled</div></div>';
+  sess.forEach(s=>h+=sessCard(s,true,true));
+  h+='<div style="height:10px"></div>';
+  if(isCA()) h+='<button class="btn btn-p btn-w" onclick="closeM();openAddSessDate(\''+ds+'\')">＋ Add Session This Day</button>';
   h+='</div>';
   openM(h);
 };
 
-// FIX 1: openAddSess only callable by coaches — but guarded in UI already
-window.openAddSess=function(){if(!isCA()){toast('Only coaches can add sessions');return;}openAddSessD('');};
-window.openAddSessD=function(ds){
+// ── ADD SESSION ──────────────────────────
+window.openAddSess=function(){if(!isCA()){toast('Coaches only');return;}openAddSessDate('');};
+window.openAddSessDate=function(ds){
   const today=new Date().toISOString().split('T')[0];
-  openM('<div class="mh"></div><div class="mt">Add Session</div>'
-    +'<div class="fg"><label class="fl">Session Type</label><select class="fs" id="as-ty">'+SESS_T.map(t=>'<option>'+t+'</option>').join('')+'</select></div>'
-    +'<div class="fg"><label class="fl">Date</label><input class="fi" id="as-dt" type="date" value="'+(ds||today)+'"></div>'
-    +'<div class="fr2"><div class="fg"><label class="fl">Report Time</label><input class="fi" id="as-rt" type="time" value="07:30"></div><div class="fg"><label class="fl">Start Time</label><input class="fi" id="as-st" type="time" value="08:00"></div></div>'
-    +'<div class="fg"><label class="fl">End Time</label><input class="fi" id="as-et" type="time" value="10:00"></div>'
-    +'<div class="fg"><label class="fl">Players</label><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px" id="as-pls">'+S.players.map(p=>'<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="'+p.id+'" style="accent-color:var(--gr);width:16px;height:16px"> '+esc(p.name.split(' ')[0])+'</label>').join('')+'</div></div>'
-    +'<div class="fg"><label class="fl">Notes</label><textarea class="fta" id="as-nt" placeholder="Optional notes…"></textarea></div>'
-    +'<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveSess()">Add Session</button></div>');
-};
-window.saveSess=async function(){
-  const ds=$('as-dt')?.value;if(!ds){toast('Select a date');return;}
-  const selD=new Date(ds),tod=new Date();tod.setHours(0,0,0,0);
-  const isLt=selD<tod;
-  const pids=[...document.querySelectorAll('#as-pls input:checked')].map(c=>c.value);
-  await dbAdd('sessions',{type:$('as-ty').value,sessionDate:Timestamp.fromDate(selD),reportingTime:$('as-rt').value,startTime:$('as-st').value,endTime:$('as-et').value,playerIds:pids,notes:$('as-nt')?.value||'',createdBy:S.user.name,lateEntry:isLt,attendanceMarked:false});
-  toast(isLt?'Added (flagged as late entry)':'Session added ✓');closeM();
+  openM('<div class="mh"></div><div class="mt">Add Session</div>'+
+    '<div class="fg"><label class="fl">Type</label><select class="fi fs" id="as-ty">'+SESS_TYPES.map(t=>'<option>'+t+'</option>').join('')+'</select></div>'+
+    '<div class="fg"><label class="fl">Date</label><input class="fi" id="as-dt" type="date" value="'+(ds||today)+'"></div>'+
+    '<div class="fr2"><div class="fg"><label class="fl">Report</label><input class="fi" id="as-rt" type="time" value="07:30"></div><div class="fg"><label class="fl">Start</label><input class="fi" id="as-st" type="time" value="08:00"></div></div>'+
+    '<div class="fg"><label class="fl">End</label><input class="fi" id="as-et" type="time" value="10:00"></div>'+
+    '<div class="fg"><label class="fl">Players</label><div class="chk-list" id="as-pls">'+S.players.map(p=>'<label class="chk-item"><input type="checkbox" value="'+p.id+'"> '+esc(p.name.split(' ')[0])+'</label>').join('')+'</div></div>'+
+    '<div class="fg"><label class="fl">Notes (optional)</label><textarea class="fi fta" id="as-nt" placeholder="Coach notes…"></textarea></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveSess()">Add</button></div>');
 };
 
+window.saveSess=async function(){
+  const ds=$('as-dt')?.value;if(!ds){toast('Select a date');return;}
+  const selD=new Date(ds);const tod=new Date();tod.setHours(0,0,0,0);
+  const isLate=selD<tod;
+  const pids=[...document.querySelectorAll('#as-pls input:checked')].map(c=>c.value);
+  const ref=await dbAdd('sessions',{type:$('as-ty').value,sessionDate:Timestamp.fromDate(selD),reportingTime:$('as-rt').value,startTime:$('as-st').value,endTime:$('as-et').value,playerIds:pids,notes:$('as-nt')?.value||'',createdBy:S.user.name,lateEntry:isLate,attendanceMarked:false});
+  S.sessions.push({id:ref.id,type:$('as-ty').value,sessionDate:Timestamp.fromDate(selD),reportingTime:$('as-rt').value,startTime:$('as-st').value,endTime:$('as-et').value,playerIds:pids,notes:$('as-nt')?.value||'',lateEntry:isLate});
+  toast(isLate?'Added (late entry)':'Session added ✓');closeM();render();
+};
+
+// ── ATTENDANCE ───────────────────────────
 window.openAtt=function(sid){
   const s=S.sessions.find(x=>x.id===sid);if(!s)return;
-  const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate||0);
+  const sd=toDate(s.sessionDate);
   const players=(s.playerIds||[]).map(id=>S.players.find(x=>x.id===id)).filter(Boolean);
-  let h='<div class="mh"></div><div class="mt">Mark Attendance</div><div class="ms">'+esc(s.type)+' · '+fmtDs(sd)+' · '+s.startTime+'–'+s.endTime+'</div>';
-  players.forEach(p=>{
-    const col=avc(p.name),rec=S.attendance.find(a=>a.playerId===p.id&&a.sessionId===sid),cur=rec?.present;
-    h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--bdr)">'
-      +'<div style="display:flex;align-items:center;gap:10px"><div class="av" style="width:38px;height:38px;font-size:13px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div><div style="font-weight:600;font-size:14px">'+esc(p.name.split(' ')[0])+'</div></div>'
-      +'<div style="display:flex;gap:6px">'
-      +'<button class="btn btn-sm" id="pb-'+p.id+'" style="background:'+(cur===true?'var(--gr)':'var(--grd)')+';color:'+(cur===true?'#000':'var(--gr)')+';border:1px solid var(--gr)" onclick="markA(\''+sid+'\',\''+p.id+'\',true)">✓ Present</button>'
-      +'<button class="btn btn-sm" id="ab-'+p.id+'" style="background:'+(cur===false?'var(--re)':'var(--red)')+';color:'+(cur===false?'#fff':'var(--re)')+';border:1px solid var(--re)" onclick="markA(\''+sid+'\',\''+p.id+'\',false)">✗ Absent</button>'
-      +'</div></div>';
+  const approvedRests=(S.requests||[]).filter(r=>{
+    if(r.status!=='approved'||r.type!=='rest-day')return false;
+    const rd=toDate(r.date);
+    return sameDay(rd,sd)&&(s.playerIds||[]).includes(r.playerId);
   });
-  h+='<div class="fg" style="margin-top:14px"><label class="fl">Session Notes</label><textarea class="fta" id="sn-'+sid+'" placeholder="Notes for this session…">'+(s.sessionNote||'')+'</textarea></div>'
-    +'<button class="btn btn-p btn-w" style="margin-top:4px" onclick="closeSN(\''+sid+'\')">Save & Close</button>';
+
+  let h='<div class="mh"></div><div class="mt">Mark Attendance</div>';
+  h+='<div class="ms">'+esc(s.type)+' · '+fmtDs(sd)+' · '+s.startTime+'–'+s.endTime+'</div>';
+
+  players.forEach(p=>{
+    const col=avc(p.name);
+    const rec=S.attendance.find(a=>a.playerId===p.id&&a.sessionId===sid);
+    const cur=rec?.present;
+    const onRest=approvedRests.some(r=>r.playerId===p.id);
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--bdr)">';
+    h+='<div style="display:flex;align-items:center;gap:10px">';
+    h+='<div class="av" style="width:38px;height:38px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>';
+    h+='<div><div style="font-weight:600;font-size:14px">'+esc(p.name.split(' ')[0])+'</div>';
+    if(onRest) h+='<div style="font-size:11px;color:var(--mu)">🛌 Approved rest</div>';
+    h+='</div></div>';
+    if(onRest){
+      h+='<span class="b bm">On Rest</span>';
+    } else {
+      h+='<div style="display:flex;gap:6px">';
+      h+='<button class="att-btn'+(cur===true?' present':'')+'" id="pb-'+p.id+'" onclick="markAtt(\''+sid+'\',\''+p.id+'\',true)">✓</button>';
+      h+='<button class="att-btn'+(cur===false?' absent':'')+'" id="ab-'+p.id+'" onclick="markAtt(\''+sid+'\',\''+p.id+'\',false)">✗</button>';
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+
+  h+='<div class="fg" style="margin-top:14px"><label class="fl">Session Notes</label><textarea class="fi fta" id="sn-'+sid+'\">'+(s.sessionNote||'')+'</textarea></div>';
+  h+='<button class="btn btn-p btn-w" style="margin-top:4px" onclick="saveAttNote(\''+sid+'\')">Save & Close</button>';
   openM(h);
 };
-window.markA=async function(sid,plId,present){
-  const s=S.sessions.find(x=>x.id===sid),sd=s?.sessionDate?.toDate?s.sessionDate.toDate():new Date(s?.sessionDate||0);
+
+window.markAtt=async function(sid,plId,present){
+  const s=S.sessions.find(x=>x.id===sid);
+  const sd=s?.sessionDate?Timestamp.fromDate(toDate(s.sessionDate)):null;
   const ex=S.attendance.find(a=>a.playerId===plId&&a.sessionId===sid);
   if(ex) await dbUpd('attendance',ex.id,{present,markedBy:S.user.name});
-  else await dbAdd('attendance',{playerId:plId,sessionId:sid,date:Timestamp.fromDate(sd),present,markedBy:S.user.name});
+  else await dbAdd('attendance',{playerId:plId,sessionId:sid,date:sd,present,markedBy:S.user.name});
   const pb=$('pb-'+plId),ab=$('ab-'+plId);
-  if(pb){pb.style.background=present?'var(--gr)':'var(--grd)';pb.style.color=present?'#000':'var(--gr)';}
-  if(ab){ab.style.background=present?'var(--red)':'var(--re)';ab.style.color=present?'var(--re)':'#fff';}
+  if(pb){pb.className='att-btn'+(present?' present':'');}
+  if(ab){ab.className='att-btn'+(present===false?' absent':'');}
 };
-window.closeSN=async function(sid){
-  const n=$('sn-'+sid)?.value;
+
+window.saveAttNote=async function(sid){
+  const n=$('sn-'+sid)?.value||'';
   await dbUpd('sessions',sid,{sessionNote:n,attendanceMarked:true});
   toast('Saved ✓');closeM();
 };
 
-// ── FEES ───────────────────────────────────────────────────────────
-function vFees(){
-  let h='<div class="pg"><div style="font-family:\'DM Serif Display\',serif;font-size:20px;margin-bottom:14px">Fees</div>';
-  if(!S.players.length){
-    h+='<div class="empty"><div class="empty-ic">📋</div>No players yet</div>';
+// ── MATCHES ──────────────────────────────
+function vMatches(){
+  let h='<div class="pg">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800">Tournaments</div>';
+  h+='<button class="btn btn-p btn-sm" onclick="openAddTour()">＋ Tournament</button>';
+  h+='</div>';
+  if(!S.tournaments.length){
+    h+='<div class="empty"><div class="empty-ic">🏆</div><div class="empty-txt">No tournaments yet</div></div>';
   } else {
-    const ov=S.players.filter(p=>pFee(p.id)?.status==='overdue');
-    const du=S.players.filter(p=>pFee(p.id)?.status==='due'||!pFee(p.id));
-    const pa=S.players.filter(p=>pFee(p.id)?.status==='paid');
-    const pend=S.players.filter(p=>pFee(p.id)?.status==='pending-verification');
-    if(ov.length) h+='<div class="al al-r">⚠️ '+ov.length+' overdue player'+(ov.length>1?'s':'')+'</div>';
-    if(pend.length) h+='<div class="al al-b">💳 '+pend.length+' payment'+(pend.length>1?'s':'')+' pending verification</div>';
+    S.tournaments.forEach(t=>{
+      const tM=S.matches.filter(m=>m.tournamentId===t.id);
+      const w=tM.filter(m=>m.result==='W').length;const l=tM.filter(m=>m.result==='L').length;
+      const open=S.openTour===t.id;
+      h+='<div class="card" style="padding:0;margin-bottom:10px">';
+      h+='<div class="tour-hd" onclick="S.openTour=S.openTour===\''+t.id+'\'?null:\''+t.id+'\';render()">';
+      h+='<div><div style="font-weight:700;font-size:15px">'+esc(t.name)+'</div>';
+      h+='<div style="font-size:12px;color:var(--mu2);margin-top:2px">'+(t.circuit||'')+(t.location?' · '+t.location:'')+' · '+fmtDs(t.startDate)+' – '+fmtDs(t.endDate)+'</div></div>';
+      h+='<div style="display:flex;align-items:center;gap:8px">';
+      h+='<span class="b bg">'+w+'W</span><span class="b br">'+l+'L</span>';
+      h+='<span style="color:var(--mu);font-size:18px">'+(open?'▾':'›')+'</span>';
+      h+='</div></div>';
+      if(open){
+        h+='<div class="tour-bd open">';
+        if(isA()) h+='<div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn btn-p btn-sm" onclick="openAddMatch(\''+t.id+'\')">＋ Add Match</button><button class="btn btn-d btn-sm" onclick="deleteTour(\''+t.id+'\')">Delete</button></div>';
+        else h+='<div style="margin-bottom:10px"><button class="btn btn-p btn-sm" onclick="openAddMatch(\''+t.id+'\')">＋ Add Match</button></div>';
+        if(!tM.length) h+='<div class="empty" style="padding:20px"><div class="empty-ic">🎾</div><div class="empty-txt">No matches logged yet</div></div>';
+        else tM.forEach(m=>{
+          const p=S.players.find(x=>x.id===m.playerId);
+          h+='<div class="match-row">';
+          h+='<div><div style="font-weight:600;font-size:14px">'+(p?.name||'?')+'</div>';
+          h+='<div style="font-size:12px;color:var(--mu);margin-top:2px">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div>';
+          h+='<div style="font-size:12px;color:var(--mu2)">'+esc(m.scoreDisplay||'')+'</div></div>';
+          h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span>';
+          h+='</div>';
+        });
+        h+='</div>';
+      }
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+  $('app-content').innerHTML=h;
+}
+
+window.openAddTour=function(){
+  const today=new Date().toISOString().split('T')[0];
+  openM('<div class="mh"></div><div class="mt">Add Tournament</div>'+
+    '<div class="fg"><label class="fl">Tournament Name</label><input class="fi" id="at-nm" placeholder="e.g. AITA Junior 2025"></div>'+
+    '<div class="fr2"><div class="fg"><label class="fl">Start Date</label><input class="fi" id="at-sd" type="date" value="'+today+'"></div><div class="fg"><label class="fl">End Date</label><input class="fi" id="at-ed" type="date" value="'+today+'"></div></div>'+
+    '<div class="fg"><label class="fl">Circuit</label><select class="fi fs" id="at-ci"><option>AITA</option><option>MSLTA</option><option>PMDTA</option><option>Other</option></select></div>'+
+    '<div class="fg"><label class="fl">Location</label><input class="fi" id="at-lo" placeholder="e.g. Pune"></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveTour()">Add</button></div>');
+};
+
+window.saveTour=async function(){
+  const nm=$('at-nm')?.value?.trim();if(!nm){toast('Enter a name');return;}
+  await dbAdd('tournaments',{name:nm,startDate:Timestamp.fromDate(new Date($('at-sd').value)),endDate:Timestamp.fromDate(new Date($('at-ed').value)),circuit:$('at-ci').value,location:$('at-lo')?.value||''});
+  toast('Tournament added ✓');closeM();
+};
+
+window.deleteTour=function(id){if(!confirm('Delete tournament and all matches?'))return;dbDel('tournaments',id).then(()=>{S.openTour=null;toast('Deleted');});};
+
+window.openAddMatch=function(tid){
+  const t=S.tournaments.find(x=>x.id===tid);
+  openM('<div class="mh"></div><div class="mt">Add Match</div><div class="ms">'+esc(t?.name||'')+'</div>'+
+    '<div class="fg"><label class="fl">Player</label><select class="fi fs" id="am-pl"><option value="">— Select —</option>'+S.players.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join('')+'</select></div>'+
+    '<div class="fr2"><div class="fg"><label class="fl">Round</label><select class="fi fs" id="am-rd"><option>R1</option><option>R2</option><option>R3</option><option>QF</option><option>SF</option><option>F</option><option>RR</option></select></div><div class="fg"><label class="fl">Result</label><select class="fi fs" id="am-rs"><option value="W">Win</option><option value="L">Loss</option></select></div></div>'+
+    '<div class="fg"><label class="fl">Score</label><input class="fi" id="am-sc" placeholder="e.g. 6-4, 7-5"></div>'+
+    '<div class="fg"><label class="fl">Opponent</label><input class="fi" id="am-op" placeholder="Opponent name"></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveMatch(\''+tid+'\')">Add</button></div>');
+};
+
+window.saveMatch=async function(tid){
+  const plId=$('am-pl')?.value;if(!plId){toast('Select a player');return;}
+  await dbAdd('matches',{tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||''});
+  toast('Match added ✓');closeM();
+};
+
+// ── FEES ─────────────────────────────────
+function vFees(){
+  const pend=S.players.filter(p=>pFee(p.id)?.status==='pending-verification');
+  let h='<div class="pg">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800;margin-bottom:14px">Fees</div>';
+  if(pend.length) h+='<div class="al al-b">💳 '+pend.length+' payment'+(pend.length>1?'s':'')+' pending verification</div>';
+  if(!S.players.length){h+='<div class="empty"><div class="empty-ic">💰</div><div class="empty-txt">No players yet</div></div>';}
+  else{
     h+='<div class="card" style="padding:0;overflow:hidden">';
-    [...ov,...pend,...du,...pa].forEach(p=>{
-      const fee=pFee(p.id);
-      const[cls,lbl]=fee?.status==='paid'?['bg','Paid']:fee?.status==='overdue'?['br','Overdue']:fee?.status==='pending-verification'?['bb','Pending']:['bo','Due'];
-      h+='<div class="fr-row"><div><div style="font-weight:600;font-size:14px">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--mu);margin-top:2px">₹'+(fee?.amount||'—')+(fee?.updatedAt?' · '+fmtDs(fee.updatedAt):'')+'</div>'+(fee?.notes?'<div style="font-size:11px;color:var(--mu2);margin-top:2px">'+esc(fee.notes)+'</div>':'')+(fee?.receiptUrl?'<a href="'+fee.receiptUrl+'" target="_blank" style="font-size:11px;color:var(--bl);display:block;margin-top:2px">📎 View receipt</a>':'')+'</div>'
-        +'<div style="display:flex;align-items:center;gap:8px"><span class="b '+cls+'">'+lbl+'</span>'+(isA()?'<button class="btn btn-sm btn-s" onclick="openFeeM(\''+p.id+'\')">Edit</button>':'')+'</div>'
-        +'</div>';
-    });
-    h+='</div>';
-    h+='<div class="st">History</div><div class="card" style="padding:0;overflow:hidden">';
-    const hist=[...S.fees].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,20);
-    if(!hist.length) h+='<div style="padding:14px;font-size:13px;color:var(--mu);text-align:center">No history</div>';
-    else hist.forEach(f=>{
-      const p=S.players.find(x=>x.id===f.playerId);
-      h+='<div class="fr-row"><div><div style="font-weight:600;font-size:13px">'+esc(p?.name||'—')+'</div><div style="font-size:12px;color:var(--mu)">'+fmtD(f.createdAt)+' · ₹'+(f.amount||'—')+' · '+(f.updatedBy||'Admin')+'</div></div>'
-        +'<span class="b '+(f.status==='paid'?'bg':f.status==='overdue'?'br':f.status==='pending-verification'?'bb':'bo')+'">'+( f.status||'—')+'</span>'
-        +'</div>';
+    S.players.forEach(p=>{
+      const fee=pFee(p.id);const col=avc(p.name);
+      h+='<div class="fee-row" onclick="openFeeModal(\''+p.id+'\')" style="cursor:pointer">';
+      h+='<div style="display:flex;align-items:center;gap:10px"><div class="av" style="width:36px;height:36px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>';
+      h+='<div><div style="font-weight:600;font-size:14px">'+esc(p.name)+'</div>';
+      h+='<div style="font-size:12px;color:var(--mu2);margin-top:1px">₹'+(fee?.amount||'—')+(fee?.updatedAt?' · '+fmtDs(fee.updatedAt):'')+'</div>';
+      if(fee?.receiptUrl) h+='<div style="font-size:11px;color:var(--bl)">📎 Receipt submitted</div>';
+      h+='</div></div>';
+      h+='<span class="b '+(fee?.status==='paid'?'bg':fee?.status==='overdue'?'br':fee?.status==='pending-verification'?'bb':'bm')+'">'+(fee?.status||'Not set')+'</span>';
+      h+='</div>';
     });
     h+='</div>';
   }
   h+='</div>';
-  $('content').innerHTML=h;
+  $('app-content').innerHTML=h;
 }
 
-window.openFeeM=function(id){
-  const p=S.players.find(x=>x.id===id),fee=pFee(id);
-  openM('<div class="mh"></div><div class="mt">'+esc(p?.name||'')+'</div><div class="ms">Update fee status</div>'
-    +'<div class="fg"><label class="fl">Amount (₹)</label><input class="fi" id="fm-am" type="number" value="'+(fee?.amount||'')+'" placeholder="Monthly fee"></div>'
-    +'<div class="fg"><label class="fl">Status</label><select class="fs" id="fm-st"><option value="paid" '+(fee?.status==='paid'?'selected':'')+'>Paid</option><option value="due" '+(fee?.status==='due'?'selected':'')+'>Due</option><option value="overdue" '+(fee?.status==='overdue'?'selected':'')+'>Overdue</option></select></div>'
-    +'<div class="fg"><label class="fl">Note</label><input class="fi" id="fm-nt" placeholder="Optional note" value="'+(fee?.notes||'')+'"></div>'
-    +'<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveFee(\''+id+'\')">Update</button></div>');
-};
-window.saveFee=async function(id){
-  await dbAdd('fees',{playerId:id,amount:parseFloat($('fm-am').value)||0,status:$('fm-st').value,notes:$('fm-nt').value,updatedBy:S.user.name,updatedAt:serverTimestamp()});
-  toast('Fee updated ✓');closeM();
-};
-
-// ══════════════════════════════════════════════════════════════════
-// PLAYER VIEWS
-// ══════════════════════════════════════════════════════════════════
-
-function vStats(){
-  const id=pid();
-  const p=S.players.find(x=>x.id===id);
-  if(!p){$('content').innerHTML='<div class="pg"><div class="empty">Profile not found</div></div>';return;}
-  const col=avc(p.name),att=pAtt(id),wl=pWL(id);
-  const tot=wl.w+wl.l,wp=tot?pct(wl.w,tot):0;
-  const sk=pSkills(id),avgSk=Math.round(Object.values(sk).reduce((a,b)=>a+b,0)/5);
-  const notes=[...S.notes.filter(n=>n.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,3);
+window.openFeeModal=function(id){
+  const p=S.players.find(x=>x.id===id);if(!p)return;
   const fee=pFee(id);
+  let h='<div class="mh"></div><div class="mt">'+esc(p.name.split(' ')[0])+'\'s Fees</div>';
+  if(fee?.receiptUrl) h+='<div class="al al-b" style="margin-bottom:14px">📎 Payment screenshot submitted — <a href="'+fee.receiptUrl+'" target="_blank" style="color:var(--bl)">View</a></div>';
+  h+='<div class="fg"><label class="fl">Amount (₹)</label><input class="fi" id="fm-am" type="number" value="'+(fee?.amount||'')+'" placeholder="e.g. 5000"></div>';
+  h+='<div class="fg"><label class="fl">Status</label><select class="fi fs" id="fm-st">';
+  ['paid','pending','overdue','pending-verification'].forEach(s=>h+='<option'+(s===(fee?.status||'pending')?' selected':'')+'>'+s+'</option>');
+  h+='</select></div>';
+  h+='<div class="fg"><label class="fl">Notes (optional)</label><input class="fi" id="fm-nt" value="'+esc(fee?.notes||'')+'" placeholder="Payment details…"></div>';
+  h+='<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveFee(\''+id+'\')">Save</button></div>';
+  openM(h);
+};
 
-  let h='<div class="pg">'
-    +'<div style="display:flex;align-items:center;gap:13px;margin-bottom:18px">'
-    +'<div class="av" style="width:56px;height:56px;font-size:20px;background:'+col+'20;color:'+col+'">'+ini(p.name)+'</div>'
-    +'<div><div style="font-family:\'DM Serif Display\',serif;font-size:22px">'+esc(p.name)+'</div>'
-    +'<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px"><span class="b bb">'+(p.category||'—')+'</span><span class="b bm">Age '+(p.age||'—')+'</span></div>'
-    +'</div></div>';
+window.saveFee=async function(id){
+  await dbAdd('fees',{playerId:id,amount:parseFloat($('fm-am')?.value)||0,status:$('fm-st').value,notes:$('fm-nt')?.value||'',updatedBy:S.user.name,updatedAt:serverTimestamp()});
+  toast('Saved ✓');closeM();
+};
 
-  if(fee?.status==='overdue') h+='<div class="al al-r">⚠️ Fees are overdue. Please contact the academy.</div>';
+// ═══════════════════════════════════════
+// PLAYER VIEWS
+// ═══════════════════════════════════════
 
-  h+='<div class="sg">'
-    +'<div class="sc"><div class="sv" style="color:'+(att>=80?'var(--gr)':'var(--go)')+'">'+att+'%</div><div class="sl">Attendance</div></div>'
-    +'<div class="sc"><div class="sv">'+wl.w+'W '+wl.l+'L</div><div class="sl">Record</div></div>'
-    +'<div class="sc"><div class="sv" style="color:var(--gr)">'+wp+'%</div><div class="sl">Win Rate</div></div>'
-    +'<div class="sc"><div class="sv">'+avgSk+'</div><div class="sl">Avg Skill</div></div>'
-    +'</div>'
-    +'<div class="wl"><div class="wl-f" style="width:'+wp+'%"></div></div>'
-    +'<div class="st">My Skills</div>';
+function vPlayerHome(){
+  const id=pid();
+  const now=new Date();
+  const{s:ts,e:te}=todayRange();
+  const{s:ms,e:me}=moRange();
 
-  SKILLS.forEach(s=>{
-    const v=sk[s]||0;
-    h+='<div class="sk-row"><div class="sk-hd"><span style="font-size:13px;color:var(--mu2)">'+s+'</span><span style="font-size:13px;font-weight:700;color:'+skc(v)+'">'+v+'</span></div><div class="sk-tr"><div class="sk-fl" style="width:'+v+'%;background:'+skc(v)+'"></div></div></div>';
+  const todaySess=S.sessions.filter(s=>{
+    if(!s.sessionDate)return false;
+    const sd=toDate(s.sessionDate);
+    return sd>=ts&&sd<=te&&(s.playerIds||[]).includes(id);
   });
 
-  if(notes.length){
-    h+='<div class="st">Latest Coach Notes</div>';
-    notes.forEach(n=>{
-      const st=n.rating?'★'.repeat(n.rating)+'<span style="color:var(--bdr2)">★</span>'.repeat(5-n.rating):'';
-      h+='<div class="ne"><div class="ne-m">'+esc(n.coach||'Coach')+' · '+fmtD(n.createdAt)+'</div><div class="ne-t">'+esc(n.text)+'</div>'+(st?'<div style="color:var(--go);font-size:13px;margin-top:4px">'+st+'</div>':'')+'</div>';
+  const upcoming=S.sessions.filter(s=>{
+    if(!s.sessionDate)return false;
+    const sd=toDate(s.sessionDate);
+    return sd>te&&(s.playerIds||[]).includes(id);
+  }).sort((a,b)=>toDate(a.sessionDate)-toDate(b.sessionDate)).slice(0,1)[0];
+
+  const att=pAtt(id);
+  const{w,l}=pWL(id);
+  const fee=pFee(id);
+  const sk=pSkills(id);
+  const recentNotes=[...S.notes.filter(n=>n.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,3);
+  const myReqs=(S.requests||[]).filter(r=>r.playerId===id&&r.status==='pending');
+
+  let h='<div class="pg">';
+
+  if(myReqs.length) h+='<div class="al al-o">⏳ '+myReqs.length+' request'+(myReqs.length>1?'s':'')+' waiting for coach approval</div>';
+
+  // Today
+  if(todaySess.length){
+    h+='<div class="st" style="margin-top:0">Today</div>';
+    todaySess.forEach(s=>h+=pSessCard(s,id));
+  } else if(upcoming){
+    h+='<div class="al al-g" style="margin-bottom:12px">⏭ Next: '+esc(upcoming.type)+' · '+fmtDs(upcoming.sessionDate)+' · Report '+upcoming.reportingTime+'</div>';
+  } else {
+    h+='<div class="al al-b" style="margin-bottom:12px">📅 No upcoming sessions</div>';
+  }
+
+  // Stats
+  h+='<div class="sg">';
+  h+='<div class="sc"><div class="sv" style="color:'+(att>=80?'var(--gr)':att>=60?'var(--go)':'var(--re)')+'">'+att+'%</div><div class="sl">Attendance</div></div>';
+  h+='<div class="sc"><div class="sv">'+w+'W / '+l+'L</div><div class="sl">Record</div></div>';
+  h+='<div class="sc"><div class="sv">'+(fee?'₹'+fee.amount:'—')+'</div><div class="sl">Fees</div></div>';
+  h+='<div class="sc"><div class="sv">'+S.sessions.filter(s=>(s.playerIds||[]).includes(id)).length+'</div><div class="sl">Sessions</div></div>';
+  h+='</div>';
+
+  if(fee?.status==='overdue') h+='<div class="al al-r">⚠️ Fees overdue — contact the academy</div>';
+
+  // Skills
+  h+='<div class="st">Skills</div>';
+  SKILLS.forEach(s=>{const v=sk[s]||0;h+='<div class="sk-row"><div class="sk-hd"><span style="font-size:13px;color:var(--mu2)">'+s+'</span><span style="font-weight:700;color:'+skc(v)+'">'+v+'</span></div><div class="sk-tr"><div class="sk-fl" style="width:'+v+'%;background:'+skc(v)+'"></div></div></div>';});
+
+  // Recent notes
+  if(recentNotes.length){
+    h+='<div class="st">Coach Notes</div>';
+    recentNotes.forEach(n=>{
+      const stars=n.rating?'★'.repeat(n.rating)+'<span style="color:var(--bdr2)">★</span>'.repeat(5-n.rating):'';
+      h+='<div class="note-card"><div class="note-meta">'+esc(n.coach||'Coach')+' · '+fmtD(n.createdAt)+'</div><div class="note-text">'+esc(n.text)+'</div>'+(stars?'<div style="color:var(--go);font-size:13px;margin-top:4px">'+stars+'</div>':'')+'</div>';
     });
   }
   h+='</div>';
-  $('content').innerHTML=h;
+  $('app-content').innerHTML=h;
 }
 
-function vMyMatches(){
-  const id=pid();
-  const myTours=S.tournaments.filter(t=>S.matches.some(m=>m.tournamentId===t.id&&m.playerId===id));
-  let h='<div class="pg"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-family:\'DM Serif Display\',serif;font-size:20px">My Matches</div><button class="btn btn-p btn-sm" onclick="openAddTour()">＋ Tournament</button></div>';
-  if(!myTours.length) h+='<div class="empty"><div class="empty-ic">📋</div>No matches yet.<br>Add your first tournament!</div>';
-  else myTours.forEach(t=>{
-    const tM=S.matches.filter(m=>m.tournamentId===t.id&&m.playerId===id);
-    h+=tourCard(t,true);
-  });
+function pSessCard(s,id){
+  const nm=(s.playerIds||[]).map(pid=>S.players.find(x=>x.id===pid)?.name?.split(' ')[0]||'').filter(Boolean);
+  const onRest=(S.requests||[]).some(r=>r.playerId===id&&r.status==='approved'&&r.type==='rest-day'&&s.sessionDate&&sameDay(toDate(r.date),toDate(s.sessionDate)));
+  let h='<div class="sess-card">';
+  h+='<span class="b '+(SESS_COL[s.type]||'bm')+'">'+esc(s.type)+'</span>';
+  if(onRest) h+='<span class="b bm" style="margin-left:6px">🛌 Rest Day</span>';
+  h+='<div class="sess-players">'+esc(nm.join(', ')||'All players')+'</div>';
+  h+='<div class="sess-time">📍 Report <strong>'+s.reportingTime+'</strong> · '+s.startTime+'–'+s.endTime+'</div>';
+  if(s.sessionNote) h+='<div class="sess-note">📝 '+esc(s.sessionNote)+'</div>';
   h+='</div>';
-  $('content').innerHTML=h;
+  return h;
 }
 
-function vMyCal(){
+function vPlayerCal(){
   const id=pid();
-  const now=new Date(),m=S.calMonth;
-  const first=new Date(m.getFullYear(),m.getMonth(),1);
-  const last=new Date(m.getFullYear(),m.getMonth()+1,0);
-  const lbl=m.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
   const mySess=S.sessions.filter(s=>(s.playerIds||[]).includes(id));
-
-  let h='<div class="pg">'
-    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">'
-    +'<button class="btn btn-s btn-sm" onclick="chMo(-1)">‹</button>'
-    +'<div style="font-weight:600;font-size:15px">'+lbl+'</div>'
-    +'<button class="btn btn-s btn-sm" onclick="chMo(1)">›</button>'
-    +'</div>'
-    +'<div class="cal-g">'+['S','M','T','W','T','F','S'].map(d=>'<div class="cal-dl">'+d+'</div>').join('');
-
-  for(let i=0;i<first.getDay();i++) h+='<div class="cal-d om"></div>';
-  for(let d=1;d<=last.getDate();d++){
-    const isT=d===now.getDate()&&m.getMonth()===now.getMonth()&&m.getFullYear()===now.getFullYear();
-    const haS=mySess.some(s=>{
-      if(!s.sessionDate)return false;
-      const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
-      return sd.getDate()===d&&sd.getMonth()===m.getMonth()&&sd.getFullYear()===m.getFullYear();
-    });
-    // FIX 8: calendar dates are clickable for players too
-    h+='<div class="cal-d'+(isT?' today':'')+(haS?' hs':'')+'" onclick="openPlayerDay('+m.getFullYear()+','+m.getMonth()+','+d+')">'+d+'</div>';
-  }
-  h+='</div>';
+  const now=new Date();
+  const{e:te}=todayRange();
+  const{s:ts}=todayRange();
+  const myReqs=(S.requests||[]).filter(r=>r.playerId===id&&r.status==='pending');
 
   const upcoming=mySess.filter(s=>{
-    const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate||0);
-    return sd>=now;
-  }).sort((a,b)=>{
-    const da=a.sessionDate?.toDate?a.sessionDate.toDate():new Date(a.sessionDate||0);
-    const db=b.sessionDate?.toDate?b.sessionDate.toDate():new Date(b.sessionDate||0);
-    return da-db;
+    const sd=toDate(s.sessionDate);return sd>te;
+  }).sort((a,b)=>toDate(a.sessionDate)-toDate(b.sessionDate));
+
+  const todaySess=mySess.filter(s=>{
+    const sd=toDate(s.sessionDate);return sd>=ts&&sd<=te;
   });
 
-  if(upcoming.length){
-    h+='<div class="st">Your Upcoming Sessions</div>';
-    upcoming.slice(0,5).forEach(s=>h+=scCard(s,false));
-  } else {
-    h+='<div class="empty" style="padding:24px"><div class="empty-ic">📋</div>No upcoming sessions</div>';
+  let h='<div class="pg">';
+  h+=buildCal(true);
+
+  if(isPl()){
+    h+='<div style="display:flex;gap:8px;margin-bottom:14px">';
+    h+='<button class="btn btn-s" style="flex:1;font-size:12px" onclick="openReqModal(\'rest-day\')">🛌 Request Rest Day</button>';
+    h+='<button class="btn btn-s" style="flex:1;font-size:12px" onclick="openReqModal(\'1-on-1\')">🎾 Request 1-on-1</button>';
+    h+='</div>';
   }
+
+  if(myReqs.length) h+='<div class="al al-o" style="margin-bottom:10px">⏳ '+myReqs.length+' pending request'+(myReqs.length>1?'s':'')+' with coach</div>';
+
+  if(todaySess.length){h+='<div class="st">Today</div>';todaySess.forEach(s=>h+=pSessCard(s,id));}
+  if(upcoming.length){h+='<div class="st">Upcoming</div>';upcoming.slice(0,6).forEach(s=>h+=pSessCard(s,id));}
+  else if(!todaySess.length) h+='<div class="empty"><div class="empty-ic">📅</div><div class="empty-txt">No sessions scheduled</div></div>';
   h+='</div>';
-  $('content').innerHTML=h;
+  $('app-content').innerHTML=h;
 }
 
-// FIX 8: player day popup (no add session button)
 window.openPlayerDay=function(y,mo,d){
   const id=pid();
   const sess=S.sessions.filter(s=>{
     if(!s.sessionDate)return false;
-    const sd=s.sessionDate?.toDate?s.sessionDate.toDate():new Date(s.sessionDate);
+    const sd=toDate(s.sessionDate);
     return sd.getDate()===d&&sd.getMonth()===mo&&sd.getFullYear()===y&&(s.playerIds||[]).includes(id);
+  });
+  const tours=S.tournaments.filter(t=>{
+    if(!t.startDate||!t.endDate)return false;
+    const ts=toDate(t.startDate);const te=toDate(t.endDate);
+    ts.setHours(0,0,0,0);te.setHours(23,59,59,999);
+    const day=new Date(y,mo,d);return day>=ts&&day<=te;
   });
   const lbl=new Date(y,mo,d).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
   let h='<div class="mh"></div><div class="mt">'+lbl+'</div><div style="margin-top:14px">';
-  if(!sess.length) h+='<div class="empty"><div class="empty-ic">📋</div>No sessions for you this day</div>';
-  else sess.forEach(s=>h+=scCard(s,false));
+  tours.forEach(t=>h+='<div class="card" style="border-color:var(--go);margin-bottom:8px"><div style="font-size:11px;color:var(--go);font-weight:700;margin-bottom:4px">🏆 TOURNAMENT</div><div style="font-weight:600">'+esc(t.name)+'</div></div>');
+  if(!sess.length&&!tours.length) h+='<div class="empty"><div class="empty-ic">📅</div><div class="empty-txt">Nothing on this day</div></div>';
+  sess.forEach(s=>h+=pSessCard(s,id));
   h+='</div>';
   openM(h);
 };
 
-function vMyNotes(){
+function vPlayerMatches(){
+  const id=pid();
+  const myTours=S.tournaments.filter(t=>S.matches.some(m=>m.tournamentId===t.id&&m.playerId===id));
+  let h='<div class="pg"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800">My Matches</div>';
+  h+='<button class="btn btn-p btn-sm" onclick="openAddTour()">＋ Tournament</button>';
+  h+='</div>';
+  if(!myTours.length) h+='<div class="empty"><div class="empty-ic">🏆</div><div class="empty-txt">No matches yet.<br>Add your first tournament!</div></div>';
+  else{
+    const{w,l}=pWL(id);
+    h+='<div class="sg" style="margin-bottom:14px">';
+    h+='<div class="sc"><div class="sv" style="color:var(--gr)">'+w+'</div><div class="sl">Wins</div></div>';
+    h+='<div class="sc"><div class="sv" style="color:var(--re)">'+l+'</div><div class="sl">Losses</div></div>';
+    h+='</div>';
+    myTours.forEach(t=>{
+      const tM=S.matches.filter(m=>m.tournamentId===t.id&&m.playerId===id);
+      const tw=tM.filter(m=>m.result==='W').length;const tl=tM.filter(m=>m.result==='L').length;
+      const open=S.openTour===t.id;
+      h+='<div class="card" style="padding:0;margin-bottom:10px">';
+      h+='<div class="tour-hd" onclick="S.openTour=S.openTour===\''+t.id+'\'?null:\''+t.id+'\';render()">';
+      h+='<div><div style="font-weight:700">'+esc(t.name)+'</div><div style="font-size:12px;color:var(--mu2);margin-top:2px">'+fmtDs(t.startDate)+'</div></div>';
+      h+='<div style="display:flex;align-items:center;gap:6px"><span class="b bg">'+tw+'W</span><span class="b br">'+tl+'L</span><span style="color:var(--mu)">'+(open?'▾':'›')+'</span></div>';
+      h+='</div>';
+      if(open){
+        h+='<div class="tour-bd open">';
+        h+='<button class="btn btn-p btn-sm" style="margin-bottom:10px" onclick="openAddMatch(\''+t.id+'\')">＋ Add Match</button>';
+        if(!tM.length) h+='<div style="font-size:13px;color:var(--mu);padding-bottom:4px">No matches logged yet</div>';
+        else tM.forEach(m=>{
+          h+='<div class="match-row"><div><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div></div>';
+          h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div>';
+        });
+        h+='</div>';
+      }
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+  $('app-content').innerHTML=h;
+}
+
+function vPlayerNotes(){
   const id=pid();
   const notes=[...S.notes.filter(n=>n.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-  let h='<div class="pg"><div style="font-family:\'DM Serif Display\',serif;font-size:20px;margin-bottom:14px">Coach Notes</div>';
-  if(!notes.length) h+='<div class="empty"><div class="empty-ic">📋</div>No notes yet</div>';
+  let h='<div class="pg"><div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800;margin-bottom:14px">Coach Notes</div>';
+  if(!notes.length) h+='<div class="empty"><div class="empty-ic">📝</div><div class="empty-txt">No notes yet</div></div>';
   else notes.forEach(n=>{
-    const st=n.rating?'★'.repeat(n.rating)+'<span style="color:var(--bdr2)">★</span>'.repeat(5-n.rating):'';
-    h+='<div class="ne"><div class="ne-m">'+esc(n.coach||'Coach')+' · '+fmtD(n.createdAt)+'</div><div class="ne-t">'+esc(n.text)+'</div>'+(st?'<div style="color:var(--go);font-size:13px;margin-top:4px">'+st+'</div>':'')+'</div>';
+    const stars=n.rating?'★'.repeat(n.rating)+'<span style="color:var(--bdr2)">★</span>'.repeat(5-n.rating):'';
+    h+='<div class="note-card"><div class="note-meta">'+esc(n.coach||'Coach')+' · '+fmtD(n.createdAt)+'</div><div class="note-text">'+esc(n.text)+'</div>'+(stars?'<div style="color:var(--go);font-size:13px;margin-top:4px">'+stars+'</div>':'')+'</div>';
   });
   h+='</div>';
-  $('content').innerHTML=h;
+  $('app-content').innerHTML=h;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// PARENT VIEWS
-// ══════════════════════════════════════════════════════════════════
+// ── REQUEST SYSTEM ───────────────────────
+window.openReqModal=function(type){
+  if(!isPl())return;
+  const min=new Date();min.setDate(min.getDate()+1);
+  const minS=min.toISOString().split('T')[0];
+  const isR=type==='rest-day';
+  openM('<div class="mh"></div><div class="mt">'+(isR?'🛌 Request Rest Day':'🎾 Request 1-on-1')+'</div><div class="ms">Your coach will approve or decline.</div>'+
+    '<div class="fg"><label class="fl">Date</label><input class="fi" id="rq-dt" type="date" min="'+minS+'" value="'+minS+'"></div>'+
+    (!isR?'<div class="fg"><label class="fl">Preferred Time</label><input class="fi" id="rq-tm" type="time" value="08:00"></div>':'')+
+    '<div class="fg"><label class="fl">Reason (optional)</label><textarea class="fi fta" id="rq-nt" placeholder="'+(isR?'Why do you need rest?':'What to work on?')+'"></textarea></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveReq(\''+type+'\')">Send Request</button></div>');
+};
 
-function vParFees(){
+window.saveReq=async function(type){
+  const ds=$('rq-dt')?.value;if(!ds){toast('Pick a date');return;}
   const id=pid();
-  const p=S.players.find(x=>x.id===id),fee=pFee(id);
+  const data={type,playerId:id,date:Timestamp.fromDate(new Date(ds)),status:'pending',notes:$('rq-nt')?.value||'',requestedBy:S.user.name};
+  if(type==='1-on-1')data.preferredTime=$('rq-tm')?.value||'08:00';
+  const ref=await dbAdd('requests',data);
+  if(!S.requests)S.requests=[];
+  S.requests.push({id:ref.id,...data});
+  toast('Request sent ✓');closeM();render();
+};
+
+window.approveReq=async function(rid,type,plid){
+  const r=(S.requests||[]).find(x=>x.id===rid);if(!r)return;
+  await dbUpd('requests',rid,{status:'approved',approvedBy:S.user.name});
+  if(type==='1-on-1'){
+    const rd=toDate(r.date);
+    const ref=await dbAdd('sessions',{type:'1-on-1',sessionDate:Timestamp.fromDate(rd),reportingTime:r.preferredTime||'08:00',startTime:r.preferredTime||'08:00',endTime:'09:00',playerIds:[plid],notes:r.notes||'1-on-1 request',createdBy:S.user.name,lateEntry:false,attendanceMarked:false});
+    S.sessions.push({id:ref.id,type:'1-on-1',sessionDate:Timestamp.fromDate(rd),reportingTime:r.preferredTime||'08:00',startTime:r.preferredTime||'08:00',endTime:'09:00',playerIds:[plid],notes:r.notes||''});
+  }
+  S.requests=(S.requests||[]).map(x=>x.id===rid?{...x,status:'approved'}:x);
+  toast('Approved ✓');buildNav();render();
+};
+
+window.declineReq=async function(rid){
+  await dbUpd('requests',rid,{status:'declined',declinedBy:S.user.name});
+  S.requests=(S.requests||[]).map(x=>x.id===rid?{...x,status:'declined'}:x);
+  toast('Declined');buildNav();render();
+};
+
+// ═══════════════════════════════════════
+// PARENT VIEWS
+// ═══════════════════════════════════════
+
+function vParentHome(){
+  const id=pid();
+  const p=S.players.find(x=>x.id===id);
+  const{s:ts,e:te}=todayRange();
+  const todaySess=S.sessions.filter(s=>{
+    if(!s.sessionDate)return false;
+    const sd=toDate(s.sessionDate);
+    return sd>=ts&&sd<=te&&(s.playerIds||[]).includes(id);
+  });
+  const fee=pFee(id);
+  const att=pAtt(id);
+  let h='<div class="pg">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800;margin-bottom:14px">'+(p?.name||'Player')+'</div>';
+  h+='<div class="sg"><div class="sc"><div class="sv" style="color:'+(att>=80?'var(--gr)':att>=60?'var(--go)':'var(--re)')+'">'+att+'%</div><div class="sl">Attendance</div></div><div class="sc"><div class="sv" style="color:'+(fee?.status==='paid'?'var(--gr)':fee?.status==='overdue'?'var(--re)':'var(--mu)')+'">₹'+(fee?.amount||'—')+'</div><div class="sl">Fees</div></div></div>';
+  if(fee?.status==='overdue') h+='<div class="al al-r">⚠️ Fees overdue — contact the academy</div>';
+  if(fee?.status==='pending-verification') h+='<div class="al al-b">✅ Payment submitted — awaiting verification</div>';
+  if(todaySess.length){h+='<div class="st">Today\'s Sessions</div>';todaySess.forEach(s=>h+=pSessCard(s,id));}
+  h+='</div>';
+  $('app-content').innerHTML=h;
+}
+
+function vParentFees(){
+  const id=pid();
+  const p=S.players.find(x=>x.id===id);const fee=pFee(id);
   const hist=[...S.fees.filter(f=>f.playerId===id)].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-  let h='<div class="pg"><div style="font-family:\'DM Serif Display\',serif;font-size:20px;margin-bottom:14px">Fees · '+esc(p?.name||'')+'</div>';
-  if(fee?.status==='overdue') h+='<div class="al al-r">⚠️ Fees overdue. Please contact the academy.</div>';
-  if(fee?.status==='pending-verification') h+='<div class="al al-b">✅ Payment submitted — awaiting admin verification.</div>';
-  h+='<div class="card"><div style="font-size:10px;color:var(--mu);letter-spacing:.06em;font-weight:700;margin-bottom:8px">CURRENT STATUS</div>'
-    +'<div style="display:flex;justify-content:space-between;align-items:center">'
-    +'<div style="font-family:\'DM Serif Display\',serif;font-size:30px">₹'+(fee?.amount||'—')+'</div>'
-    +'<span class="b '+(fee?.status==='paid'?'bg':fee?.status==='overdue'?'br':fee?.status==='pending-verification'?'bb':'bo')+'">'+(fee?.status||'Not set')+'</span>'
-    +'</div>'
-    +(fee?.notes?'<div style="font-size:13px;color:var(--mu);margin-top:8px">'+esc(fee.notes)+'</div>':'')
-    +'</div>';
+  let h='<div class="pg"><div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800;margin-bottom:14px">Fees</div>';
+  h+='<div class="card"><div style="font-size:10px;color:var(--mu);font-weight:700;letter-spacing:.06em;margin-bottom:8px">CURRENT</div>';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-size:28px;font-weight:800">₹'+(fee?.amount||'—')+'</div>';
+  h+='<span class="b '+(fee?.status==='paid'?'bg':fee?.status==='overdue'?'br':fee?.status==='pending-verification'?'bb':'bm')+'">'+(fee?.status||'Not set')+'</span>';
+  h+='</div>'+(fee?.notes?'<div style="font-size:13px;color:var(--mu);margin-top:8px">'+esc(fee.notes)+'</div>':'')+'</div>';
+
+  h+='<div class="st">Submit Payment</div>';
+  h+='<div class="card"><div style="font-size:13px;color:var(--mu2);margin-bottom:12px;line-height:1.5">Upload your payment screenshot. Admin will verify and update status.</div>';
+  h+='<div class="fg"><label class="fl">Screenshot</label><input type="file" id="par-receipt" accept="image/*" class="fi" style="padding:8px"></div>';
+  h+='<div class="fg"><label class="fl">Note (optional)</label><input class="fi" id="par-note" placeholder="e.g. Paid via GPay on 10 March"></div>';
+  h+='<button class="btn btn-p btn-w" onclick="parPay(\''+id+'\')">💳 Submit Payment</button></div>';
 
   h+='<div class="st">History</div><div class="card" style="padding:0;overflow:hidden">';
-  if(!hist.length) h+='<div style="padding:14px;font-size:13px;color:var(--mu);text-align:center">No history yet</div>';
+  if(!hist.length) h+='<div style="padding:14px;font-size:13px;color:var(--mu);text-align:center">No history</div>';
   else hist.forEach(f=>{
-    h+='<div class="fr-row"><div><div style="font-size:13px;color:var(--mu)">'+fmtD(f.createdAt)+'</div><div style="font-weight:600;margin-top:2px">₹'+(f.amount||'—')+'</div>'+(f.notes?'<div style="font-size:11px;color:var(--mu2)">'+esc(f.notes)+'</div>':'')+(f.receiptUrl?'<a href="'+f.receiptUrl+'" target="_blank" style="font-size:11px;color:var(--bl)">📎 Receipt</a>':'')+'</div>'
-      +'<span class="b '+(f.status==='paid'?'bg':f.status==='overdue'?'br':f.status==='pending-verification'?'bb':'bo')+'">'+( f.status||'—')+'</span>'
-      +'</div>';
+    h+='<div class="fee-row"><div><div style="font-size:13px;color:var(--mu)">'+fmtD(f.createdAt)+'</div><div style="font-weight:600;margin-top:2px">₹'+(f.amount||'—')+'</div></div>';
+    h+='<span class="b '+(f.status==='paid'?'bg':f.status==='overdue'?'br':f.status==='pending-verification'?'bb':'bm')+'">'+f.status+'</span></div>';
   });
-  h+='</div>';
-
-  // FIX 2: Parent payment upload
-  h+='<div class="st">Submit Payment</div>'
-    +'<div class="card"><div style="font-size:13px;color:var(--mu2);margin-bottom:12px;line-height:1.5">Upload a screenshot of your payment. The admin will verify and update your status.</div>'
-    +'<div class="fg"><label class="fl">Screenshot</label><input type="file" id="par-receipt" accept="image/*" class="fi" style="padding:8px"></div>'
-    +'<div class="fg"><label class="fl">Note (optional)</label><input class="fi" id="par-note" placeholder="e.g. Paid via GPay on 9 March"></div>'
-    +'<button class="btn btn-p btn-w" onclick="parPay(\''+id+'\')">💳 Submit Payment</button>'
-    +'</div>';
-
-  h+='<div class="st">Change PIN</div><div class="card">'
-    +'<div class="fr2"><div class="fg"><label class="fl">New PIN</label><input class="fi" id="cp-n" type="password" maxlength="4" placeholder="4 digits" inputmode="numeric"></div><div class="fg"><label class="fl">Confirm</label><input class="fi" id="cp-c" type="password" maxlength="4" placeholder="4 digits" inputmode="numeric"></div></div>'
-    +'<button class="btn btn-s btn-w" onclick="chPin(\''+id+'\',\'parent\')">Update PIN</button>'
-    +'</div></div>';
-  $('content').innerHTML=h;
+  h+='</div></div>';
+  $('app-content').innerHTML=h;
 }
 
-// FIX 2: parent payment submission
 window.parPay=async function(id){
-  const fileInput=$('par-receipt');
+  const file=$('par-receipt')?.files?.[0];
   const note=$('par-note')?.value?.trim()||'';
-  const file=fileInput?.files?.[0];
   let receiptUrl='';
-  if(file){
-    receiptUrl=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});
-  }
-  await dbAdd('fees',{playerId:id,amount:0,status:'pending-verification',notes:note?note+' · Awaiting verification':'Awaiting admin verification',receiptUrl,updatedBy:'Parent',updatedAt:serverTimestamp()});
-  toast('Payment submitted ✓ Admin will verify soon.');
+  if(file){receiptUrl=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});}
+  await dbAdd('fees',{playerId:id,amount:0,status:'pending-verification',notes:note||'Awaiting verification',receiptUrl,updatedBy:'Parent',updatedAt:serverTimestamp()});
+  toast('Payment submitted ✓');
   if($('par-receipt'))$('par-receipt').value='';
   if($('par-note'))$('par-note').value='';
   render();
 };
 
-window.chPin=async function(id,type){
-  const n=$('cp-n')?.value?.trim(),c=$('cp-c')?.value?.trim();
-  if(!n||n.length!==4||!c||c.length!==4){toast('Enter 4-digit PIN twice');return;}
-  if(n!==c){toast('PINs do not match');return;}
-  const field=type==='parent'?'parentPin':'playerPin';
-  await dbSet('players',id,{[field]:n});
-  toast('PIN updated ✓');
-};
-
-// ══════════════════════════════════════════════════════════════════
-// PLAYER OF THE MONTH
-// ══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// POTM
+// ═══════════════════════════════════════
 
 function calcPOTM(){
   if(!S.players.length)return null;
   const{s:ms,e:me}=moRange();
-  const prev=[...S.potm].sort((a,b)=>b.month?.localeCompare(a.month||'')||0)[0];
   const scores=S.players.map(p=>{
-    const att=S.attendance.filter(a=>{const d=a.date?.toDate?a.date.toDate():new Date(a.date||0);return a.playerId===p.id&&d>=ms&&d<=me;});
+    const att=S.attendance.filter(a=>{const d=toDate(a.date);return a.playerId===p.id&&d>=ms&&d<=me;});
     const attPct=att.length?pct(att.filter(x=>x.present).length,att.length):0;
     const logs=[...S.skillLogs.filter(x=>x.playerId===p.id)].sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
     let skD=50;
     if(logs.length>=2){const pr=logs[logs.length-2].skills||{},cu=logs[logs.length-1].skills||{};const pa=Object.values(pr).reduce((a,b)=>a+b,0)/(Object.values(pr).length||1),ca=Object.values(cu).reduce((a,b)=>a+b,0)/(Object.values(cu).length||1);skD=Math.min(100,Math.max(0,50+(ca-pa)*5));}
-    const mM=S.matches.filter(m=>{const d=m.createdAt?.toDate?m.createdAt.toDate():new Date(m.createdAt||0);return m.playerId===p.id&&d>=ms&&d<=me&&(m.result==='W'||m.result==='L');});
-    const effW=mM.filter(m=>m.result==='W').length*(mM.some(m=>m.lateUpload)?0.8:1);
-    const wPct=mM.length?pct(Math.max(0,effW),mM.length):0;
-    const mN=S.notes.filter(n=>{const d=n.createdAt?.toDate?n.createdAt.toDate():new Date(n.createdAt||0);return n.playerId===p.id&&n.rating>0&&d>=ms&&d<=me;});
-    const rat=mN.length?mN.reduce((a,b)=>a+(b.rating||0),0)/mN.length:0;
-    const score=Math.min(100,Math.max(0,Math.round((attPct+skD+wPct+(rat*20))/4)));
+    const mM=S.matches.filter(m=>{const d=toDate(m.createdAt);return m.playerId===p.id&&d>=ms&&d<=me&&(m.result==='W'||m.result==='L');});
+    const wPct=mM.length?pct(mM.filter(m=>m.result==='W').length,mM.length):0;
+    const score=Math.min(100,Math.max(0,Math.round((attPct+skD+wPct)/3)));
     return{id:p.id,name:p.name,score};
   }).sort((a,b)=>b.score-a.score);
-  if(!scores.length)return null;
-  if(prev&&scores[0].id===prev.winnerId&&scores.length>1)return scores[1];
-  return scores[0];
+  return scores[0]||null;
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 // MODAL
-// ══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 
 function openM(html){
   closeM();
-  const ov=document.createElement('div');
-  ov.className='mo';
-  ov.id='mo';
+  const ov=document.createElement('div');ov.className='mo';ov.id='mo';
   ov.onclick=e=>{if(e.target===ov)closeM();};
-  const mb=document.createElement('div');
-  mb.className='mb';
-  mb.innerHTML=html;
-  ov.appendChild(mb);
-  document.body.appendChild(ov);
-  // FIX 10: swipe down to close
+  const mb=document.createElement('div');mb.className='mb';mb.innerHTML=html;
+  ov.appendChild(mb);document.body.appendChild(ov);
   let sy=0;
   mb.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;},{passive:true});
   mb.addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-sy>80&&mb.scrollTop<=0)closeM();},{passive:true});
 }
 window.closeM=function(){const o=$('mo');if(o)o.remove();};
 
-// ── PWA ────────────────────────────────────────────────────────────
+// ── PWA ──────────────────────────────────
 let dPmt;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dPmt=e;$('ibanner').style.display='flex';});
-const ib=$('ibtn');if(ib)ib.onclick=()=>{if(dPmt)dPmt.prompt();$('ibanner').style.display='none';};
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dPmt=e;$('install-banner').style.display='flex';});
+const ib=$('install-btn');if(ib)ib.onclick=()=>{if(dPmt)dPmt.prompt();$('install-banner').style.display='none';};
 
-// ── INIT ───────────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────
 async function init(){
   try{
     await signInAnonymously(auth);
-    listen();
+
+    // Load players FIRST before showing login
     const snap=await getDocs(collection(db,'players'));
     S.players=snap.docs.map(d=>({id:d.id,...d.data()}));
 
-    // FIX 6: auto-login from saved session
+    // Then start listeners
+    listen();
+
+    // Check saved session
     try{
-      const saved=localStorage.getItem('td_user');
+      const saved=localStorage.getItem('yu_user');
       if(saved){
         const u=JSON.parse(saved);
         let valid=false;
@@ -1277,24 +1501,25 @@ async function init(){
         else if(u.type==='player'||u.type==='parent') valid=!!S.players.find(p=>p.id===u.playerId);
         if(valid){
           S.user=u;
-          $('loading').style.display='none';
-          $('app').style.display='flex';
-          $('hdr-u').textContent=S.user.name;
-          buildNav();S.tab='overview';render();
+          $('screen-load').style.display='none';
+          $('screen-app').style.display='flex';
+          $('hdr-user').textContent=S.user.name;
+          buildNav();S.tab='home';render();
           return;
         } else {
-          localStorage.removeItem('td_user');
+          localStorage.removeItem('yu_user');
         }
       }
     }catch(e){}
 
-    $('loading').style.display='none';
-    $('login').style.display='flex';
-  } catch(e){
-    console.error(e);
-    $('loading').innerHTML='<div style="color:var(--re);text-align:center;padding:24px;max-width:300px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:600;margin-bottom:8px">Connection Failed</div><div style="font-size:13px;color:var(--mu2);line-height:1.5">'+e.message+'</div></div>';
+    $('screen-load').style.display='none';
+    $('screen-login').style.display='block';
+
+  }catch(e){
+    $('screen-load').innerHTML='<div style="color:var(--re);text-align:center;padding:24px;max-width:300px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px">Connection Failed</div><div style="font-size:13px;color:var(--mu2);line-height:1.5">'+e.message+'</div></div>';
   }
 }
+
 init();
 </script>
 </body>
