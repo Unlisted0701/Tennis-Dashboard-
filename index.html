@@ -585,7 +585,6 @@ function vCoachHome(){
   const ovCt=S.players.filter(p=>pFee(p.id)?.status==='overdue').length;
   const lowAtt=S.players.filter(p=>{const pa=mAtt.filter(a=>a.playerId===p.id);return pa.length>0&&pct(pa.filter(a=>a.present).length,pa.length)<60;});
   const pending=(S.requests||[]).filter(r=>r.status==='pending');
-  const potm=calcPOTM();
 
   let h='<div class="pg">';
 
@@ -630,7 +629,7 @@ function vCoachHome(){
   if(lowAtt.length) h+='<div class="al al-o">📉 Low attendance: '+lowAtt.map(p=>p.name.split(' ')[0]).join(', ')+'</div>';
 
   // POTM
-  if(potm) h+='<div class="potm"><div style="font-size:10px;color:var(--go);font-weight:700;letter-spacing:.08em;margin-bottom:8px">🏅 PLAYER OF THE MONTH</div><div style="font-family:\'Syne\',sans-serif;font-size:20px;font-weight:800">'+esc(potm.name)+'</div><div style="font-size:12px;color:var(--mu);margin-top:4px">Score: '+potm.score+'/100</div></div>';
+
 
   // Today's schedule
   h+='<div class="st">Today\'s Schedule</div>';
@@ -827,7 +826,8 @@ window.saveNote=async function(id){
 // ── CALENDAR ─────────────────────────────
 function calStripes(y,mo,d,playerOnly){
   const colors=[];
-  const src=playerOnly?S.sessions.filter(s=>(s.playerIds||[]).includes(pid())):S.sessions;
+  const myId=pid();
+  const src=playerOnly?S.sessions.filter(s=>(s.playerIds||[]).includes(myId)):S.sessions;
   src.forEach(s=>{
     if(!s.sessionDate)return;
     const sd=toDate(s.sessionDate);
@@ -836,7 +836,11 @@ function calStripes(y,mo,d,playerOnly){
       if(!colors.includes(c))colors.push(c);
     }
   });
-  S.tournaments.forEach(t=>{
+  // Filter tournaments: player/parent sees only their own; coach sees all
+  const relevantTours=playerOnly
+    ?S.tournaments.filter(t=>t.playerId===myId||S.matches.some(m=>m.tournamentId===t.id&&m.playerId===myId))
+    :S.tournaments;
+  relevantTours.forEach(t=>{
     if(!t.startDate||!t.endDate)return;
     const ts=toDate(t.startDate);const te=toDate(t.endDate);
     ts.setHours(0,0,0,0);te.setHours(23,59,59,999);
@@ -923,7 +927,9 @@ window.openDay=function(y,mo,d){
   const lbl=new Date(y,mo,d).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
   let h='<div class="mh"></div><div class="mt">'+lbl+'</div><div style="margin-top:14px">';
   tours.forEach(t=>{
-    h+='<div class="card" style="border-color:var(--go);margin-bottom:8px"><div style="font-size:11px;color:var(--go);font-weight:700;margin-bottom:4px">🏆 TOURNAMENT</div><div style="font-weight:600">'+esc(t.name)+'</div></div>';
+    const tPlayers=[...new Set([t.playerId,...S.matches.filter(m=>m.tournamentId===t.id).map(m=>m.playerId)])].filter(Boolean);
+    const tNames=tPlayers.map(id=>S.players.find(x=>x.id===id)?.name?.split(' ')[0]||'').filter(Boolean);
+    h+='<div class="card" style="border-color:var(--go);margin-bottom:8px"><div style="font-size:11px;color:var(--go);font-weight:700;margin-bottom:4px">🏆 TOURNAMENT</div><div style="font-weight:600">'+esc(t.name)+'</div>'+(tNames.length?'<div style="font-size:12px;color:var(--gr);margin-top:3px;font-weight:600">🎾 '+tNames.join(', ')+'</div>':'')+'</div>';
   });
   if(!sess.length&&!tours.length) h+='<div class="empty"><div class="empty-ic">📅</div><div class="empty-txt">Nothing scheduled</div></div>';
   sess.forEach(s=>h+=sessCard(s,true,true));
@@ -1032,7 +1038,12 @@ function vMatches(){
       h+='<div class="card" style="padding:0;margin-bottom:10px">';
       h+='<div class="tour-hd" onclick="S.openTour=S.openTour===\''+t.id+'\'?null:\''+t.id+'\';render()">';
       h+='<div><div style="font-weight:700;font-size:15px">'+esc(t.name)+'</div>';
-      h+='<div style="font-size:12px;color:var(--mu2);margin-top:2px">'+(t.circuit||'')+(t.location?' · '+t.location:'')+' · '+fmtDs(t.startDate)+' – '+fmtDs(t.endDate)+'</div>'+(t.createdBy?'<div style="font-size:11px;color:var(--mu);margin-top:1px">Added by '+esc(t.createdBy)+'</div>':'')+' </div>';
+      const tPlayers=[...new Set(S.matches.filter(m=>m.tournamentId===t.id).map(m=>m.playerId))];
+      if(t.playerId)tPlayers.unshift(t.playerId);
+      const tPlayerNames=[...new Set(tPlayers)].map(id=>S.players.find(x=>x.id===id)?.name?.split(' ')[0]||'').filter(Boolean);
+      h+='<div style="font-size:12px;color:var(--mu2);margin-top:2px">'+(t.circuit||'')+(t.location?' · '+t.location:'')+' · '+fmtDs(t.startDate)+' – '+fmtDs(t.endDate)+'</div>';
+      if(tPlayerNames.length) h+='<div style="font-size:12px;color:var(--gr);margin-top:2px;font-weight:600">🎾 '+tPlayerNames.join(', ')+'</div>';
+      h+='</div>';
       h+='<div style="display:flex;align-items:center;gap:8px">';
       h+='<span class="b bg">'+w+'W</span><span class="b br">'+l+'L</span>';
       h+='<span style="color:var(--mu);font-size:18px">'+(open?'▾':'›')+'</span>';
@@ -1071,8 +1082,10 @@ window.openAddTour=function(){
 
 window.saveTour=async function(){
   const nm=$('at-nm')?.value?.trim();if(!nm){toast('Enter a name');return;}
-  await dbAdd('tournaments',{name:nm,startDate:Timestamp.fromDate(new Date($('at-sd').value)),endDate:Timestamp.fromDate(new Date($('at-ed').value)),circuit:$('at-ci').value,location:$('at-lo')?.value||'',createdBy:S.user.name});
-  toast('Tournament added ✓');closeM();
+  const data={name:nm,startDate:Timestamp.fromDate(new Date($('at-sd').value)),endDate:Timestamp.fromDate(new Date($('at-ed').value)),circuit:$('at-ci').value,location:$('at-lo')?.value||'',createdBy:S.user.name,playerId:isPl()?pid():null};
+  const ref=await dbAdd('tournaments',data);
+  S.tournaments.push({id:ref.id,...data});
+  toast('Tournament added ✓');closeM();render();
 };
 
 window.deleteTour=function(id){if(!confirm('Delete tournament and all matches?'))return;dbDel('tournaments',id).then(()=>{S.openTour=null;toast('Deleted');});};
@@ -1089,8 +1102,10 @@ window.openAddMatch=function(tid){
 
 window.saveMatch=async function(tid){
   const plId=$('am-pl')?.value;if(!plId){toast('Select a player');return;}
-  await dbAdd('matches',{tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||''});
-  toast('Match added ✓');closeM();
+  const data={tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||''};
+  const ref=await dbAdd('matches',data);
+  S.matches.push({id:ref.id,...data});
+  toast('Match added ✓');closeM();render();
 };
 
 // ── FEES ─────────────────────────────────
