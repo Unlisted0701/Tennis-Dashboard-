@@ -1036,7 +1036,7 @@ function vMatches(){
       const w=tM.filter(m=>m.result==='W').length;const l=tM.filter(m=>m.result==='L').length;
       const open=S.openTour===t.id;
       h+='<div class="card" style="padding:0;margin-bottom:10px">';
-      h+='<div class="tour-hd" onclick="S.openTour=S.openTour===\''+t.id+'\'?null:\''+t.id+'\';render()">';
+      h+='<div class="tour-hd" onclick="toggleTour(\''+t.id+'\')">';
       h+='<div><div style="font-weight:700;font-size:15px">'+esc(t.name)+'</div>';
       const tPlayers=[...new Set(S.matches.filter(m=>m.tournamentId===t.id).map(m=>m.playerId))];
       if(t.playerId)tPlayers.unshift(t.playerId);
@@ -1060,7 +1060,10 @@ function vMatches(){
           h+='<div style="font-size:12px;color:var(--mu2)">'+esc(m.scoreDisplay||'')+'</div>';
           if(m.notes) h+='<div style="font-size:11px;color:var(--mu);margin-top:3px;font-style:italic">'+esc(m.notes)+'</div>';
           h+='</div>';
+          h+='<div style="display:flex;align-items:center;gap:6px">';
           h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span>';
+          if(isA()) h+='<button class="btn-del" onclick="delMatch(\''+m.id+'\')" style="padding:4px 8px;font-size:11px">🗑</button>';
+          h+='</div>';
           h+='</div>';
         });
         h+='</div>';
@@ -1072,6 +1075,8 @@ function vMatches(){
   $('app-content').innerHTML=h;
 }
 
+window.toggleTour=function(id){S.openTour=S.openTour===id?null:id;render();};
+window.delMatch=async function(mid){if(!confirm('Delete match?'))return;await dbDel('matches',mid);S.matches=S.matches.filter(x=>x.id!==mid);toast('Deleted');render();};
 window.openAddTour=function(){
   const today=new Date().toISOString().split('T')[0];
   openM('<div class="mh"></div><div class="mt">Add Tournament</div>'+
@@ -1090,7 +1095,7 @@ window.saveTour=async function(){
   toast('Tournament added ✓');closeM();render();
 };
 
-window.deleteTour=function(id){if(!confirm('Delete tournament and all matches?'))return;dbDel('tournaments',id).then(()=>{S.openTour=null;toast('Deleted');});};
+window.deleteTour=function(id){if(!confirm('Delete tournament and all matches?'))return;dbDel('tournaments',id).then(()=>{S.tournaments=S.tournaments.filter(x=>x.id!==id);S.openTour=null;toast('Deleted');render();});};
 
 window.openAddMatch=function(tid){
   const t=S.tournaments.find(x=>x.id===tid);
@@ -1315,7 +1320,7 @@ function vPlayerMatches(){
       const tw=tM.filter(m=>m.result==='W').length;const tl=tM.filter(m=>m.result==='L').length;
       const open=S.openTour===t.id;
       h+='<div class="card" style="padding:0;margin-bottom:10px">';
-      h+='<div class="tour-hd" onclick="S.openTour=S.openTour===\''+t.id+'\'?null:\''+t.id+'\';render()">';
+      h+='<div class="tour-hd" onclick="toggleTour(\''+t.id+'\')">';
       h+='<div><div style="font-weight:700">'+esc(t.name)+'</div><div style="font-size:12px;color:var(--mu2);margin-top:2px">'+fmtDs(t.startDate)+'</div></div>';
       h+='<div style="display:flex;align-items:center;gap:6px"><span class="b bg">'+tw+'W</span><span class="b br">'+tl+'L</span><span style="color:var(--mu)">'+(open?'▾':'›')+'</span></div>';
       h+='</div>';
@@ -1325,7 +1330,7 @@ function vPlayerMatches(){
         if(!tM.length) h+='<div style="font-size:13px;color:var(--mu);padding-bottom:4px">No matches logged yet</div>';
         else tM.forEach(m=>{
           h+='<div class="match-row"><div style="flex:1"><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div>'+(m.notes?'<div style="font-size:11px;color:var(--mu);margin-top:2px;font-style:italic">'+esc(m.notes)+'</div>':'')+'</div>';
-          h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div>';
+          h+='<div style="display:flex;align-items:center;gap:6px"><span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div></div>';
         });
         h+='</div>';
       }
