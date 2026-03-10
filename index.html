@@ -13,25 +13,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:#0D0D0D}
+html,body{height:100%;overflow:hidden;background:#F5F5F0}
 body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavior:none}
 ::-webkit-scrollbar{display:none}*{scrollbar-width:none}
 
 :root{
-  --bg:#0D0D0D;--sf:#161616;--card:#1E1E1E;--card2:#242424;
-  --bdr:#2A2A2A;--bdr2:#363636;
-  --tx:#F2F0EB;--mu:#5C5C56;--mu2:#8C8C84;
-  --gr:#3DDD7A;--grd:#0C1F14;--grm:#122A1A;
-  --go:#F5A524;--god:#241800;
-  --bl:#4DA8FF;--bld:#0A1828;
-  --re:#FF5757;--red:#1F0A0A;
-  --or:#FF8A3D;--ord:#1F1008;
-  --pu:#A855F7;--pud:#180A2A;
+  --bg:#F5F5F0;--sf:#FFFFFF;--card:#FFFFFF;--card2:#F0F0EB;
+  --bdr:#E0DED8;--bdr2:#C8C6C0;
+  --tx:#1A1A18;--mu:#7A7A72;--mu2:#5A5A54;
+  --gr:#16A34A;--grd:#DCFCE7;--grm:#DCFCE7;
+  --go:#D97706;--god:#FEF3C7;
+  --bl:#2563EB;--bld:#DBEAFE;
+  --re:#DC2626;--red:#FEE2E2;
+  --or:#EA580C;--ord:#FFEDD5;
+  --pu:#9333EA;--pud:#F3E8FF;
   --nav:60px;--hdr:52px;--safe:env(safe-area-inset-bottom,0px)
 }
 
 /* ── SHELL ─────────────────────────────── */
-#screen-load{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:100}
+#screen-load{position:fixed;inset:0;background:#F5F5F0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:100}
 .load-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em}
 .load-logo span{color:var(--gr)}
 .spinner{width:28px;height:28px;border:2px solid var(--bdr2);border-top-color:var(--gr);border-radius:50%;animation:spin .7s linear infinite}
@@ -100,7 +100,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
   .ni.on{background:var(--grm);color:var(--gr)}
   #app-content{flex:1;padding-bottom:24px}
   .pg{max-width:800px!important;padding:28px 32px!important}
-  .mb{border-radius:18px;max-width:540px;margin:auto;max-height:88vh}
+  .mb{border-radius:18px;max-width:540px;margin:auto;max-height:88vh;background:#FFFFFF}
   .mo{align-items:center;padding:24px}
   .sg{grid-template-columns:repeat(4,1fr)!important}
   .ni-badge{right:calc(50% - 20px)}
@@ -119,18 +119,18 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .sl{font-size:10px;color:var(--mu);letter-spacing:.05em;text-transform:uppercase}
 
 /* ── CARDS ─────────────────────────────── */
-.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .card-sm{background:var(--card2);border-radius:10px;padding:10px 12px;margin-bottom:8px}
 
 /* ── ALERTS ────────────────────────────── */
 .al{border-radius:12px;padding:10px 13px;margin-bottom:10px;font-size:13px;line-height:1.5}
-.al-r{background:var(--red);color:var(--re);border:1px solid #3A1010}
-.al-g{background:var(--grd);color:var(--gr);border:1px solid #133020}
-.al-o{background:var(--god);color:var(--go);border:1px solid #3A2400}
-.al-b{background:var(--bld);color:var(--bl);border:1px solid #0C2040}
+.al-r{background:var(--red);color:var(--re);border:1px solid #FECACA}
+.al-g{background:var(--grd);color:var(--gr);border:1px solid #86EFAC}
+.al-o{background:var(--god);color:var(--go);border:1px solid #FDE68A}
+.al-b{background:var(--bld);color:var(--bl);border:1px solid #BFDBFE}
 
 /* ── LIVE BANNER ───────────────────────── */
-.live-banner{background:var(--grm);border:1px solid var(--gr);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden}
+.live-banner{background:var(--grd);border:1px solid var(--gr);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .live-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gr),transparent);animation:sweep 2s linear infinite}
 @keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--gr);display:inline-block;margin-right:6px;box-shadow:0 0 8px var(--gr);animation:pulse 1.5s ease-in-out infinite}
@@ -141,7 +141,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .live-cta{font-size:12px;color:var(--gr);font-weight:600;margin-top:8px}
 
 /* ── SESSION CARD ──────────────────────── */
-.sess-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px}
+.sess-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .sess-card.live{border-color:var(--gr)}
 .sess-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .sess-info{flex:1;min-width:0}
@@ -153,13 +153,13 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 
 /* ── BADGES ────────────────────────────── */
 .b{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.bg{background:var(--grd);color:var(--gr);border:1px solid #1A4028}
-.bb{background:var(--bld);color:var(--bl);border:1px solid #0C2848}
-.bo{background:var(--ord);color:var(--or);border:1px solid #3A2010}
-.bp{background:var(--pud);color:var(--pu);border:1px solid #2A1048}
-.br{background:var(--red);color:var(--re);border:1px solid #3A1010}
-.bm{background:#1A1A1A;color:var(--mu2);border:1px solid var(--bdr)}
-.bgo{background:var(--god);color:var(--go);border:1px solid #3A2400}
+.bg{background:var(--grd);color:var(--gr);border:1px solid #86EFAC}
+.bb{background:var(--bld);color:var(--bl);border:1px solid #93C5FD}
+.bo{background:var(--ord);color:var(--or);border:1px solid #FED7AA}
+.bp{background:var(--pud);color:var(--pu);border:1px solid #E9D5FF}
+.br{background:var(--red);color:var(--re);border:1px solid #FECACA}
+.bm{background:var(--card2);color:var(--mu2);border:1px solid var(--bdr)}
+.bgo{background:var(--god);color:var(--go);border:1px solid #FDE68A}
 
 /* ── BUTTONS ───────────────────────────── */
 .btn{border:none;border-radius:10px;font-family:inherit;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
@@ -182,7 +182,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .player-meta{font-size:11px;color:var(--mu2);margin-top:2px}
 
 /* ── POTM ──────────────────────────────── */
-.potm{background:linear-gradient(135deg,var(--god),var(--card));border:1px solid #3A2800;border-radius:14px;padding:16px;margin-bottom:12px}
+.potm{background:linear-gradient(135deg,var(--god),var(--card));border:1px solid #FDE68A;border-radius:14px;padding:16px;margin-bottom:12px}
 
 /* ── SKILLS ────────────────────────────── */
 .sk-row{margin-bottom:10px}
@@ -219,9 +219,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .chk-item input{accent-color:var(--gr);width:16px;height:16px}
 
 /* ── MODAL ─────────────────────────────── */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:flex-end;z-index:200;animation:moIn .2s ease}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:flex-end;z-index:200;animation:moIn .2s ease}
 @keyframes moIn{from{opacity:0}to{opacity:1}}
-.mb{background:var(--sf);border-radius:20px 20px 0 0;padding:20px 18px;overflow-y:auto;max-height:92vh;padding-bottom:calc(20px + var(--safe))}
+.mb{background:#FFFFFF;border-radius:20px 20px 0 0;padding:20px 18px;overflow-y:auto;max-height:92vh;padding-bottom:calc(20px + var(--safe))}
 .mh{width:36px;height:4px;background:var(--bdr2);border-radius:2px;margin:0 auto 18px}
 .mt{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:4px}
 .ms{font-size:13px;color:var(--mu2);margin-bottom:16px}
@@ -233,7 +233,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:#F2F0EB;overscroll-behavio
 .match-row:last-child{border-bottom:none}
 
 /* ── NOTES ─────────────────────────────── */
-.note-card{background:var(--card2);border-left:3px solid var(--gr);border-radius:0 10px 10px 0;padding:11px;margin-bottom:8px}
+.note-card{background:var(--grd);border-left:3px solid var(--gr);border-radius:0 10px 10px 0;padding:11px;margin-bottom:8px}
 .note-meta{font-size:11px;color:var(--mu);margin-bottom:5px}
 .note-text{font-size:13px;line-height:1.6}
 
@@ -397,7 +397,7 @@ const dbDel=(c,id)=>deleteDoc(doc(db,c,id));
 
 // ── LISTENERS ────────────────────────────
 function listen(){
-  const cols=['players','sessions','tournaments','matches','fees','notes','skillLogs','attendance','potm','requests'];
+  const cols=['players','sessions','tournaments','matches','fees','notes','skillLogs','attendance','potm','requests','announcements'];
   S.unsubs=cols.map(c=>onSnapshot(collection(db,c),snap=>{
     S[c]=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(S.user)schedRender();
@@ -606,6 +606,26 @@ function vCoachHome(){
     });
     h+='</div>';
   }
+
+  // Announcements section for coach
+  const announcements=[...S.announcements].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+  h+='<div style="font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;color:var(--mu2);letter-spacing:.06em;text-transform:uppercase">📢 Announcements</div>';
+  h+='<button class="btn btn-p btn-sm" onclick="openAddAnnouncement()">＋ Post</button>';
+  h+='</div>';
+  if(!announcements.length){
+    h+='<div class="card-sm" style="font-size:13px;color:var(--mu);margin-bottom:14px">No announcements yet</div>';
+  } else {
+    announcements.slice(0,5).forEach(a=>{
+      h+='<div class="card" style="margin-bottom:8px;padding:12px">';
+      h+='<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">';
+      h+='<div style="flex:1"><div style="font-size:14px;line-height:1.5">'+esc(a.text)+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);margin-top:5px">'+esc(a.coach||'Coach')+' · '+fmtD(a.createdAt)+'</div></div>';
+      if(isA()) h+='<button class="btn-del" style="padding:4px 8px;font-size:11px;flex-shrink:0" onclick="delAnnouncement(\''+a.id+'\')">🗑</button>';
+      h+='</div></div>';
+    });
+  }
+  h+='<div style="height:4px"></div>';
 
   // Active sessions
   active.forEach(s=>{
@@ -1058,7 +1078,9 @@ function vMatches(){
           h+='<div style="flex:1"><div style="font-weight:600;font-size:14px">'+(p?.name||'?')+'</div>';
           h+='<div style="font-size:12px;color:var(--mu);margin-top:2px">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div>';
           h+='<div style="font-size:12px;color:var(--mu2)">'+esc(m.scoreDisplay||'')+'</div>';
-          if(m.notes) h+='<div style="font-size:11px;color:var(--mu);margin-top:3px;font-style:italic">'+esc(m.notes)+'</div>';
+          if(m.coachNote) h+='<div style="font-size:11px;color:var(--bl);margin-top:3px">📋 Coach: '+esc(m.coachNote)+'</div>';
+          if(m.playerNote) h+='<div style="font-size:11px;color:var(--gr);margin-top:2px">✏️ Player: '+esc(m.playerNote)+'</div>';
+          if(m.diaryUrl) h+='<a href="'+m.diaryUrl+'" target="_blank" style="font-size:11px;color:var(--pu);margin-top:2px;display:block">📓 Diary photo</a>';
           h+='</div>';
           h+='<div style="display:flex;align-items:center;gap:6px">';
           h+='<span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span>';
@@ -1075,6 +1097,44 @@ function vMatches(){
   $('app-content').innerHTML=h;
 }
 
+window.openAddAnnouncement=function(){
+  openM('<div class="mh"></div><div class="mt">Post Announcement</div><div class="ms">Visible to all players and parents</div>'+
+    '<div class="fg"><label class="fl">Message</label><textarea class="fi fta" id="an-txt" placeholder="e.g. No practice this Saturday…" style="min-height:80px"></textarea></div>'+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveAnnouncement()">Post</button></div>');
+};
+window.saveAnnouncement=async function(){
+  const txt=$('an-txt')?.value?.trim();if(!txt){toast('Write something first');return;}
+  const data={text:txt,coach:S.user.name,coachId:S.user.id};
+  const ref=await dbAdd('announcements',data);
+  S.announcements.push({id:ref.id,...data});
+  toast('Posted ✓');closeM();render();
+};
+window.openTourNotes=function(tid){
+  const t=S.tournaments.find(x=>x.id===tid);if(!t)return;
+  const coachField=isCA()?'<div class="fg"><label class="fl">Coach Note (only coaches see this)</label><textarea class="fi fta" id="tn-cn" placeholder="Overall tournament analysis…" style="min-height:64px">'+esc(t.coachNote||'')+'</textarea></div>':'<div class="card-sm" style="margin-bottom:14px"><div style="font-size:11px;color:var(--mu);margin-bottom:3px">Coach Note</div><div style="font-size:13px">'+(t.coachNote||'No coach note yet')+'</div></div>';
+  const playerField='<div class="fg"><label class="fl">'+(isPl()?'Your Note':'Player Note')+'</label><textarea class="fi fta" id="tn-pn" placeholder="Personal reflections, goals…" style="min-height:64px">'+esc(t.playerNote||'')+'</textarea></div>';
+  const diaryField=isPl()?'<div class="fg"><label class="fl">Diary Photo</label>'+(t.diaryUrl?'<div style="margin-bottom:8px"><a href="'+t.diaryUrl+'" target="_blank" style="font-size:12px;color:var(--pu)">📓 View current diary photo</a></div>':'')+'<input type="file" id="tn-diary" accept="image/*" class="fi" style="padding:8px"></div>':'';
+  openM('<div class="mh"></div><div class="mt">'+esc(t.name)+'</div><div class="ms">Tournament Notes</div>'+
+    coachField+playerField+diaryField+
+    '<div class="ma"><button class="btn btn-s" onclick="closeM()">Cancel</button><button class="btn btn-p" onclick="saveTourNotes(\''+tid+'\')">Save</button></div>');
+};
+window.saveTourNotes=async function(tid){
+  const updates={};
+  const cn=$('tn-cn');const pn=$('tn-pn');
+  if(cn) updates.coachNote=cn.value;
+  if(pn) updates.playerNote=pn.value;
+  const diaryFile=$('tn-diary')?.files?.[0];
+  if(diaryFile){updates.diaryUrl=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(diaryFile);});}
+  await dbUpd('tournaments',tid,updates);
+  S.tournaments=S.tournaments.map(x=>x.id===tid?{...x,...updates}:x);
+  toast('Notes saved ✓');closeM();render();
+};
+window.delAnnouncement=async function(id){
+  if(!confirm('Delete announcement?'))return;
+  await dbDel('announcements',id);
+  S.announcements=S.announcements.filter(x=>x.id!==id);
+  toast('Deleted');render();
+};
 window.toggleTour=function(id){S.openTour=S.openTour===id?null:id;render();};
 window.delMatch=async function(mid){if(!confirm('Delete match?'))return;await dbDel('matches',mid);S.matches=S.matches.filter(x=>x.id!==mid);toast('Deleted');render();};
 window.openAddTour=function(){
@@ -1109,7 +1169,10 @@ window.openAddMatch=function(tid){
 
 window.saveMatch=async function(tid){
   const plId=$('am-pl')?.value;if(!plId){toast('Select a player');return;}
-  const data={tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||'',notes:$('am-nt')?.value||'',loggedBy:S.user.name};
+  const diaryFile=$('am-diary')?.files?.[0];
+  let diaryUrl='';
+  if(diaryFile){diaryUrl=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(diaryFile);});}
+  const data={tournamentId:tid,playerId:plId,round:$('am-rd').value,result:$('am-rs').value,scoreDisplay:$('am-sc')?.value||'',opponent:$('am-op')?.value||'',coachNote:$('am-cn')?.value||'',playerNote:$('am-pn')?.value||'',diaryUrl,loggedBy:S.user.name};
   const ref=await dbAdd('matches',data);
   S.matches.push({id:ref.id,...data});
   toast('Match saved ✓');closeM();render();
@@ -1192,6 +1255,18 @@ function vPlayerHome(){
   let h='<div class="pg">';
 
   if(myReqs.length) h+='<div class="al al-o">⏳ '+myReqs.length+' request'+(myReqs.length>1?'s':'')+' waiting for coach approval</div>';
+
+  // Announcements
+  const playerAnnouncements=[...S.announcements].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,3);
+  if(playerAnnouncements.length){
+    h+='<div style="font-family:\'Syne\',sans-serif;font-weight:700;font-size:12px;color:var(--mu2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">📢 Announcements</div>';
+    playerAnnouncements.forEach(a=>{
+      h+='<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid var(--gr)">';
+      h+='<div style="font-size:14px;line-height:1.5">'+esc(a.text)+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);margin-top:5px">'+esc(a.coach||'Coach')+' · '+fmtD(a.createdAt)+'</div>';
+      h+='</div>';
+    });
+  }
 
   // Today
   if(todaySess.length){
@@ -1329,7 +1404,7 @@ function vPlayerMatches(){
         h+='<button class="btn btn-p btn-sm" style="margin-bottom:10px" onclick="openAddMatch(\''+t.id+'\')">＋ Add Match</button>';
         if(!tM.length) h+='<div style="font-size:13px;color:var(--mu);padding-bottom:4px">No matches logged yet</div>';
         else tM.forEach(m=>{
-          h+='<div class="match-row"><div style="flex:1"><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div>'+(m.notes?'<div style="font-size:11px;color:var(--mu);margin-top:2px;font-style:italic">'+esc(m.notes)+'</div>':'')+'</div>';
+          h+='<div class="match-row"><div style="flex:1"><div style="font-weight:600">'+(m.round||'')+(m.opponent?' vs '+m.opponent:'')+'</div><div style="font-size:12px;color:var(--mu)">'+esc(m.scoreDisplay||'')+'</div>+(m.playerNote?'<div style="font-size:11px;color:var(--gr);margin-top:2px">✏️ '+esc(m.playerNote)+'</div>':'')+(m.coachNote&&isCA()?'<div style="font-size:11px;color:var(--bl);margin-top:2px">📋 Coach: '+esc(m.coachNote)+'</div>':'')+(m.diaryUrl?'<a href="'+m.diaryUrl+'" target="_blank" style="font-size:11px;color:var(--pu);margin-top:2px;display:block">📓 Diary</a>':'')+'</div>';
           h+='<div style="display:flex;align-items:center;gap:6px"><span class="b '+(m.result==='W'?'bg':'br')+'">'+(m.result==='W'?'WIN':'LOSS')+'</span></div></div>';
         });
         h+='</div>';
@@ -1416,6 +1491,18 @@ function vParentHome(){
   h+='<div class="sg"><div class="sc"><div class="sv" style="color:'+(att>=80?'var(--gr)':att>=60?'var(--go)':'var(--re)')+'">'+att+'%</div><div class="sl">Attendance</div></div><div class="sc"><div class="sv" style="color:'+(fee?.status==='paid'?'var(--gr)':fee?.status==='overdue'?'var(--re)':'var(--mu)')+'">₹'+(fee?.amount||'—')+'</div><div class="sl">Fees</div></div></div>';
   if(fee?.status==='overdue') h+='<div class="al al-r">⚠️ Fees overdue — contact the academy</div>';
   if(fee?.status==='pending-verification') h+='<div class="al al-b">✅ Payment submitted — awaiting verification</div>';
+  // Announcements for parent
+  const parentAnnouncements=[...S.announcements].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,3);
+  if(parentAnnouncements.length){
+    h+='<div style="font-family:\'Syne\',sans-serif;font-weight:700;font-size:12px;color:var(--mu2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">📢 Announcements</div>';
+    parentAnnouncements.forEach(a=>{
+      h+='<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid var(--gr)">';
+      h+='<div style="font-size:14px;line-height:1.5">'+esc(a.text)+'</div>';
+      h+='<div style="font-size:11px;color:var(--mu);margin-top:5px">'+esc(a.coach||'Coach')+' · '+fmtD(a.createdAt)+'</div>';
+      h+='</div>';
+    });
+    h+='<div style="height:4px"></div>';
+  }
   if(todaySess.length){h+='<div class="st">Today\'s Sessions</div>';todaySess.forEach(s=>h+=pSessCard(s,id));}
   h+='</div>';
   $('app-content').innerHTML=h;
